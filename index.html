@@ -1,1 +1,337 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10141d">
+<title>Village Food Point | Basavakalyan</title>
+<style>
+:root{--bg:#10141d;--card:#1c2432;--gold:#ffb629;--muted:#aab4c4;--line:#303b4c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#352613,#111827);padding:24px 16px;text-align:center;border-bottom:1px solid #4d3b20}
+.logo{font-size:42px}
+header h1{color:var(--gold);font-size:28px;margin:7px 0}
+header p{color:var(--muted);margin:0}
+.wrap{max-width:900px;margin:auto;padding:16px}
+.notice{padding:15px;background:#2b2416;border:1px solid #6c5123;border-radius:13px;margin-bottom:22px}
+.notice strong{color:var(--gold)}
+h2{font-size:21px;margin:24px 0 13px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+.food-icon{font-size:32px}
+.card h3{margin:9px 0}
+.card p{color:var(--muted);font-size:13px;min-height:30px}
+.price{color:var(--gold);font-size:19px;font-weight:bold;margin:10px 0}
+button{background:var(--gold);color:#241900;font-weight:bold;border:0;padding:11px 13px;border-radius:9px;cursor:pointer}
+button:disabled{opacity:.4}
+.add{width:100%}
+label{display:block;font-size:14px;margin-top:12px;color:#dce3ed}
+input,select,textarea{width:100%;margin-top:6px;padding:12px;border-radius:8px;border:1px solid #455064;background:#111827;color:white;font-size:15px}
+.cartrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cartrow button{padding:6px 11px}
+.total{font-size:23px;font-weight:bold;color:var(--gold)}
+.submit{width:100%;margin-top:16px;font-size:16px}
+.secondary{background:#455064;color:white}
+.hint{font-size:12px;color:var(--muted);line-height:1.6}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️</div>
+  <h1>Village Food Point</h1>
+  <p>Fresh Food • Basavakalyan</p>
+</header>
+
+<main class="wrap">
+  <div class="notice">
+    <strong id="status">Today's Menu</strong>
+    <p id="timing" class="hint"></p>
+  </div>
+
+  <h2>🍛 Our Menu</h2>
+  <div id="menu" class="menu"></div>
+
+  <h2>🛒 Your Cart</h2>
+  <section class="panel">
+    <div id="cart">Your cart is empty.</div>
+    <p>Total: <span id="total" class="total">₹0</span></p>
+    <button class="secondary" onclick="clearCart()">Clear Cart</button>
+  </section>
+
+  <h2>📦 Order Details</h2>
+  <section class="panel">
+    <form id="orderForm">
+      <label for="customer">Customer name</label>
+      <input id="customer" maxlength="60" required placeholder="Enter your name">
+
+      <label for="phone">Mobile number</label>
+      <input id="phone" type="tel" inputmode="tel" maxlength="15" required placeholder="Your phone number">
+
+      <label for="type">Delivery or pickup</label>
+      <select id="type">
+        <option value="Home Delivery">Home Delivery</option>
+        <option value="Pickup">Pickup from Shop</option>
+      </select>
+
+      <div id="addressArea">
+        <label for="address">Delivery address and landmark</label>
+        <textarea id="address" maxlength="250" rows="3" placeholder="House, street, landmark"></textarea>
+      </div>
+
+      <label for="payment">Payment method</label>
+      <select id="payment">
+        <option value="Cash">Cash</option>
+        <option value="UPI">UPI</option>
+      </select>
+
+      <button class="submit" type="submit">Send Order on WhatsApp</button>
+      <p class="hint">Order WhatsApp par bhejne ke baad shop ki confirmation ka wait karein. UPI payment automatic verify nahi hota.</p>
+    </form>
+    <button id="upiButton" class="submit" style="display:none" onclick="openUPI()">Open UPI App</button>
+  </section>
+</main>
+
+<footer>
+  Village Food Point • Basavakalyan<br>
+  Fresh food, made with care.
+</footer>
+
+<script>
+"use strict";
+
+/* SHOP SETTINGS */
+const SHOP_NAME = "Village Food Point";
+const SHOP_WHATSAPP = "919353481235";
+const SHOP_UPI_ID = "trustedcracking@axl";
+
+/* Sample prices: order lene se pehle actual prices check karein. */
+const products = [
+  {id:1,name:"Idli",price:30,group:"morning",icon:"🥣",desc:"Soft steamed idli"},
+  {id:2,name:"Dosa",price:40,group:"morning",icon:"🥞",desc:"Fresh dosa"},
+  {id:3,name:"Tahari",price:70,group:"tahari",icon:"🍚",desc:"Spiced rice dish"},
+  {id:4,name:"Veg Biryani",price:80,group:"biryani",icon:"🍛",desc:"Aromatic biryani"},
+  {id:5,name:"Chicken Biryani",price:120,group:"biryani",icon:"🍗",desc:"Chicken biryani"},
+  {id:6,name:"Shami Paratha",price:60,group:"night",icon:"🫓",desc:"Night menu special"},
+  {id:7,name:"Night Dosa",price:40,group:"night",icon:"🥞",desc:"Fresh hot dosa"}
+];
+
+let cart = {};
+let currentOrder = null;
+
+function currentGroup() {
+  const now = new Date();
+  const minutes = now.getHours()*60 + now.getMinutes();
+
+  if (minutes >= 300 && minutes < 540) return "morning";
+  if (minutes >= 540 && minutes < 720) return "tahari";
+  if (minutes >= 720 && minutes < 1320) return "biryani";
+  if (minutes >= 1320 || minutes < 120) return "night";
+  return "closed";
+}
+
+const groupLabels = {
+  morning:"Idli / Dosa — until 9:00 AM",
+  tahari:"Tahari — 9:00 AM to 12:00 PM",
+  biryani:"Biryani — 12:00 PM to 10:00 PM",
+  night:"Shami Paratha / Dosa — 10:00 PM to 2:00 AM"
+};
+
+function renderMenu() {
+  const group = currentGroup();
+  document.getElementById("status").textContent =
+    group === "closed" ? "Shop menu is currently closed" : groupLabels[group];
+
+  document.getElementById("timing").textContent =
+    "Timings: Idli/Dosa before 9 AM • Tahari 9 AM–12 PM • Biryani 12 PM–10 PM • Night menu 10 PM–2 AM.";
+
+  const menu = document.getElementById("menu");
+  menu.replaceChildren();
+
+  if (group === "closed") {
+    menu.textContent = "Menu 2 AM se 5 AM tak band hai.";
+    return;
+  }
+
+  products.filter(p => p.group === group).forEach(p => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const icon = document.createElement("div");
+    icon.className = "food-icon";
+    icon.textContent = p.icon;
+
+    const name = document.createElement("h3");
+    name.textContent = p.name;
+
+    const desc = document.createElement("p");
+    desc.textContent = p.desc;
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = "₹" + p.price;
+
+    const add = document.createElement("button");
+    add.className = "add";
+    add.textContent = "Add to Cart +";
+    add.onclick = () => {
+      cart[p.id] = (cart[p.id] || 0) + 1;
+      renderCart();
+    };
+
+    card.append(icon,name,desc,price,add);
+    menu.append(card);
+  });
+}
+
+function renderCart() {
+  const cartEl = document.getElementById("cart");
+  cartEl.replaceChildren();
+  let total = 0;
+  let count = 0;
+
+  products.forEach(p => {
+    const qty = cart[p.id] || 0;
+    if (!qty) return;
+
+    count += qty;
+    total += p.price * qty;
+
+    const row = document.createElement("div");
+    row.className = "cartrow";
+
+    const name = document.createElement("span");
+    name.textContent = p.name + " × " + qty;
+
+    const controls = document.createElement("div");
+
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.onclick = () => {
+      cart[p.id]--;
+      if (cart[p.id] <= 0) delete cart[p.id];
+      renderCart();
+    };
+
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+    plus.onclick = () => {
+      cart[p.id]++;
+      renderCart();
+    };
+
+    controls.append(minus,plus);
+    row.append(name,controls);
+    cartEl.append(row);
+  });
+
+  if (!count) cartEl.textContent = "Your cart is empty.";
+  document.getElementById("total").textContent = "₹" + total;
+}
+
+function clearCart() {
+  cart = {};
+  currentOrder = null;
+  document.getElementById("upiButton").style.display = "none";
+  renderCart();
+}
+
+document.getElementById("type").addEventListener("change", () => {
+  const pickup = document.getElementById("type").value === "Pickup";
+  document.getElementById("addressArea").style.display = pickup ? "none" : "block";
+  document.getElementById("address").required = !pickup;
+});
+
+document.getElementById("orderForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const group = currentGroup();
+  if (group === "closed") {
+    alert("Shop ke menu hours abhi band hain.");
+    return;
+  }
+
+  const chosen = products.filter(p => (cart[p.id] || 0) > 0);
+  if (!chosen.length) {
+    alert("Pehle cart mein food add karo.");
+    return;
+  }
+
+  if (chosen.some(p => p.group !== group)) {
+    alert("Menu timing change ho gayi. Cart clear karke current menu select karo.");
+    return;
+  }
+
+  const customer = document.getElementById("customer").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const type = document.getElementById("type").value;
+  const address = document.getElementById("address").value.trim();
+  const payment = document.getElementById("payment").value;
+
+  if (!/^[0-9+\s()-]{10,15}$/.test(phone)) {
+    alert("Valid phone number enter karo.");
+    return;
+  }
+
+  if (type === "Home Delivery" && !address) {
+    alert("Delivery address enter karo.");
+    return;
+  }
+
+  const total = chosen.reduce((sum,p) => sum + p.price * cart[p.id], 0);
+  const orderId = "VFP-" + Date.now();
+
+  currentOrder = {amount:total,id:orderId};
+
+  const items = chosen.map(p =>
+    p.name + " x " + cart[p.id] + " = ₹" + p.price*cart[p.id]
+  );
+
+  const message =
+    "NEW ORDER — " + SHOP_NAME +
+    "\nOrder ID: " + orderId +
+    "\nCustomer: " + customer +
+    "\nPhone: " + phone +
+    "\nOrder type: " + type +
+    (type === "Pickup" ? "" : "\nAddress: " + address) +
+    "\nPayment preference: " + payment +
+    "\n\n" + items.join("\n") +
+    "\n\nTOTAL: ₹" + total +
+    "\nPlease confirm order availability.";
+
+  document.getElementById("upiButton").style.display =
+    payment === "UPI" ? "block" : "none";
+
+  const whatsappURL =
+    "https://wa.me/" + SHOP_WHATSAPP +
+    "?text=" + encodeURIComponent(message);
+
+  window.location.href = whatsappURL;
+});
+
+function openUPI() {
+  if (!currentOrder) {
+    alert("Pehle order WhatsApp par prepare karo.");
+    return;
+  }
+
+  const params = new URLSearchParams({
+    pa: SHOP_UPI_ID,
+    pn: SHOP_NAME,
+    am: currentOrder.amount.toFixed(2),
+    cu: "INR",
+    tn: "Food Order " + currentOrder.id
+  });
+
+  window.location.href = "upi://pay?" + params.toString();
+}
+
+renderMenu();
+renderCart();
+</script>
+</body>
+</html>
+
