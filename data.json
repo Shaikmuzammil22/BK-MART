@@ -1,0 +1,23 @@
+{
+  "shopName": "Mera Biryani House",
+  "menu": [
+    {
+      "id": 1,
+      "name": "Chicken Biryani",
+      "price": 180,
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Mutton Taheri",
+      "price": 220,
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Shami Parata",
+      "price": 60,
+      "image": ""
+    }
+  ]
+}
