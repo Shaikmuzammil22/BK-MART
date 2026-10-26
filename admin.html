@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Biryani House</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+  body { background:#f4f4f4; padding:20px; }
+  h1 { text-align:center; margin-bottom:20px; color:#333; }
+  .container { max-width:800px; margin:0 auto; }
+  .add-btn {
+    display:block; width:100%; padding:15px; font-size:18px;
+    background:#28a745; color:white; border:none; border-radius:8px;
+    cursor:pointer; margin-bottom:20px; font-weight:bold;
+  }
+  .add-btn:hover { background:#218838; }
+  .item-card {
+    background:white; padding:15px; border-radius:8px;
+    margin-bottom:15px; display:flex; gap:15px; align-items:center;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  }
+  .item-card img {
+    width:80px; height:80px; object-fit:cover; border-radius:8px;
+    background:#ddd;
+  }
+  .item-info { flex:1; }
+  .item-info h3 { margin-bottom:5px; }
+  .item-info p { color:#666; }
+  .delete-btn {
+    background:#dc3545; color:white; border:none; padding:8px 12px;
+    border-radius:5px; cursor:pointer;
+  }
+  .delete-btn:hover { background:#c82333; }
+
+  /* Modal */
+  .modal {
+    display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.6); justify-content:center; align-items:center;
+    z-index:1000;
+  }
+  .modal.active { display:flex; }
+  .modal-content {
+    background:white; padding:25px; border-radius:10px; width:90%;
+    max-width:400px;
+  }
+  .modal-content h2 { margin-bottom:15px; }
+  .modal-content input {
+    width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc;
+    border-radius:5px; font-size:15px;
+  }
+  .modal-content input[type="file"] { border:none; padding:5px 0; }
+  .modal-btns { display:flex; gap:10px; }
+  .modal-btns button {
+    flex:1; padding:12px; border:none; border-radius:5px; cursor:pointer;
+    font-size:15px; font-weight:bold;
+  }
+  .save-btn { background:#28a745; color:white; }
+  .save-btn:hover { background:#218838; }
+  .cancel-btn { background:#6c757d; color:white; }
+  .cancel-btn:hover { background:#5a6268; }
+  #preview { width:100px; height:100px; object-fit:cover; border-radius:8px; margin-bottom:10px; display:none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🍛 Admin Panel</h1>
+  <button class="add-btn" onclick="openModal()">➕ Naya Item Add Karein</button>
+  <div id="menuList"></div>
+</div>
+
+<!-- Add Item Modal -->
+<div class="modal" id="itemModal">
+  <div class="modal-content">
+    <h2>Naya Item</h2>
+    <input type="text" id="itemName" placeholder="Item Name (e.g. Chicken Biryani)">
+    <input type="number" id="itemPrice" placeholder="Price (₹)">
+    <input type="file" id="itemImage" accept="image/*" onchange="previewImage(event)">
+    <img id="preview">
+    <div class="modal-btns">
+      <button class="save-btn" onclick="saveItem()">Save</button>
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Default data agar localStorage khaali ho
+const defaultData = {
+  shopName: "Mera Biryani House",
+  menu: [
+    { id: 1, name: "Chicken Biryani", price: 180, image: "" },
+    { id: 2, name: "Mutton Taheri", price: 220, image: "" },
+    { id: 3, name: "Shami Parata", price: 60, image: "" }
+  ]
+};
+
+// Data load karo
+function getData() {
+  const saved = localStorage.getItem("biryaniMenu");
+  return saved ? JSON.parse(saved) : defaultData;
+}
+
+// Data save karo
+function saveData(data) {
+  localStorage.setItem("biryaniMenu", JSON.stringify(data));
+}
+
+// Menu render karo
+function renderMenu() {
+  const data = getData();
+  const list = document.getElementById("menuList");
+  list.innerHTML = "";
+
+  data.menu.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML = `
+      <img src="${item.image || 'https://via.placeholder.com/80?text=No+Image'}" alt="${item.name}">
+      <div class="item-info">
+        <h3>${item.name}</h3>
+        <p>₹${item.price}</p>
+      </div>
+      <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// Modal open/close
+function openModal() {
+  document.getElementById("itemModal").classList.add("active");
+}
+function closeModal() {
+  document.getElementById("itemModal").classList.remove("active");
+  document.getElementById("itemName").value = "";
+  document.getElementById("itemPrice").value = "";
+  document.getElementById("itemImage").value = "";
+  document.getElementById("preview").style.display = "none";
+}
+
+// Image preview
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById("preview");
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Naya item save karo
+function saveItem() {
+  const name = document.getElementById("itemName").value.trim();
+  const price = document.getElementById("itemPrice").value.trim();
+  const imageFile = document.getElementById("itemImage").files[0];
+
+  if (!name || !price) {
+    alert("Item name aur price dono daalna zaroori hai!");
+    return;
+  }
+
+  const data = getData();
+  const newId = data.menu.length ? Math.max(...data.menu.map(i => i.id)) + 1 : 1;
+
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      data.menu.push({ id: newId, name: name, price: Number(price), image: e.target.result });
+      saveData(data);
+      renderMenu();
+      closeModal();
+    };
+    reader.readAsDataURL(imageFile);
+  } else {
+    data.menu.push({ id: newId, name: name, price: Number(price), image: "" });
+    saveData(data);
+    renderMenu();
+    closeModal();
+  }
+}
+
+// Item delete karo
+function deleteItem(id) {
+  if (!confirm("Pakka delete karna hai?")) return;
+  const data = getData();
+  data.menu = data.menu.filter(item => item.id !== id);
+  saveData(data);
+  renderMenu();
+}
+
+// Initial render
+renderMenu();
+</script>
+</body>
+</html>
