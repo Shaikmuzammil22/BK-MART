@@ -1,7 +1,14 @@
 {
   "menu": [
-    { "name": "Chicken Biryani", "price": 180, "image": "" },
-    { "name": "Mutton Taheri", "price": 220, "image": "" },
-    { "name": "Shami Parata", "price": 60, "image": "" }
+    {
+      "name": "Mutton Taheri",
+      "price": 220,
+      "image": ""
+    },
+    {
+      "name": "Shami Parata",
+      "price": 60,
+      "image": ""
+    }
   ]
 }
