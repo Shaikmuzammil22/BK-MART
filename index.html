@@ -7,165 +7,77 @@
 <style>
   /* Swiggy/Zomato Style CSS */
   * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-  body { background:#f4f4f4; color: #333; }
+  body { background:#f4f4f4; color: #333; padding-bottom: 50px; }
   
   /* Top Header */
   .header {
-    background: white;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   }
-  .brand { display: flex; flex-direction: column; }
   .brand h1 { font-size: 22px; color: #8B4513; font-weight: 800; margin-bottom: 2px; }
   .brand p { font-size: 12px; color: #777; }
   
   /* Search Bar */
-  .search-container {
-    max-width: 600px;
-    margin: 15px auto;
-    padding: 0 15px;
-  }
-  .search-box {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  }
-  .search-box input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 15px;
-    margin-left: 10px;
-  }
+  .search-container { max-width: 600px; margin: 15px auto; padding: 0 15px; }
+  .search-box { display: flex; align-items: center; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 10px 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .search-box input { border: none; outline: none; width: 100%; font-size: 15px; margin-left: 10px; }
   
   /* Shop Closed Alert */
-  .alert-closed {
-    max-width: 600px;
-    margin: 0 auto 15px auto;
-    background: #ffe6e6;
-    color: #dc3545;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    border: 1px solid #ffcccc;
-    display: none;
-  }
+  .alert-closed { max-width: 600px; margin: 0 auto 15px auto; background: #ffe6e6; color: #dc3545; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; border: 1px solid #ffcccc; display: none; }
 
   /* Menu Grid */
-  .menu-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 15px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-  }
+  .menu-container { max-width: 1000px; margin: 0 auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 
-  /* Swiggy/Zomato Style Card */
-  .card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: transform 0.2s;
-    display: flex;
-    flex-direction: column;
-  }
-  .card:hover { transform: translateY(-4px); }
+  /* Card */
+  .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
+  .card-img-container { position: relative; width: 100%; height: 180px; }
+  .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+  .rating-badge { position: absolute; bottom: 10px; left: 10px; background: #28a745; color: white; padding: 4px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; }
+  .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+  .card-title { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+  .card-price { font-size: 16px; color: #555; font-weight: 600; margin-bottom: 15px; }
   
-  .card-img-container {
-    position: relative;
-    width: 100%;
-    height: 180px;
-  }
-  .card-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* Rating Badge */
-  .rating-badge {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: #28a745;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  /* Buy Button */
+  .buy-btn { margin-top: auto; background: #ff5200; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; transition: 0.2s; }
+  .buy-btn:hover { background: #e64a00; }
 
-  .card-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-  .card-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  .card-price {
-    font-size: 16px;
-    color: #555;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
+  /* Modal (Checkout) */
+  .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+  .modal.active { display: flex; }
+  .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 12px; padding: 20px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+  .modal-header h2 { font-size: 20px; color: #333; }
+  .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #777; }
   
-  /* Add Button inside Card */
-  .add-btn {
-    margin-top: auto;
-    background: white;
-    color: #28a745;
-    border: 1px solid #28a745;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    align-self: flex-start;
-    transition: 0.2s;
-  }
-  .add-btn:hover { background: #28a745; color: white; }
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #555; }
+  .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
+  
+  /* Payment Options */
+  .payment-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .pay-label { display: flex; align-items: center; padding: 12px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .pay-label input { margin-right: 10px; width: 18px; height: 18px; }
+  .pay-label:hover { background: #f9f9f9; }
 
-  .footer {
-    text-align: center;
-    padding: 20px;
-    color: #777;
-    font-size: 14px;
-  }
+  /* QR Code Section */
+  .qr-section { display: none; text-align: center; margin: 15px 0; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px dashed #ccc; }
+  .qr-section img { width: 180px; height: 180px; border-radius: 8px; margin-bottom: 10px; }
+  
+  .place-order-btn { width: 100%; background: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  .place-order-btn:hover { background: #218838; }
+
+  .footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
 </style>
 </head>
 <body>
 
-<!-- Top Header -->
 <div class="header">
   <div class="brand">
     <h1>🍛 BK MART</h1>
-    <p>Biryani House • 4.5★ (500+ ratings)</p>
+    <p>Biryani House • 4.5★</p>
   </div>
-  <div style="font-size: 24px;">🛒</div>
 </div>
 
-<!-- Search Bar -->
 <div class="search-container">
   <div class="search-box">
     <span>🔍</span>
@@ -173,35 +85,76 @@
   </div>
 </div>
 
-<!-- Shop Closed Alert -->
-<div id="shopAlert" class="alert-closed">
-  ⚠️ Aaj Dukan Band Hai (Shop Closed for Holiday)
-</div>
+<div id="shopAlert" class="alert-closed">⚠️ Aaj Dukan Band Hai (Shop Closed for Holiday)</div>
 
-<!-- Menu Grid -->
-<div class="menu-container" id="menuGrid">
-  <!-- Cards will load here -->
-</div>
+<div class="menu-container" id="menuGrid"></div>
+<div class="footer">Made with ❤️ by BK MART</div>
 
-<div class="footer">
-  Made with ❤️ by BK MART
+<!-- Checkout Modal -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Checkout</h2>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    
+    <div id="orderSummary" style="margin-bottom: 20px; background: #f0f8ff; padding: 10px; border-radius: 8px;">
+      <!-- Order details will be here -->
+    </div>
+
+    <form id="checkoutForm" onsubmit="placeOrder(event)">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="custName" required placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="custPhone" required placeholder="Enter mobile number">
+      </div>
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea id="custAddress" required rows="2" placeholder="House no, Street, Area"></textarea>
+      </div>
+
+      <label style="font-weight: 600; margin-bottom: 10px; display: block;">Payment Method</label>
+      <div class="payment-options">
+        <label class="pay-label">
+          <input type="radio" name="payment" value="UPI" onclick="toggleQR(true)" checked> 
+          📱 Pay via UPI (GPay/PhonePe)
+        </label>
+        <label class="pay-label">
+          <input type="radio" name="payment" value="COD" onclick="toggleQR(false)"> 
+          💵 Cash on Delivery
+        </label>
+      </div>
+
+      <!-- UPI QR Code -->
+      <div class="qr-section" id="qrSection">
+        <p style="margin-bottom: 10px; font-weight: bold;">Scan to Pay</p>
+        <!-- Yahan apna UPI QR code image lagayein -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@okaxis&pn=BK%20MART" alt="UPI QR">
+        <p style="font-size: 12px; color: #555;">Scan this QR in GPay, PhonePe or Paytm</p>
+      </div>
+
+      <button type="submit" class="place-order-btn">Place Order</button>
+    </form>
+  </div>
 </div>
 
 <script>
+let currentItem = null;
+// Aapka WhatsApp number yahan daalein (Country code ke sath, bina + ke)
+const WHATSAPP_NUMBER = "919876543210"; 
+
 async function renderMenu() {
   const grid = document.getElementById("menuGrid");
   const alertBox = document.getElementById("shopAlert");
   
   try {
-    // Cache bypass karne ke liye timestamp
     const response = await fetch('data.json?v=' + new Date().getTime());
     const data = await response.json();
     
-    // Shop Status Check
-    if (data.shopStatus === "closed") {
-      alertBox.style.display = "block";
-    }
-
+    if (data.shopStatus === "closed") alertBox.style.display = "block";
     grid.innerHTML = "";
 
     if (!data.menu || data.menu.length === 0) {
@@ -209,14 +162,10 @@ async function renderMenu() {
       return;
     }
 
-    data.menu.forEach(item => {
+    data.menu.forEach((item, index) => {
       const div = document.createElement("div");
       div.className = "card";
-      
-      // Agar image nahi hai to ek acchi si placeholder lagao
-      const imgSrc = item.image ? item.image : "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop"; // Biryani placeholder image
-      
-      // Random rating for Swiggy look (3.9 to 4.8)
+      const imgSrc = item.image ? item.image : "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop";
       const rating = (Math.random() * (4.8 - 3.9) + 3.9).toFixed(1);
       
       div.innerHTML = `
@@ -227,15 +176,59 @@ async function renderMenu() {
         <div class="card-content">
           <h3 class="card-title">${item.name}</h3>
           <p class="card-price">₹${item.price}</p>
-          <button class="add-btn">ADD +</button>
+          <button class="buy-btn" onclick="openCheckout('${item.name}', ${item.price})">BUY NOW</button>
         </div>
       `;
       grid.appendChild(div);
     });
-
   } catch (error) {
     grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;color:red;'>Data load nahi hua.</p>";
   }
+}
+
+function openCheckout(name, price) {
+  currentItem = { name, price };
+  document.getElementById("orderSummary").innerHTML = `
+    <h4 style="margin-bottom: 5px;">Ordering: ${name}</h4>
+    <p style="color: #ff5200; font-weight: bold;">Total: ₹${price}</p>
+  `;
+  document.getElementById("checkoutModal").classList.add("active");
+}
+
+function closeModal() {
+  document.getElementById("checkoutModal").classList.remove("active");
+  document.getElementById("checkoutForm").reset();
+  toggleQR(true); // Reset to UPI
+}
+
+function toggleQR(show) {
+  document.getElementById("qrSection").style.display = show ? "block" : "none";
+}
+
+function placeOrder(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById("custName").value;
+  const phone = document.getElementById("custPhone").value;
+  const address = document.getElementById("custAddress").value;
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+  // WhatsApp Message Format
+  let message = `*New Order - BK MART*%0A%0A`;
+  message += `*Item:* ${currentItem.name}%0A`;
+  message += `*Price:* ₹${currentItem.price}%0A`;
+  message += `*Payment:* ${paymentMethod}%0A%0A`;
+  message += `*Customer Details:*%0A`;
+  message += `Name: ${name}%0A`;
+  message += `Phone: ${phone}%0A`;
+  message += `Address: ${address}`;
+
+  // WhatsApp link open karein
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+  window.open(whatsappUrl, '_blank');
+
+  alert("Order placed successfully! Aapko WhatsApp par details bhej di gayi hain.");
+  closeModal();
 }
 
 renderMenu();
