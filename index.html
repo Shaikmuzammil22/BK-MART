@@ -8,6 +8,9 @@
   * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
   body { background:#f9f9f9; padding:20px; }
   h1 { text-align:center; margin-bottom:20px; color:#8B4513; }
+  
+  .alert-closed { background:#f8d7da; color:#721c24; padding:15px; border-radius:8px; text-align:center; font-weight:bold; margin-bottom:20px; border: 1px solid #f5c6cb; }
+  
   .menu-grid {
     display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
     gap:20px; max-width:1000px; margin:0 auto;
@@ -25,17 +28,30 @@
 </style>
 </head>
 <body>
-<h1>🍛 Mera Biryani House</h1>
+<h1>🍛 BK MART - Biryani House</h1>
+
+<!-- Shop Closed Alert -->
+<div id="shopAlert" style="display:none;" class="alert-closed">
+  ⚠️ Aaj Dukan Band Hai (Today is Holiday)
+</div>
+
 <div class="menu-grid" id="menuGrid"></div>
 
 <script>
 async function renderMenu() {
   const grid = document.getElementById("menuGrid");
+  const alertBox = document.getElementById("shopAlert");
   
   try {
-    const response = await fetch('data.json');
+    // Cache clear karne ke liye ek timestamp add kiya gaya hai
+    const response = await fetch('data.json?v=' + new Date().getTime());
     const data = await response.json();
     
+    // Check shop status
+    if (data.shopStatus === "closed") {
+      alertBox.style.display = "block";
+    }
+
     grid.innerHTML = "";
 
     if (!data.menu || data.menu.length === 0) {
@@ -46,6 +62,8 @@ async function renderMenu() {
     data.menu.forEach(item => {
       const div = document.createElement("div");
       div.className = "menu-item";
+      
+      // Agar Photo URL nahi diya gaya hai, toh placeholder dikhao
       const imgSrc = item.image ? item.image : "https://via.placeholder.com/220x160?text=" + encodeURIComponent(item.name);
       
       div.innerHTML = `
