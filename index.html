@@ -29,7 +29,6 @@
 <div class="menu-grid" id="menuGrid"></div>
 
 <script>
-// Yeh function data.json se menu load karega
 async function renderMenu() {
   const grid = document.getElementById("menuGrid");
   
@@ -37,18 +36,16 @@ async function renderMenu() {
     const response = await fetch('data.json');
     const data = await response.json();
     
-    grid.innerHTML = ""; // Pehle se jo hai use hatao
+    grid.innerHTML = "";
 
     if (!data.menu || data.menu.length === 0) {
-      grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;'>Abhi koi item nahi hai. data.json mein add karein.</p>";
+      grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;'>Abhi koi item nahi hai.</p>";
       return;
     }
 
     data.menu.forEach(item => {
       const div = document.createElement("div");
       div.className = "menu-item";
-      
-      // Agar image nahi hai to placeholder dikhao
       const imgSrc = item.image ? item.image : "https://via.placeholder.com/220x160?text=" + encodeURIComponent(item.name);
       
       div.innerHTML = `
@@ -62,8 +59,7 @@ async function renderMenu() {
     });
 
   } catch (error) {
-    grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;color:red;'>Data load nahi hua. Check karein ki data.json file sahi jagah hai.</p>";
-    console.error(error);
+    grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;color:red;'>Data load nahi hua.</p>";
   }
 }
 
