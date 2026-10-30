@@ -3,104 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BK MART - Biryani House</title>
+<title>BK MART — Biryani House</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
-  /* Swiggy/Zomato Style CSS */
-  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-  body { background:#f4f4f4; color: #333; padding-bottom: 50px; }
-  
-  /* Top Header */
-  .header {
-    background: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  :root{
+    --brown:#5a2e12; --gold:#d4a373; --orange:#ff5200;
+    --bg:#faf7f2; --dark:#1a1a1a; --green:#28a745;
   }
-  .brand h1 { font-size: 22px; color: #8B4513; font-weight: 800; margin-bottom: 2px; }
-  .brand p { font-size: 12px; color: #777; }
-  
-  /* Search Bar */
-  .search-container { max-width: 600px; margin: 15px auto; padding: 0 15px; }
-  .search-box { display: flex; align-items: center; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 10px 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-  .search-box input { border: none; outline: none; width: 100%; font-size: 15px; margin-left: 10px; }
-  
-  /* Shop Closed Alert */
-  .alert-closed { max-width: 600px; margin: 0 auto 15px auto; background: #ffe6e6; color: #dc3545; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; border: 1px solid #ffcccc; display: none; }
+  body{background:var(--bg);color:#222;padding-bottom:60px;overflow-x:hidden}
 
-  /* Menu Grid */
-  .menu-container { max-width: 1000px; margin: 0 auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  /* ---------- HERO HEADER ---------- */
+  .hero{
+    background:linear-gradient(135deg,#3b1c06 0%,#5a2e12 50%,#8b4513 100%);
+    padding:40px 20px 70px;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-50%;right:-20%;width:400px;height:400px;
+    background:radial-gradient(circle,rgba(212,163,115,.25),transparent 70%);border-radius:50%;
+  }
+  .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2;text-align:center}
+  .brand-badge{
+    display:inline-block;background:rgba(212,163,115,.15);border:1px solid rgba(212,163,115,.4);
+    color:var(--gold);font-size:12px;font-weight:600;padding:6px 16px;border-radius:50px;
+    letter-spacing:2px;margin-bottom:16px;backdrop-filter:blur(10px);
+  }
+  .brand-title{
+    font-family:'Playfair Display',serif;font-size:clamp(48px,12vw,96px);
+    font-weight:900;color:#fff;line-height:1;letter-spacing:-2px;
+    text-shadow:0 4px 30px rgba(0,0,0,.4);
+  }
+  .brand-title span{color:var(--gold)}
+  .brand-sub{
+    color:rgba(255,255,255,.75);font-size:15px;margin-top:12px;
+    letter-spacing:3px;text-transform:uppercase;font-weight:600;
+  }
+  .hero-stats{
+    display:flex;gap:24px;justify-content:center;margin-top:28px;flex-wrap:wrap;
+  }
+  .hero-stats div{color:#fff}
+  .hero-stats b{display:block;font-size:22px;color:var(--gold)}
+  .hero-stats small{font-size:11px;opacity:.7;letter-spacing:1px}
 
-  /* Card */
-  .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
-  .card-img-container { position: relative; width: 100%; height: 180px; }
-  .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-  .rating-badge { position: absolute; bottom: 10px; left: 10px; background: #28a745; color: white; padding: 4px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; }
-  .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
-  .card-title { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-  .card-price { font-size: 16px; color: #555; font-weight: 600; margin-bottom: 15px; }
-  
-  /* Buy Button */
-  .buy-btn { margin-top: auto; background: #ff5200; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; transition: 0.2s; }
-  .buy-btn:hover { background: #e64a00; }
+  /* ---------- SEARCH (floating) ---------- */
+  .search-wrap{
+    max-width:600px;margin:-30px auto 0;padding:0 20px;position:relative;z-index:5;
+  }
+  .search-box{
+    background:#fff;border-radius:16px;padding:14px 20px;display:flex;align-items:center;
+    box-shadow:0 10px 40px rgba(90,46,18,.15);
+  }
+  .search-box input{border:none;outline:none;font-size:15px;width:100%;margin-left:10px;background:transparent}
 
-  /* Modal (Checkout) */
-  .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
-  .modal.active { display: flex; }
-  .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 12px; padding: 20px; max-height: 90vh; overflow-y: auto; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-  .modal-header h2 { font-size: 20px; color: #333; }
-  .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #777; }
-  
-  .form-group { margin-bottom: 15px; }
-  .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #555; }
-  .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
-  
-  /* Payment Options */
-  .payment-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .pay-label { display: flex; align-items: center; padding: 12px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; font-weight: 600; }
-  .pay-label input { margin-right: 10px; width: 18px; height: 18px; }
-  .pay-label:hover { background: #f9f9f9; }
+  /* ---------- TIME SLOT BANNER ---------- */
+  .slot-banner{
+    max-width:1000px;margin:30px auto 0;padding:0 20px;
+  }
+  .slot-card{
+    background:linear-gradient(135deg,#fff,#fff8f0);
+    border:1px solid rgba(212,163,115,.3);
+    border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px;
+    box-shadow:0 6px 24px rgba(90,46,18,.08);
+  }
+  .slot-icon{font-size:38px}
+  .slot-info h4{font-size:13px;color:#888;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+  .slot-info p{font-size:20px;font-weight:800;color:var(--brown);margin-top:2px}
+  .slot-info small{font-size:13px;color:#666}
+  .live-dot{
+    width:10px;height:10px;background:var(--green);border-radius:50%;
+    display:inline-block;margin-right:6px;animation:pulse 1.5s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-  /* QR Code Section */
-  .qr-section { display: none; text-align: center; margin: 15px 0; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px dashed #ccc; }
-  .qr-section img { width: 180px; height: 180px; border-radius: 8px; margin-bottom: 10px; }
-  
-  .place-order-btn { width: 100%; background: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-  .place-order-btn:hover { background: #218838; }
+  /* ---------- CLOSED ALERT ---------- */
+  .alert-closed{
+    max-width:1000px;margin:20px auto 0;padding:16px 20px;
+    background:#fff0f0;color:#c00;border-radius:12px;text-align:center;font-weight:700;
+    border:1px solid #ffd0d0;display:none;
+  }
 
-  .footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
+  /* ---------- MENU TABS (time slots) ---------- */
+  .tabs-wrap{max-width:1000px;margin:30px auto 0;padding:0 20px;overflow-x:auto}
+  .tabs{display:flex;gap:10px;padding-bottom:8px;min-width:max-content}
+  .tab{
+    padding:10px 18px;border-radius:50px;background:#fff;border:1.5px solid #eee;
+    cursor:pointer;font-size:13px;font-weight:600;color:#666;white-space:nowrap;
+    transition:.25s;display:flex;align-items:center;gap:6px;
+  }
+  .tab.active{background:var(--brown);color:#fff;border-color:var(--brown);box-shadow:0 6px 20px rgba(90,46,18,.3)}
+  .tab .mini-dot{width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block}
+
+  /* ---------- MENU GRID ---------- */
+  .menu-container{
+    max-width:1000px;margin:0 auto;padding:24px 20px;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;
+  }
+  .card{
+    background:#fff;border-radius:20px;overflow:hidden;
+    box-shadow:0 6px 24px rgba(0,0,0,.07);display:flex;flex-direction:column;
+    transition:.3s;position:relative;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(90,46,18,.18)}
+  .card-img-container{position:relative;width:100%;height:190px;overflow:hidden}
+  .card-img-container img{width:100%;height:100%;object-fit:cover;transition:.5s}
+  .card:hover .card-img-container img{transform:scale(1.08)}
+  .rating-badge{
+    position:absolute;top:12px;right:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+    color:#fff;padding:5px 10px;border-radius:50px;font-size:12px;font-weight:700;
+  }
+  .slot-tag{
+    position:absolute;top:12px;left:12px;background:var(--green);color:#fff;
+    padding:4px 10px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:.5px;
+  }
+  .card-content{padding:16px;display:flex;flex-direction:column;flex-grow:1}
+  .card-title{font-size:17px;font-weight:700;margin-bottom:4px;color:#1a1a1a}
+  .card-desc{font-size:12px;color:#999;margin-bottom:10px}
+  .card-price{font-size:20px;color:var(--brown);font-weight:800;margin-bottom:14px}
+  .buy-btn{
+    margin-top:auto;background:linear-gradient(135deg,var(--orange),#ff7a2e);
+    color:#fff;border:none;padding:12px;border-radius:12px;font-weight:700;
+    font-size:14px;cursor:pointer;transition:.2s;letter-spacing:.5px;
+  }
+  .buy-btn:hover{transform:scale(1.02);box-shadow:0 8px 24px rgba(255,82,0,.35)}
+
+  /* ---------- MODAL ---------- */
+  .modal{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+    backdrop-filter:blur(6px);z-index:1000;justify-content:center;align-items:flex-end;
+    padding:0;
+  }
+  .modal.active{display:flex}
+  .modal-content{
+    background:#fff;width:100%;max-width:500px;border-radius:24px 24px 0 0;
+    padding:24px 20px 30px;max-height:92vh;overflow-y:auto;
+    animation:slideUp .3s ease;
+  }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+  .modal-header h2{font-size:22px;color:var(--brown);font-weight:800}
+  .close-btn{background:#f4f4f4;border:none;width:36px;height:36px;border-radius:50%;font-size:22px;cursor:pointer;color:#666}
+
+  .form-group{margin-bottom:14px}
+  .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:13px;color:#555}
+  .form-group input,.form-group textarea{
+    width:100%;padding:13px;border:1.5px solid #e5e5e5;border-radius:12px;
+    font-family:inherit;font-size:14px;outline:none;transition:.2s;
+  }
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--brown);background:#fdf8f3}
+
+  .payment-options{display:grid;gap:10px;margin-bottom:18px}
+  .pay-label{
+    display:flex;align-items:center;padding:14px 16px;border:1.5px solid #e5e5e5;
+    border-radius:14px;cursor:pointer;font-weight:600;font-size:14px;transition:.2s;
+  }
+  .pay-label:hover{background:#fdf8f3}
+  .pay-label input{margin-right:12px;width:18px;height:18px;accent-color:var(--brown)}
+  .pay-label.checked{border-color:var(--brown);background:#fdf8f3}
+
+  .qr-section{
+    display:none;text-align:center;margin:0 0 18px;padding:20px;
+    background:linear-gradient(135deg,#fff8f0,#fff);border:2px dashed var(--gold);border-radius:16px;
+  }
+  .qr-section img{width:180px;height:180px;border-radius:12px;margin-bottom:10px}
+  .qr-section p{font-size:12px;color:#777;margin-top:4px}
+  .utr-input{margin-top:12px}
+  .utr-input input{text-align:center;font-weight:700;letter-spacing:1px}
+
+  .place-order-btn{
+    width:100%;background:linear-gradient(135deg,var(--green),#20c997);
+    color:#fff;padding:16px;border:none;border-radius:14px;font-size:16px;
+    font-weight:800;cursor:pointer;letter-spacing:.5px;
+  }
+  .place-order-btn:hover{box-shadow:0 8px 24px rgba(40,167,69,.35)}
+
+  .order-summary{
+    background:linear-gradient(135deg,#fff8f0,#fff);padding:16px;border-radius:14px;
+    margin-bottom:18px;border:1px solid #ffe5cc;
+  }
+  .order-summary h4{font-size:16px;color:var(--brown)}
+  .order-summary .total{font-size:22px;color:var(--orange);font-weight:900;margin-top:6px}
+
+  .footer{text-align:center;padding:30px 20px;color:#999;font-size:13px}
+  .footer b{color:var(--brown)}
+
+  /* Toast */
+  #toast{
+    visibility:hidden;min-width:250px;background:#1a1a1a;color:#fff;text-align:center;
+    border-radius:12px;padding:16px;position:fixed;z-index:2000;left:50%;bottom:30px;
+    transform:translateX(-50%);font-size:15px;box-shadow:0 10px 40px rgba(0,0,0,.3);
+  }
+  #toast.show{visibility:visible;animation:fadein .4s,fadeout .4s 2.6s}
+  @keyframes fadein{from{bottom:0;opacity:0}to{bottom:30px;opacity:1}}
+  @keyframes fadeout{from{bottom:30px;opacity:1}to{bottom:0;opacity:0}}
+
+  @media(max-width:600px){
+    .hero{padding:30px 16px 60px}
+    .brand-title{letter-spacing:-1px}
+    .slot-card{padding:16px}
+    .slot-info p{font-size:17px}
+  }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="brand">
-    <h1>🍛 BK MART</h1>
-    <p>Biryani House • 4.5★</p>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand-badge">★ AUTHENTIC HYDERABADI ★</div>
+    <h1 class="brand-title">BK <span>MART</span></h1>
+    <p class="brand-sub">Biryani House • Since 2020</p>
+    <div class="hero-stats">
+      <div><b>4.5★</b><small>RATING</small></div>
+      <div><b>30min</b><small>DELIVERY</small></div>
+      <div><b>1000+</b><small>ORDERS</small></div>
+    </div>
+  </div>
+</header>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="Search Biryani, Tahari, Dosa...">
   </div>
 </div>
 
-<div class="search-container">
-  <div class="search-box">
-    <span>🔍</span>
-    <input type="text" placeholder="Search for Biryani, Taheri...">
+<!-- LIVE SLOT BANNER -->
+<div class="slot-banner">
+  <div class="slot-card" id="slotCard">
+    <div class="slot-icon" id="slotIcon">🌅</div>
+    <div class="slot-info">
+      <h4><span class="live-dot"></span> ABHI AVAILABLE</h4>
+      <p id="slotName">Loading...</p>
+      <small id="slotTime">—</small>
+    </div>
   </div>
 </div>
 
 <div id="shopAlert" class="alert-closed">⚠️ Aaj Dukan Band Hai (Shop Closed for Holiday)</div>
 
-<div class="menu-container" id="menuGrid"></div>
-<div class="footer">Made with ❤️ by BK MART</div>
+<!-- TIME SLOT TABS -->
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs"></div>
+</div>
 
-<!-- Checkout Modal -->
+<!-- MENU GRID -->
+<div class="menu-container" id="menuGrid"></div>
+
+<div class="footer">Made with ❤️ by <b>BK MART</b> • All Rights Reserved</div>
+
+<!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
     <div class="modal-header">
       <h2>Checkout</h2>
       <button class="close-btn" onclick="closeModal()">×</button>
     </div>
-    
-    <div id="orderSummary" style="margin-bottom: 20px; background: #f0f8ff; padding: 10px; border-radius: 8px;">
-      <!-- Order details will be here -->
-    </div>
+
+    <div class="order-summary" id="orderSummary"></div>
 
     <form id="checkoutForm" onsubmit="placeOrder(event)">
       <div class="form-group">
@@ -109,118 +269,239 @@
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" id="custPhone" required placeholder="Enter mobile number">
+        <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
       </div>
       <div class="form-group">
         <label>Delivery Address</label>
         <textarea id="custAddress" required rows="2" placeholder="House no, Street, Area"></textarea>
       </div>
 
-      <label style="font-weight: 600; margin-bottom: 10px; display: block;">Payment Method</label>
+      <label style="font-weight:600;margin-bottom:10px;display:block;font-size:13px;color:#555">Payment Method</label>
       <div class="payment-options">
-        <label class="pay-label">
-          <input type="radio" name="payment" value="UPI" onclick="toggleQR(true)" checked> 
-          📱 Pay via UPI (GPay/PhonePe)
+        <label class="pay-label checked" id="upiLabel">
+          <input type="radio" name="payment" value="UPI" onclick="toggleQR(true)" checked>
+          📱 Online Payment (UPI / GPay / PhonePe)
         </label>
-        <label class="pay-label">
-          <input type="radio" name="payment" value="COD" onclick="toggleQR(false)"> 
+        <label class="pay-label" id="codLabel">
+          <input type="radio" name="payment" value="COD" onclick="toggleQR(false)">
           💵 Cash on Delivery
         </label>
       </div>
 
-      <!-- UPI QR Code -->
       <div class="qr-section" id="qrSection">
-        <p style="margin-bottom: 10px; font-weight: bold;">Scan to Pay</p>
-        <!-- Yahan apna UPI QR code image lagayein -->
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@okaxis&pn=BK%20MART" alt="UPI QR">
-        <p style="font-size: 12px; color: #555;">Scan this QR in GPay, PhonePe or Paytm</p>
+        <p style="font-weight:700;color:var(--brown);margin-bottom:10px">Scan & Pay ₹<span id="qrAmount">0</span></p>
+        <img id="qrImage" src="" alt="UPI QR">
+        <p style="font-size:12px;color:#777;margin-top:6px">GPay • PhonePe • Paytm</p>
+        <div class="utr-input form-group">
+          <label style="font-size:12px">Payment ke baad UTR/Ref No. daalein</label>
+          <input type="text" id="utrNumber" placeholder="e.g. 123456789012">
+        </div>
       </div>
 
-      <button type="submit" class="place-order-btn">Place Order</button>
+      <button type="submit" class="place-order-btn">PLACE ORDER →</button>
     </form>
   </div>
 </div>
 
+<div id="toast">Data Saved!</div>
+
 <script>
 let currentItem = null;
-// Aapka WhatsApp number yahan daalein (Country code ke sath, bina + ke)
-const WHATSAPP_NUMBER = "919876543210"; 
+let fullData = { shopStatus:"open", menu:[] };
+let activeSlot = null;
 
-async function renderMenu() {
-  const grid = document.getElementById("menuGrid");
-  const alertBox = document.getElementById("shopAlert");
-  
-  try {
-    const response = await fetch('data.json?v=' + new Date().getTime());
-    const data = await response.json();
-    
-    if (data.shopStatus === "closed") alertBox.style.display = "block";
-    grid.innerHTML = "";
+const WHATSAPP_NUMBER = "919876543210"; // <-- APNA NUMBER
+const UPI_ID = "yourupi@okaxis";        // <-- APNA UPI ID
+const UPI_NAME = "BK MART";
 
-    if (!data.menu || data.menu.length === 0) {
-      grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;'>Abhi koi item nahi hai.</p>";
-      return;
+// ---------- TIME SLOTS ----------
+const SLOTS = [
+  { id:"breakfast", start:6,  end:9,  name:"Breakfast",   icon:"🌅", time:"6:00 AM - 9:00 AM", items:["Idli","Dosa","Vada"] },
+  { id:"morning",   start:9,  end:12, name:"Morning",     icon:"☀️", time:"9:00 AM - 12:00 PM", items:["Tahari"] },
+  { id:"lunch",     start:12, end:18, name:"Lunch",       icon:"🍛", time:"12:00 PM - 6:00 PM", items:["Biryani"] },
+  { id:"dinner",    start:18, end:24, name:"Dinner",      icon:"🌙", time:"6:00 PM - 12:00 AM", items:["Shami Parata","Egg Dosa","Sada Dosa"] }
+];
+
+function getCurrentSlot(){
+  const h = new Date().getHours();
+  for(const s of SLOTS){
+    if(s.start < s.end){
+      if(h >= s.start && h < s.end) return s;
+    } else {
+      if(h >= s.start || h < s.end) return s;
     }
+  }
+  return null;
+}
 
-    data.menu.forEach((item, index) => {
-      const div = document.createElement("div");
-      div.className = "card";
-      const imgSrc = item.image ? item.image : "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop";
-      const rating = (Math.random() * (4.8 - 3.9) + 3.9).toFixed(1);
-      
-      div.innerHTML = `
-        <div class="card-img-container">
-          <img src="${imgSrc}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/280x180?text=No+Image'">
-          <div class="rating-badge">★ ${rating}</div>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">${item.name}</h3>
-          <p class="card-price">₹${item.price}</p>
-          <button class="buy-btn" onclick="openCheckout('${item.name}', ${item.price})">BUY NOW</button>
-        </div>
-      `;
-      grid.appendChild(div);
-    });
-  } catch (error) {
-    grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;color:red;'>Data load nahi hua.</p>";
+// ---------- LOAD DATA ----------
+async function renderMenu(){
+  try{
+    const res = await fetch('data.json?v=' + Date.now());
+    fullData = await res.json();
+    if(!fullData.menu) fullData.menu = [];
+    if(!fullData.shopStatus) fullData.shopStatus = "open";
+
+    const current = getCurrentSlot();
+    activeSlot = current ? current.id : SLOTS[0].id;
+
+    updateSlotBanner(current);
+    renderTabs();
+    renderCards();
+  }catch(err){
+    document.getElementById("menuGrid").innerHTML =
+      "<p style='text-align:center;grid-column:1/-1;color:red'>Data load nahi hua. data.json check karein.</p>";
   }
 }
 
-function openCheckout(name, price) {
+function updateSlotBanner(current){
+  const box = document.getElementById("shopAlert");
+  if(fullData.shopStatus === "closed"){
+    box.style.display = "block";
+    document.getElementById("slotName").textContent = "Shop Closed";
+    document.getElementById("slotTime").textContent = "Aaj holiday hai";
+    document.getElementById("slotIcon").textContent = "🔴";
+    return;
+  }
+  box.style.display = "none";
+  if(current){
+    document.getElementById("slotIcon").textContent = current.icon;
+    document.getElementById("slotName").textContent = current.name + " Menu";
+    document.getElementById("slotTime").textContent = current.time;
+  }
+}
+
+function renderTabs(){
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = "";
+  SLOTS.forEach(slot=>{
+    const isActive = slot.id === activeSlot;
+    const tab = document.createElement("div");
+    tab.className = "tab" + (isActive ? " active" : "");
+    tab.innerHTML = `${slot.icon} ${slot.name}`;
+    tab.onclick = ()=>{ activeSlot = slot.id; renderTabs(); renderCards(); };
+    tabs.appendChild(tab);
+  });
+}
+
+function getItemSlot(item){
+  if(item.slot) return item.slot;
+  const n = (item.name||"").toLowerCase();
+  if(n.includes("idli")||n.includes("dosa")&&!n.includes("egg")||n.includes("vada")) return "breakfast";
+  if(n.includes("tahari")) return "morning";
+  if(n.includes("biryani")) return "lunch";
+  if(n.includes("shami")||n.includes("egg dosa")||n.includes("sada dosa")) return "dinner";
+  return "lunch";
+}
+
+function renderCards(){
+  const grid = document.getElementById("menuGrid");
+  const q = (document.getElementById("searchInput").value||"").toLowerCase();
+  grid.innerHTML = "";
+
+  const filtered = fullData.menu.filter(item=>{
+    const inSlot = getItemSlot(item) === activeSlot;
+    const matchQ = !q || (item.name||"").toLowerCase().includes(q);
+    return inSlot && matchQ;
+  });
+
+  if(filtered.length === 0){
+    grid.innerHTML = "<p style='text-align:center;grid-column:1/-1;color:#999;padding:40px'>Is slot mein abhi koi item nahi hai.</p>";
+    return;
+  }
+
+  filtered.forEach(item=>{
+    const div = document.createElement("div");
+    div.className = "card";
+    const imgSrc = item.image || "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop";
+    const rating = (Math.random()*(4.8-4.0)+4.0).toFixed(1);
+
+    div.innerHTML = `
+      <div class="card-img-container">
+        <img src="${imgSrc}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/280x180?text=No+Image'">
+        <div class="slot-tag">${SLOTS.find(s=>s.id===getItemSlot(item))?.icon || "🍽️"} NOW</div>
+        <div class="rating-badge">★ ${rating}</div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">${item.name}</h3>
+        <p class="card-desc">Fresh & delicious</p>
+        <p class="card-price">₹${item.price}</p>
+        <button class="buy-btn" onclick='openCheckout(${JSON.stringify(item.name)}, ${item.price})'>BUY NOW</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ---------- CHECKOUT ----------
+function openCheckout(name, price){
   currentItem = { name, price };
   document.getElementById("orderSummary").innerHTML = `
-    <h4 style="margin-bottom: 5px;">Ordering: ${name}</h4>
-    <p style="color: #ff5200; font-weight: bold;">Total: ₹${price}</p>
+    <h4>Ordering: ${name}</h4>
+    <div class="total">₹${price}</div>
   `;
+  document.getElementById("qrAmount").textContent = price;
+  // Generate QR dynamically
+  const upiLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR`;
+  document.getElementById("qrImage").src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
   document.getElementById("checkoutModal").classList.add("active");
 }
 
-function closeModal() {
+function closeModal(){
   document.getElementById("checkoutModal").classList.remove("active");
   document.getElementById("checkoutForm").reset();
-  toggleQR(true); // Reset to UPI
+  toggleQR(true);
+  updatePayLabels();
 }
 
-function toggleQR(show) {
+function toggleQR(show){
   document.getElementById("qrSection").style.display = show ? "block" : "none";
+  updatePayLabels();
 }
 
-function placeOrder(event) {
-  event.preventDefault();
-  
-  const name = document.getElementById("custName").value;
-  const phone = document.getElementById("custPhone").value;
-  const address = document.getElementById("custAddress").value;
-  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+function updatePayLabels(){
+  const upi = document.querySelector('input[value="UPI"]').checked;
+  document.getElementById("upiLabel").classList.toggle("checked", upi);
+  document.getElementById("codLabel").classList.toggle("checked", !upi);
+}
 
-  // WhatsApp Message Format
-  let message = `*New Order - BK MART*%0A%0A`;
-  message += `*Item:* ${currentItem.name}%0A`;
-  message += `*Price:* ₹${currentItem.price}%0A`;
-  message += `*Payment:* ${paymentMethod}%0A%0A`;
-  message += `*Customer Details:*%0A`;
-  message += `Name: ${name}%0A`;
-  message += `Phone: ${phone}%0A`;
+function placeOrder(event){
+  event.preventDefault();
+  if(!currentItem) return;
+
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+  const utr = document.getElementById("utrNumber").value.trim();
+
+  if(payment === "UPI" && !utr){
+    alert("Payment ke baad UTR/Reference number daalna zaroori hai!");
+    return;
+  }
+
+  let msg = `*🛕 NEW ORDER — BK MART*\n\n`;
+  msg += `*Item:* ${currentItem.name}\n`;
+  msg += `*Price:* ₹${currentItem.price}\n`;
+  msg += `*Payment:* ${payment}${payment==="UPI"?" (UTR: "+utr+")":""}\n\n`;
+  msg += `*Customer:*\n`;
+  msg += `Name: ${name}\n`;
+  msg += `Phone: ${phone}\n`;
+  msg += `Address: ${address}\n`;
+  msg += `Time: ${new Date().toLocaleString('en-IN')}`;
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  showToast("✅ Order placed! WhatsApp par details bheji gayi.");
+  closeModal();
+}
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.innerText = msg; t.className = "show";
+  setTimeout(()=>{t.classNsage += `Phone: ${phone}%0A`;
   message += `Address: ${address}`;
 
   // WhatsApp link open karein
