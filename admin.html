@@ -3,211 +3,552 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - BK MART</title>
+<title>BK MART — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-  body { background:#f4f4f4; padding:20px; }
-  .container { max-width:600px; margin:0 auto; background:white; padding:20px; border-radius:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-  h1 { text-align:center; margin-bottom:20px; color:#5a2e12; }
-  
-  .section-box { margin-bottom:20px; padding-bottom:20px; border-bottom: 1px solid #eee; }
-  .section-box h3 { font-size: 16px; margin-bottom:10px; color:#333; }
-  
-  input, select { width:100%; padding:12px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; font-size:15px; outline:none; }
-  input:focus, select:focus { border-color: #5a2e12; }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  :root{
+    --brown:#5a2e12; --gold:#d4a373; --orange:#ff5200;
+    --bg:#faf7f2; --green:#28a745; --red:#dc3545;
+  }
+  body{background:var(--bg);padding-bottom:60px;color:#222}
 
-  .item-card { background:#fafafa; padding:15px; border-radius:8px; margin-bottom:15px; border:1px solid #eee; }
-  .item-card h4 { margin-bottom:10px; color:#5a2e12; font-size:16px; }
-  
-  .add-btn { display:block; width:100%; padding:15px; font-size:16px; background:#5a2e12; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
-  .add-btn:hover { background:#43210c; }
-  
-  .delete-btn { background:#dc3545; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer; width:100%; margin-top:5px;}
-  
-  /* Notification Toast */
-  #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 17px; }
-  #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-  @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-  @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+  /* HEADER */
+  .admin-header{
+    background:linear-gradient(135deg,#3b1c06,#5a2e12 60%,#8b4513);
+    padding:28px 20px;text-align:center;position:relative;overflow:hidden;
+  }
+  .admin-header::before{
+    content:"";position:absolute;top:-50%;right:-20%;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(212,163,115,.3),transparent 70%);border-radius:50%;
+  }
+  .admin-header h1{
+    font-family:'Playfair Display',serif;color:#fff;font-size:32px;font-weight:900;
+    letter-spacing:-1px;position:relative;z-index:2;
+  }
+  .admin-header h1 span{color:var(--gold)}
+  .admin-header p{color:rgba(255,255,255,.7);font-size:11px;letter-spacing:3px;margin-top:4px;position:relative;z-index:2}
+
+  /* TABS */
+  .nav-tabs{
+    max-width:900px;margin:-18px auto 0;padding:0 16px;position:relative;z-index:5;
+    display:flex;gap:8px;
+  }
+  .nav-tab{
+    flex:1;background:#fff;border:none;padding:14px 8px;border-radius:14px;
+    font-weight:700;font-size:13px;cursor:pointer;color:#666;
+    box-shadow:0 6px 20px rgba(90,46,18,.08);transition:.2s;
+  }
+  .nav-tab.active{background:var(--brown);color:#fff}
+
+  /* CONTAINER */
+  .container{max-width:900px;margin:24px auto;padding:0 16px}
+
+  .tab-pane{display:none}
+  .tab-pane.active{display:block;animation:fadeIn .3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* CARDS */
+  .panel{
+    background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;
+    box-shadow:0 6px 24px rgba(90,46,18,.06);
+  }
+  .panel h3{font-size:14px;margin-bottom:14px;color:var(--brown);text-transform:uppercase;letter-spacing:1.2px;font-weight:800;display:flex;align-items:center;gap:8px}
+
+  /* INPUTS */
+  input,select,textarea{
+    width:100%;padding:12px 14px;margin-bottom:12px;border:1.5px solid #e5e5e5;
+    border-radius:12px;font-size:14px;outline:none;font-family:inherit;transition:.2s;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--brown);background:#fdf8f3}
+  label{display:block;font-size:12px;color:#666;font-weight:600;margin-bottom:4px;margin-top:8px}
+
+  /* SLOT PILL */
+  .slot-current{
+    display:flex;align-items:center;gap:12px;padding:14px;
+    background:linear-gradient(135deg,#fff8f0,#fff);border:1px solid #ffe5cc;border-radius:14px;
+  }
+  .slot-current .icon{font-size:32px}
+  .slot-current .info h5{font-size:11px;color:#999;letter-spacing:1.5px;text-transform:uppercase}
+  .slot-current .info p{font-size:17px;font-weight:800;color:var(--brown);margin-top:2px}
+  .slot-current .info small{font-size:12px;color:#777}
+
+  /* STATUS SWITCH */
+  .switch-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+  .switch-row label{font-size:14px;color:#333;font-weight:600;margin:0}
+  .switch{position:relative;width:56px;height:30px}
+  .switch input{display:none}
+  .slider{
+    position:absolute;inset:0;background:#ccc;border-radius:50px;
+    cursor:pointer;transition:.3s;
+  }
+  .slider::before{
+    content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;
+    background:#fff;border-radius:50%;transition:.3s;
+  }
+  .switch input:checked + .slider{background:var(--green)}
+  .switch input:checked + .slider::before{transform:translateX(26px)}
+
+  /* ITEM CARD */
+  .item-card{
+    background:#fafafa;padding:16px;border-radius:14px;margin-bottom:14px;
+    border:1px solid #eee;position:relative;
+  }
+  .item-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .item-card-header h4{font-size:15px;color:var(--brown);font-weight:800}
+  .item-thumb{
+    width:56px;height:56px;border-radius:10px;object-fit:cover;
+    border:2px solid #eee;background:#f0f0f0;
+  }
+
+  /* BUTTONS */
+  .btn-primary{
+    width:100%;padding:15px;background:linear-gradient(135deg,var(--brown),#8b4513);
+    color:#fff;border:none;border-radius:14px;font-weight:800;font-size:15px;
+    cursor:pointer;letter-spacing:.5px;transition:.2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(90,46,18,.3)}
+  .btn-add{
+    width:100%;padding:14px;background:#fff;color:var(--brown);border:2px dashed var(--brown);
+    border-radius:14px;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:14px;
+  }
+  .btn-add:hover{background:#fdf8f3}
+
+  .btn-delete{
+    background:#fff;color:var(--red);border:1.5px solid #ffd0d0;
+    padding:8px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;
+    width:100%;margin-top:8px;
+  }
+  .btn-delete:hover{background:var(--red);color:#fff}
+
+  .btn-sm{
+    padding:8px 14px;border-radius:10px;border:none;font-weight:700;font-size:12px;cursor:pointer;
+  }
+  .btn-done{background:var(--green);color:#fff}
+  .btn-remove{background:#fff;color:var(--red);border:1.5px solid #ffd0d0}
+
+  .btn-row{display:flex;gap:8px;margin-bottom:16px}
+  .btn-row .btn-primary{flex:1}
+
+  /* ORDERS */
+  .order-card{
+    background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;margin-bottom:12px;
+  }
+  .order-card.done{opacity:.6;background:#f9f9f9}
+  .order-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
+  .order-head h4{font-size:15px;color:var(--brown);font-weight:800}
+  .order-badge{
+    padding:3px 10px;border-radius:50px;font-size:10px;font-weight:800;letter-spacing:.5px;
+  }
+  .badge-upi{background:#e7f5ff;color:#0066cc}
+  .badge-cod{background:#fff8e1;color:#c77700}
+  .badge-done{background:#e7f7ec;color:var(--green)}
+  .order-body{font-size:13px;color:#555;line-height:1.7}
+  .order-body b{color:#333}
+  .order-actions{display:flex;gap:8px;margin-top:10px}
+
+  /* TOAST */
+  #toast{
+    visibility:hidden;min-width:250px;background:#1a1a1a;color:#fff;
+    text-align:center;border-radius:12px;padding:15px;position:fixed;z-index:2000;
+    left:50%;bottom:30px;transform:translateX(-50%);font-size:14px;font-weight:600;
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+  }
+  #toast.show{visibility:visible;animation:fadein .4s,fadeout .4s 2.6s}
+  @keyframes fadein{from{bottom:0;opacity:0}to{bottom:30px;opacity:1}}
+  @keyframes fadeout{from{bottom:30px;opacity:1}to{bottom:0;opacity:0}}
+
+  .empty{text-align:center;padding:40px 20px;color:#999;font-size:14px}
+
+  @media(min-width:700px){
+    .admin-header h1{font-size:42px}
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Admin Panel</h1>
-  
-  <div class="section-box">
-    <h3>GitHub Token (Private)</h3>
-    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxx" onchange="saveTokenAndLoad()">
-  </div>
 
-  <div class="section-box">
-    <h3>Shop Status</h3>
-    <select id="shopStatus" onchange="saveData()">
-      <option value="open">🟢 Shop Open</option>
-      <option value="closed">🔴 Shop Closed (Today is holiday)</option>
-    </select>
-  </div>
+<header class="admin-header">
+  <h1>BK <span>MART</span> Admin</h1>
+  <p>CONTROL PANEL</p>
+</header>
 
-  <div id="itemsContainer"></div>
-
-  <button class="add-btn" onclick="addNewItem()">➕ Naya Item Add Karein</button>
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('menu')">🍛 Menu</button>
+  <button class="nav-tab" onclick="switchTab('orders')">📦 Orders</button>
+  <button class="nav-tab" onclick="switchTab('settings')">⚙️ Settings</button>
 </div>
 
-<div id="toast">Data Saved Successfully!</div>
+<div class="container">
+
+  <!-- ================= MENU TAB ================= -->
+  <div class="tab-pane active" id="tab-menu">
+    <div class="panel">
+      <h3>📊 Current Live Slot</h3>
+      <div class="slot-current">
+        <div class="icon" id="liveSlotIcon">🌅</div>
+        <div class="info">
+          <h5><span style="color:var(--green)">●</span> ABHI CHAL RAHA HAI</h5>
+          <p id="liveSlotName">Loading...</p>
+          <small id="liveSlotTime">—</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>🏪 Shop Status</h3>
+      <div class="switch-row">
+        <label for="shopToggle">Dukan Khuli Hai?</label>
+        <div class="switch">
+          <input type="checkbox" id="shopToggle" onchange="toggleShopStatus(this.checked)" checked>
+          <span class="slider"></span>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#888;margin-top:8px" id="shopStatusText">🟢 Open — Customers order kar sakte hain</p>
+    </div>
+
+    <div class="panel">
+      <h3>🍽️ Menu Items</h3>
+      <div id="itemsContainer"></div>
+      <button class="btn-add" onclick="addNewItem()">➕ Naya Item Add Karein</button>
+      <button class="btn-primary" onclick="saveData()">💾 Save Menu to GitHub</button>
+    </div>
+  </div>
+
+  <!-- ================= ORDERS TAB ================= -->
+  <div class="tab-pane" id="tab-orders">
+    <div class="panel">
+      <h3>📦 Recent Orders</h3>
+      <div class="btn-row">
+        <button class="btn-sm btn-done" onclick="loadOrders()">🔄 Refresh</button>
+      </div>
+      <div id="ordersContainer"></div>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS TAB ================= -->
+  <div class="tab-pane" id="tab-settings">
+    <div class="panel">
+      <h3>🔑 GitHub Token (Private)</h3>
+      <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxx" onchange="saveTokenAndLoad()">
+      <p style="font-size:11px;color:#888;margin-top:-4px">
+        Token aapke browser mein safe rehta hai (localStorage). Kabhi share na karein.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>ℹ️ Repo Info</h3>
+      <p style="font-size:13px;color:#555;line-height:1.8">
+        <b>Owner:</b> Shaikmuzammil22<br>
+        <b>Repo:</b> BK-MART<br>
+        <b>Menu file:</b> data.json<br>
+        <b>Orders file:</b> orders.json
+      </p>
+      <button class="btn-add" style="margin-top:14px;border-style:solid" onclick="loadDataFromGitHub()">🔄 Reload Data</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast">Data Saved!</div>
 
 <script>
+// ==================== CONFIG ====================
 const GITHUB_OWNER = "Shaikmuzammil22";
 const GITHUB_REPO = "BK-MART";
 const DATA_FILE = "data.json";
+const ORDERS_FILE = "orders.json";
 
+// ==================== STATE ====================
 let currentData = { shopStatus: "open", menu: [] };
 let fileSha = null;
+let ordersData = { orders: [] };
+let ordersSha = null;
 
-// Page load hone par token check karein
-window.onload = function() {
+const SLOTS = [
+  { id:"breakfast", start:6,  end:9,  name:"Breakfast", icon:"🌅", time:"6:00 AM - 9:00 AM" },
+  { id:"morning",   start:9,  end:12, name:"Morning",   icon:"☀️", time:"9:00 AM - 12:00 PM" },
+  { id:"lunch",     start:12, end:18, name:"Lunch",     icon:"🍛", time:"12:00 PM - 6:00 PM" },
+  { id:"dinner",    start:18, end:24, name:"Dinner",    icon:"🌙", time:"6:00 PM - 12:00 AM" }
+];
+
+function getCurrentSlot(){
+  const h = new Date().getHours();
+  for(const s of SLOTS){
+    if(s.start < s.end){
+      if(h >= s.start && h < s.end) return s;
+    } else {
+      if(h >= s.start || h < s.end) return s;
+    }
+  }
+  return SLOTS[0];
+}
+
+// ==================== INIT ====================
+window.onload = function(){
   const savedToken = localStorage.getItem('github_pat');
-  if (savedToken) {
+  if(savedToken){
     document.getElementById('githubToken').value = savedToken;
     loadDataFromGitHub();
+    loadOrders();
   }
+  updateLiveSlot();
+  setInterval(updateLiveSlot, 60000); // every minute
 };
 
-function showToast(msg) {
-  const toast = document.getElementById("toast");
-  toast.innerText = msg;
-  toast.className = "show";
-  setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+function updateLiveSlot(){
+  const s = getCurrentSlot();
+  document.getElementById("liveSlotIcon").textContent = s.icon;
+  document.getElementById("liveSlotName").textContent = s.name + " Menu";
+  document.getElementById("liveSlotTime").textContent = s.time;
 }
 
-function saveTokenAndLoad() {
+function switchTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if(name === 'orders') loadOrders();
+}
+
+// ==================== TOKEN ====================
+function saveTokenAndLoad(){
   const token = document.getElementById('githubToken').value.trim();
-  if(token) {
+  if(token){
     localStorage.setItem('github_pat', token);
     loadDataFromGitHub();
+    loadOrders();
+    showToast("✅ Token saved!");
   }
 }
-
-function getToken() {
-  return document.getElementById('githubToken').value.trim();
+function getToken(){
+  return document.getElementById('githubToken').value.trim() || localStorage.getItem('github_pat') || '';
 }
 
-// GitHub se data load karein
-async function loadDataFromGitHub() {
-  const token = getToken();
-  if (!token) return;
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.className = "show";
+  setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
+}
 
-  try {
-    const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`, {
+// ==================== LOAD DATA ====================
+async function loadDataFromGitHub(){
+  const token = getToken();
+  if(!token){ return; }
+
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`, {
       headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    
-    if (response.ok) {
-      const fileData = await response.json();
+
+    if(res.ok){
+      const fileData = await res.json();
       fileSha = fileData.sha;
-      const decodedContent = atob(fileData.content);
-      currentData = JSON.parse(decodedContent);
-      
-      // Agar shopStatus nahi hai purani file mein, toh default open set karein
-      if (!currentData.shopStatus) currentData.shopStatus = "open";
-      
+      const decoded = atob(fileData.content.replace(/\n/g,''));
+      currentData = JSON.parse(decoded);
+      if(!currentData.shopStatus) currentData.shopStatus = "open";
+      if(!currentData.menu) currentData.menu = [];
       renderUI();
-    } else if (response.status === 404) {
+    } else if(res.status === 404){
       currentData = { shopStatus: "open", menu: [] };
       fileSha = null;
       renderUI();
+    } else {
+      const err = await res.json();
+      alert("Load error: " + err.message);
     }
-  } catch (error) {
-    console.error(error);
-    alert("Error loading data: " + error.message);
+  }catch(e){
+    console.error(e);
+    alert("Network error: " + e.message);
   }
 }
 
-function renderUI() {
-  // Shop Status set karein
-  document.getElementById('shopStatus').value = currentData.shopStatus || "open";
+// ==================== RENDER MENU ====================
+function renderUI(){
+  // Shop toggle
+  const isOpen = currentData.shopStatus !== "closed";
+  document.getElementById('shopToggle').checked = isOpen;
+  updateShopStatusText(isOpen);
 
-  // Menu render karein
+  // Menu items
   const container = document.getElementById('itemsContainer');
   container.innerHTML = "";
 
-  if (!currentData.menu || currentData.menu.length === 0) {
-    container.innerHTML = "<p style='text-align:center; margin-bottom:20px;'>Abhi koi item nahi hai. Neeche se add karein.</p>";
+  if(!currentData.menu || currentData.menu.length === 0){
+    container.innerHTML = "<div class='empty'>Abhi koi item nahi hai.<br>Neeche se add karein 👇</div>";
     return;
   }
 
   currentData.menu.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "item-card";
+    const imgSrc = item.image || "https://via.placeholder.com/56?text=No+Img";
+    const slot = item.slot || "lunch";
+
     card.innerHTML = `
-      <h4>Item ${index + 1}</h4>
+      <div class="item-card-header">
+        <h4>Item ${index + 1}</h4>
+        <img src="${imgSrc}" class="item-thumb" onerror="this.src='https://via.placeholder.com/56?text=No+Img'">
+      </div>
+
       <label>Item Name</label>
-      <input type="text" value="${item.name}" onchange="updateItem(${index}, 'name', this.value)">
-      
+      <input type="text" value="${escapeHtml(item.name)}" onchange="updateItem(${index}, 'name', this.value)">
+
       <label>Price (₹)</label>
       <input type="number" value="${item.price}" onchange="updateItem(${index}, 'price', this.value)">
-      
-      <label>Photo URL (GitHub ka link)</label>
-      <input type="text" value="${item.image || ''}" placeholder="https://raw.githubusercontent.com/..." onchange="updateItem(${index}, 'image', this.value)">
-      
-      <button class="delete-btn" onclick="deleteItem(${index})">Delete Item</button>
+
+      <label>Photo URL</label>
+      <input type="text" value="${escapeHtml(item.image||'')}" placeholder="https://raw.githubusercontent.com/..." onchange="updateItem(${index}, 'image', this.value)">
+
+      <label>Time Slot</label>
+      <select onchange="updateItem(${index}, 'slot', this.value)">
+        ${SLOTS.map(s => `<option value="${s.id}" ${slot === s.id ? 'selected' : ''}>${s.icon} ${s.name} (${s.time})</option>`).join('')}
+      </select>
+
+      <button class="btn-delete" onclick="deleteItem(${index})">🗑️ Delete Item</button>
     `;
     container.appendChild(card);
   });
 }
 
-function updateItem(index, field, value) {
-  if (field === 'price') value = Number(value);
+function escapeHtml(str){
+  return String(str||"").replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function updateItem(index, field, value){
+  if(field === 'price') value = Number(value) || 0;
   currentData.menu[index][field] = value;
+  if(field === 'image') renderUI(); // refresh to update thumbnail
 }
 
-function addNewItem() {
-  currentData.menu.push({ name: "Naya Item", price: 0, image: "" });
+function addNewItem(){
+  currentData.menu.push({ name: "Naya Item", price: 0, image: "", slot: getCurrentSlot().id });
   renderUI();
+  showToast("➕ Item added. Save karna na bhoolen!");
 }
 
-function deleteItem(index) {
-  if(confirm("Pakka delete karna hai?")) {
+function deleteItem(index){
+  if(confirm("Pakka delete karna hai?")){
     currentData.menu.splice(index, 1);
     renderUI();
   }
 }
 
-// Data save karne ka main function
-async function saveData() {
-  const token = getToken();
-  if (!token) {
-    alert("Pehle GitHub Token daalein!");
-    return;
-  }
+function toggleShopStatus(isOpen){
+  currentData.shopStatus = isOpen ? "open" : "closed";
+  updateShopStatusText(isOpen);
+}
+function updateShopStatusText(isOpen){
+  const el = document.getElementById('shopStatusText');
+  el.textContent = isOpen
+    ? "🟢 Open — Customers order kar sakte hain"
+    : "🔴 Closed — Shop band hai (holiday)";
+  el.style.color = isOpen ? "#28a745" : "#dc3545";
+}
 
-  // Status update karein
-  currentData.shopStatus = document.getElementById('shopStatus').value;
+// ==================== SAVE MENU ====================
+async function saveData(){
+  const token = getToken();
+  if(!token){ alert("Pehle Settings tab mein GitHub Token daalein!"); return; }
 
   const contentString = JSON.stringify(currentData, null, 2);
   const encodedContent = btoa(unescape(encodeURIComponent(contentString)));
 
-  const body = { message: "Admin: Data updated", content: encodedContent };
-  if (fileSha) body.sha = fileSha;
+  const body = { message: "Admin: Menu updated " + new Date().toISOString(), content: encodedContent };
+  if(fileSha) body.sha = fileSha;
 
-  try {
-    const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`, {
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`, {
       method: 'PUT',
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(body)
     });
 
-    if (response.ok) {
-      const result = await response.json();
-      fileSha = result.content.sha; 
-      showToast("Data GitHub par save ho gaya!");
+    if(res.ok){
+      const result = await res.json();
+      fileSha = result.content.sha;
+      showToast("✅ Menu GitHub par save ho gaya!");
     } else {
-      const err = await response.json();
+      const err = await res.json();
       alert("Save nahi hua: " + err.message);
     }
-  } catch (error) {
-    alert("Network error: " + error.message);
+  }catch(e){
+    alert("Network error: " + e.message);
   }
 }
-</script>
-</body>
-</html>
+
+// ==================== ORDERS ====================
+async function loadOrders(){
+  const token = getToken();
+  if(!token){ return; }
+
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ORDERS_FILE}`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    if(res.ok){
+      const fileData = await res.json();
+      ordersSha = fileData.sha;
+      const decoded = atob(fileData.content.replace(/\n/g,''));
+      ordersData = JSON.parse(decoded);
+      if(!ordersData.orders) ordersData.orders = [];
+    } else if(res.status === 404){
+      ordersData = { orders: [] };
+      ordersSha = null;
+    }
+    renderOrders();
+  }catch(e){
+    console.error(e);
+  }
+}
+
+function renderOrders(){
+  const container = document.getElementById('ordersContainer');
+  container.innerHTML = "";
+
+  if(!ordersData.orders || ordersData.orders.length === 0){
+    container.innerHTML = "<div class='empty'>Koi order nahi aaya abhi tak. 📭<br><small>Orders yahan dikhenge jab customer place karega.</small></div>";
+    return;
+  }
+
+  // Latest first
+  const sorted = [...ordersData.orders].sort((a,b) => new Date(b.time) - new Date(a.time));
+
+  sorted.forEach((order, i) => {
+    const realIndex = ordersData.orders.indexOf(order);
+    const card = document.createElement("div");
+    card.className = "order-card" + (order.status === "done" ? " done" : "");
+
+    const payBadge = order.payment === "UPI"
+      ? `<span class="order-badge badge-upi">UPI</span>`
+      : `<span class="order-badge badge-cod">COD</span>`;
+
+    const statusBadge = order.status === "done"
+      ? `<span class="order-badge badge-done">✓ DONE</span>`
+      : "";
+
+    card.innerHTML = `
+      <div class="order-head">
+        <div>
+          <h4>${escapeHtml(order.item || "Item")} — ₹${order.price || 0}</h4>
+          <small style="color:#999;font-size:11px">${new Date(order.time).toLocaleString('en-IN')}</small>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          ${payBadge}
+          ${statusBadge}
+        </div>
+      </div>
+      <div class="order-body">
+        <b>👤 ${escapeHtml(order.name || "-")}</b><br>
+        📱 ${escapeHtml(order.phone || "-")}<br>
+        📍 ${escapeHtml(order.address || "-")}
+        ${order.utr ? `<br>🔖 UTR: ${escapeHtml(order.utr)}` : ''}
+      </div>
+      <div class="order-actions">
+        ${order.status !== "done" ? `<button class="btn-sm btn-done" onclick="markOrderDone(${realIndex})">✓ Mark Done</button>` : ''}
+        <button
