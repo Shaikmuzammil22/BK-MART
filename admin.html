@@ -13,7 +13,6 @@
   }
   body{background:var(--bg);padding-bottom:60px;color:#222}
 
-  /* HEADER */
   .admin-header{
     background:linear-gradient(135deg,#3b1c06,#5a2e12 60%,#8b4513);
     padding:28px 20px;text-align:center;position:relative;overflow:hidden;
@@ -29,7 +28,6 @@
   .admin-header h1 span{color:var(--gold)}
   .admin-header p{color:rgba(255,255,255,.7);font-size:11px;letter-spacing:3px;margin-top:4px;position:relative;z-index:2}
 
-  /* TABS */
   .nav-tabs{
     max-width:900px;margin:-18px auto 0;padding:0 16px;position:relative;z-index:5;
     display:flex;gap:8px;
@@ -41,21 +39,18 @@
   }
   .nav-tab.active{background:var(--brown);color:#fff}
 
-  /* CONTAINER */
   .container{max-width:900px;margin:24px auto;padding:0 16px}
 
   .tab-pane{display:none}
   .tab-pane.active{display:block;animation:fadeIn .3s}
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  /* CARDS */
   .panel{
     background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;
     box-shadow:0 6px 24px rgba(90,46,18,.06);
   }
   .panel h3{font-size:14px;margin-bottom:14px;color:var(--brown);text-transform:uppercase;letter-spacing:1.2px;font-weight:800;display:flex;align-items:center;gap:8px}
 
-  /* INPUTS */
   input,select,textarea{
     width:100%;padding:12px 14px;margin-bottom:12px;border:1.5px solid #e5e5e5;
     border-radius:12px;font-size:14px;outline:none;font-family:inherit;transition:.2s;
@@ -63,7 +58,6 @@
   input:focus,select:focus,textarea:focus{border-color:var(--brown);background:#fdf8f3}
   label{display:block;font-size:12px;color:#666;font-weight:600;margin-bottom:4px;margin-top:8px}
 
-  /* SLOT PILL */
   .slot-current{
     display:flex;align-items:center;gap:12px;padding:14px;
     background:linear-gradient(135deg,#fff8f0,#fff);border:1px solid #ffe5cc;border-radius:14px;
@@ -73,7 +67,6 @@
   .slot-current .info p{font-size:17px;font-weight:800;color:var(--brown);margin-top:2px}
   .slot-current .info small{font-size:12px;color:#777}
 
-  /* STATUS SWITCH */
   .switch-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
   .switch-row label{font-size:14px;color:#333;font-weight:600;margin:0}
   .switch{position:relative;width:56px;height:30px}
@@ -89,7 +82,6 @@
   .switch input:checked + .slider{background:var(--green)}
   .switch input:checked + .slider::before{transform:translateX(26px)}
 
-  /* ITEM CARD */
   .item-card{
     background:#fafafa;padding:16px;border-radius:14px;margin-bottom:14px;
     border:1px solid #eee;position:relative;
@@ -101,7 +93,6 @@
     border:2px solid #eee;background:#f0f0f0;
   }
 
-  /* BUTTONS */
   .btn-primary{
     width:100%;padding:15px;background:linear-gradient(135deg,var(--brown),#8b4513);
     color:#fff;border:none;border-radius:14px;font-weight:800;font-size:15px;
@@ -130,7 +121,6 @@
   .btn-row{display:flex;gap:8px;margin-bottom:16px}
   .btn-row .btn-primary{flex:1}
 
-  /* ORDERS */
   .order-card{
     background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;margin-bottom:12px;
   }
@@ -143,11 +133,15 @@
   .badge-upi{background:#e7f5ff;color:#0066cc}
   .badge-cod{background:#fff8e1;color:#c77700}
   .badge-done{background:#e7f7ec;color:var(--green)}
+  .token-badge{
+    display:inline-block;background:linear-gradient(135deg,#5a2e12,#8b4513);
+    color:#fff;padding:4px 12px;border-radius:50px;font-weight:800;font-size:12px;
+    letter-spacing:1px;margin-bottom:6px;
+  }
   .order-body{font-size:13px;color:#555;line-height:1.7}
   .order-body b{color:#333}
   .order-actions{display:flex;gap:8px;margin-top:10px}
 
-  /* TOAST */
   #toast{
     visibility:hidden;min-width:250px;background:#1a1a1a;color:#fff;
     text-align:center;border-radius:12px;padding:15px;position:fixed;z-index:2000;
@@ -160,6 +154,13 @@
 
   .empty{text-align:center;padding:40px 20px;color:#999;font-size:14px}
 
+  .hotel-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px}
+  .hotel-tab{
+    flex-shrink:0;padding:10px 16px;border-radius:12px;border:1.5px solid #e5e5e5;
+    background:#fff;font-weight:700;font-size:13px;cursor:pointer;color:#666;transition:.2s;
+  }
+  .hotel-tab.active{background:var(--brown);color:#fff;border-color:var(--brown)}
+
   @media(min-width:700px){
     .admin-header h1{font-size:42px}
   }
@@ -169,18 +170,18 @@
 
 <header class="admin-header">
   <h1>BK <span>MART</span> Admin</h1>
-  <p>CONTROL PANEL</p>
+  <p>MULTI-HOTEL CONTROL PANEL</p>
 </header>
 
 <div class="nav-tabs">
-  <button class="nav-tab active" onclick="switchTab('menu')">🍛 Menu</button>
-  <button class="nav-tab" onclick="switchTab('orders')">📦 Orders</button>
-  <button class="nav-tab" onclick="switchTab('settings')">⚙️ Settings</button>
+  <button class="nav-tab active" onclick="switchTab('menu', this)">🍛 Hotels</button>
+  <button class="nav-tab" onclick="switchTab('orders', this)">📦 Orders</button>
+  <button class="nav-tab" onclick="switchTab('settings', this)">⚙️ Settings</button>
 </div>
 
 <div class="container">
 
-  <!-- ================= MENU TAB ================= -->
+  <!-- MENU TAB -->
   <div class="tab-pane active" id="tab-menu">
     <div class="panel">
       <h3>📊 Current Live Slot</h3>
@@ -207,14 +208,33 @@
     </div>
 
     <div class="panel">
-      <h3>🍽️ Menu Items</h3>
+      <h3>🏨 Hotels / Categories</h3>
+      <div class="hotel-tabs" id="hotelTabs"></div>
+      <button class="btn-add" onclick="addNewHotel()">➕ Naya Hotel Add Karein</button>
+    </div>
+
+    <div class="panel" id="hotelEditPanel" style="display:none">
+      <h3 id="hotelEditTitle">✏️ Edit Hotel</h3>
+      <label>Hotel Name</label>
+      <input type="text" id="hotelName" placeholder="e.g. BK MART" onchange="updateHotelField('name', this.value)">
+      <label>Tagline</label>
+      <input type="text" id="hotelTagline" placeholder="e.g. Biryani House" onchange="updateHotelField('tagline', this.value)">
+      <label>Rating (0–5)</label>
+      <input type="number" step="0.1" min="0" max="5" id="hotelRating" onchange="updateHotelField('rating', this.value)">
+      <label>Hotel Banner Image URL</label>
+      <input type="text" id="hotelImage" placeholder="https://..." onchange="updateHotelField('image', this.value)">
+      <button class="btn-delete" onclick="deleteHotel()">🗑️ Delete This Hotel</button>
+    </div>
+
+    <div class="panel" id="itemsPanel">
+      <h3>🍽️ Menu Items <span id="itemsHotelName" style="font-size:11px;color:#999;font-weight:600"></span></h3>
       <div id="itemsContainer"></div>
       <button class="btn-add" onclick="addNewItem()">➕ Naya Item Add Karein</button>
-      <button class="btn-primary" onclick="saveData()">💾 Save Menu to GitHub</button>
+      <button class="btn-primary" onclick="saveData()">💾 Save to GitHub</button>
     </div>
   </div>
 
-  <!-- ================= ORDERS TAB ================= -->
+  <!-- ORDERS TAB -->
   <div class="tab-pane" id="tab-orders">
     <div class="panel">
       <h3>📦 Recent Orders</h3>
@@ -225,7 +245,7 @@
     </div>
   </div>
 
-  <!-- ================= SETTINGS TAB ================= -->
+  <!-- SETTINGS TAB -->
   <div class="tab-pane" id="tab-settings">
     <div class="panel">
       <h3>🔑 GitHub Token (Private)</h3>
@@ -252,17 +272,16 @@
 <div id="toast">Data Saved!</div>
 
 <script>
-// ==================== CONFIG ====================
 const GITHUB_OWNER = "Shaikmuzammil22";
 const GITHUB_REPO = "BK-MART";
 const DATA_FILE = "data.json";
 const ORDERS_FILE = "orders.json";
 
-// ==================== STATE ====================
-let currentData = { shopStatus: "open", menu: [] };
+let currentData = { shopStatus: "open", hotels: [] };
 let fileSha = null;
-let ordersData = { orders: [] };
+let ordersData = { orders: [], counter: 0 };
 let ordersSha = null;
+let activeHotelIndex = 0;
 
 const SLOTS = [
   { id:"breakfast", start:6,  end:9,  name:"Breakfast", icon:"🌅", time:"6:00 AM - 9:00 AM" },
@@ -274,16 +293,12 @@ const SLOTS = [
 function getCurrentSlot(){
   const h = new Date().getHours();
   for(const s of SLOTS){
-    if(s.start < s.end){
-      if(h >= s.start && h < s.end) return s;
-    } else {
-      if(h >= s.start || h < s.end) return s;
-    }
+    if(s.start < s.end){ if(h >= s.start && h < s.end) return s; }
+    else { if(h >= s.start || h < s.end) return s; }
   }
   return SLOTS[0];
 }
 
-// ==================== INIT ====================
 window.onload = function(){
   const savedToken = localStorage.getItem('github_pat');
   if(savedToken){
@@ -292,7 +307,7 @@ window.onload = function(){
     loadOrders();
   }
   updateLiveSlot();
-  setInterval(updateLiveSlot, 60000); // every minute
+  setInterval(updateLiveSlot, 60000);
 };
 
 function updateLiveSlot(){
@@ -302,15 +317,14 @@ function updateLiveSlot(){
   document.getElementById("liveSlotTime").textContent = s.time;
 }
 
-function switchTab(name){
+function switchTab(name, el){
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  event.target.classList.add('active');
+  el.classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
   if(name === 'orders') loadOrders();
 }
 
-// ==================== TOKEN ====================
 function saveTokenAndLoad(){
   const token = document.getElementById('githubToken').value.trim();
   if(token){
@@ -323,88 +337,141 @@ function saveTokenAndLoad(){
 function getToken(){
   return document.getElementById('githubToken').value.trim() || localStorage.getItem('github_pat') || '';
 }
-
 function showToast(msg){
   const t = document.getElementById("toast");
-  t.innerText = msg;
-  t.className = "show";
+  t.innerText = msg; t.className = "show";
   setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
 }
 
-// ==================== LOAD DATA ====================
 async function loadDataFromGitHub(){
   const token = getToken();
-  if(!token){ return; }
-
+  if(!token) return;
   try{
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`, {
       headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-
     if(res.ok){
       const fileData = await res.json();
       fileSha = fileData.sha;
       const decoded = atob(fileData.content.replace(/\n/g,''));
       currentData = JSON.parse(decoded);
-      if(!currentData.shopStatus) currentData.shopStatus = "open";
-      if(!currentData.menu) currentData.menu = [];
+      migrateData();
       renderUI();
     } else if(res.status === 404){
-      currentData = { shopStatus: "open", menu: [] };
+      currentData = defaultData();
       fileSha = null;
       renderUI();
     } else {
       const err = await res.json();
       alert("Load error: " + err.message);
     }
-  }catch(e){
-    console.error(e);
-    alert("Network error: " + e.message);
-  }
+  }catch(e){ console.error(e); alert("Network error: " + e.message); }
 }
 
-// ==================== RENDER MENU ====================
+function defaultData(){
+  return {
+    shopStatus: "open",
+    hotels: [{
+      id: "bk-mart",
+      name: "BK MART",
+      tagline: "Biryani House",
+      rating: 4.5,
+      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800",
+      items: []
+    }]
+  };
+}
+
+function migrateData(){
+  if(!currentData.shopStatus) currentData.shopStatus = "open";
+  if(!currentData.hotels){
+    currentData.hotels = [{
+      id: "bk-mart", name: "BK MART", tagline: "Biryani House",
+      rating: 4.5, image: "", items: currentData.menu || []
+    }];
+    delete currentData.menu;
+  }
+  currentData.hotels.forEach(h => {
+    if(!h.items) h.items = [];
+    if(!h.id) h.id = 'hotel-' + Math.random().toString(36).slice(2,8);
+    if(!h.rating) h.rating = 4.5;
+  });
+  if(activeHotelIndex >= currentData.hotels.length) activeHotelIndex = 0;
+}
+
 function renderUI(){
-  // Shop toggle
   const isOpen = currentData.shopStatus !== "closed";
   document.getElementById('shopToggle').checked = isOpen;
   updateShopStatusText(isOpen);
+  renderHotelTabs();
+  renderHotelEditPanel();
+  renderItems();
+}
 
-  // Menu items
+function renderHotelTabs(){
+  const box = document.getElementById('hotelTabs');
+  box.innerHTML = "";
+  currentData.hotels.forEach((h, i) => {
+    const b = document.createElement('button');
+    b.className = 'hotel-tab' + (i === activeHotelIndex ? ' active' : '');
+    b.textContent = h.name || ('Hotel ' + (i+1));
+    b.onclick = () => { activeHotelIndex = i; renderUI(); };
+    box.appendChild(b);
+  });
+}
+
+function renderHotelEditPanel(){
+  const panel = document.getElementById('hotelEditPanel');
+  const h = currentData.hotels[activeHotelIndex];
+  if(!h){ panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  document.getElementById('hotelEditTitle').textContent = '✏️ Edit: ' + h.name;
+  document.getElementById('hotelName').value = h.name || '';
+  document.getElementById('hotelTagline').value = h.tagline || '';
+  document.getElementById('hotelRating').value = h.rating || 4.5;
+  document.getElementById('hotelImage').value = h.image || '';
+}
+
+function updateHotelField(field, value){
+  const h = currentData.hotels[activeHotelIndex];
+  if(!h) return;
+  h[field] = field === 'rating' ? (Number(value) || 0) : value;
+  if(field === 'name') renderHotelTabs();
+}
+
+function renderItems(){
+  const h = currentData.hotels[activeHotelIndex];
   const container = document.getElementById('itemsContainer');
+  const nameSpan = document.getElementById('itemsHotelName');
   container.innerHTML = "";
+  if(!h){ nameSpan.textContent = ''; return; }
+  nameSpan.textContent = '· ' + h.name;
 
-  if(!currentData.menu || currentData.menu.length === 0){
-    container.innerHTML = "<div class='empty'>Abhi koi item nahi hai.<br>Neeche se add karein 👇</div>";
+  if(!h.items || h.items.length === 0){
+    container.innerHTML = "<div class='empty'>Is hotel mein koi item nahi hai.<br>Neeche se add karein 👇</div>";
     return;
   }
 
-  currentData.menu.forEach((item, index) => {
+  h.items.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "item-card";
     const imgSrc = item.image || "https://via.placeholder.com/56?text=No+Img";
     const slot = item.slot || "lunch";
-
     card.innerHTML = `
       <div class="item-card-header">
         <h4>Item ${index + 1}</h4>
         <img src="${imgSrc}" class="item-thumb" onerror="this.src='https://via.placeholder.com/56?text=No+Img'">
       </div>
-
       <label>Item Name</label>
       <input type="text" value="${escapeHtml(item.name)}" onchange="updateItem(${index}, 'name', this.value)">
-
       <label>Price (₹)</label>
       <input type="number" value="${item.price}" onchange="updateItem(${index}, 'price', this.value)">
-
       <label>Photo URL</label>
-      <input type="text" value="${escapeHtml(item.image||'')}" placeholder="https://raw.githubusercontent.com/..." onchange="updateItem(${index}, 'image', this.value)">
-
+      <input type="text" value="${escapeHtml(item.image||'')}" placeholder="https://..." onchange="updateItem(${index}, 'image', this.value)">
       <label>Time Slot</label>
       <select onchange="updateItem(${index}, 'slot', this.value)">
         ${SLOTS.map(s => `<option value="${s.id}" ${slot === s.id ? 'selected' : ''}>${s.icon} ${s.name} (${s.time})</option>`).join('')}
       </select>
-
       <button class="btn-delete" onclick="deleteItem(${index})">🗑️ Delete Item</button>
     `;
     container.appendChild(card);
@@ -416,22 +483,48 @@ function escapeHtml(str){
 }
 
 function updateItem(index, field, value){
+  const h = currentData.hotels[activeHotelIndex];
   if(field === 'price') value = Number(value) || 0;
-  currentData.menu[index][field] = value;
-  if(field === 'image') renderUI(); // refresh to update thumbnail
+  h.items[index][field] = value;
+  if(field === 'image') renderItems();
 }
 
 function addNewItem(){
-  currentData.menu.push({ name: "Naya Item", price: 0, image: "", slot: getCurrentSlot().id });
-  renderUI();
+  const h = currentData.hotels[activeHotelIndex];
+  if(!h) return;
+  h.items.push({ name: "Naya Item", price: 0, image: "", slot: getCurrentSlot().id });
+  renderItems();
   showToast("➕ Item added. Save karna na bhoolen!");
 }
 
 function deleteItem(index){
-  if(confirm("Pakka delete karna hai?")){
-    currentData.menu.splice(index, 1);
-    renderUI();
-  }
+  if(!confirm("Pakka delete karna hai?")) return;
+  currentData.hotels[activeHotelIndex].items.splice(index, 1);
+  renderItems();
+}
+
+function addNewHotel(){
+  const name = prompt("Naya hotel ka naam likhein:");
+  if(!name || !name.trim()) return;
+  currentData.hotels.push({
+    id: 'hotel-' + Math.random().toString(36).slice(2,8),
+    name: name.trim(),
+    tagline: "",
+    rating: 4.5,
+    image: "",
+    items: []
+  });
+  activeHotelIndex = currentData.hotels.length - 1;
+  renderUI();
+  showToast("🏨 Hotel added. Save karein!");
+}
+
+function deleteHotel(){
+  if(currentData.hotels.length <= 1){ alert("Kam se kam ek hotel chahiye!"); return; }
+  if(!confirm("Yeh hotel aur iske saare items delete ho jayenge. Pakka?")) return;
+  currentData.hotels.splice(activeHotelIndex, 1);
+  activeHotelIndex = 0;
+  renderUI();
 }
 
 function toggleShopStatus(isOpen){
@@ -446,15 +539,13 @@ function updateShopStatusText(isOpen){
   el.style.color = isOpen ? "#28a745" : "#dc3545";
 }
 
-// ==================== SAVE MENU ====================
 async function saveData(){
   const token = getToken();
   if(!token){ alert("Pehle Settings tab mein GitHub Token daalein!"); return; }
 
   const contentString = JSON.stringify(currentData, null, 2);
   const encodedContent = btoa(unescape(encodeURIComponent(contentString)));
-
-  const body = { message: "Admin: Menu updated " + new Date().toISOString(), content: encodedContent };
+  const body = { message: "Admin: Hotels/Menu updated " + new Date().toISOString(), content: encodedContent };
   if(fileSha) body.sha = fileSha;
 
   try{
@@ -467,80 +558,65 @@ async function saveData(){
       },
       body: JSON.stringify(body)
     });
-
     if(res.ok){
       const result = await res.json();
       fileSha = result.content.sha;
-      showToast("✅ Menu GitHub par save ho gaya!");
+      showToast("✅ Data GitHub par save ho gaya!");
     } else {
       const err = await res.json();
       alert("Save nahi hua: " + err.message);
     }
-  }catch(e){
-    alert("Network error: " + e.message);
-  }
+  }catch(e){ alert("Network error: " + e.message); }
 }
 
-// ==================== ORDERS ====================
 async function loadOrders(){
   const token = getToken();
-  if(!token){ return; }
-
+  if(!token) return;
   try{
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ORDERS_FILE}`, {
       headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-
     if(res.ok){
       const fileData = await res.json();
       ordersSha = fileData.sha;
       const decoded = atob(fileData.content.replace(/\n/g,''));
       ordersData = JSON.parse(decoded);
       if(!ordersData.orders) ordersData.orders = [];
+      if(typeof ordersData.counter !== 'number') ordersData.counter = 0;
     } else if(res.status === 404){
-      ordersData = { orders: [] };
+      ordersData = { orders: [], counter: 0 };
       ordersSha = null;
     }
     renderOrders();
-  }catch(e){
-    console.error(e);
-  }
+  }catch(e){ console.error(e); }
 }
 
 function renderOrders(){
   const container = document.getElementById('ordersContainer');
   container.innerHTML = "";
-
   if(!ordersData.orders || ordersData.orders.length === 0){
-    container.innerHTML = "<div class='empty'>Koi order nahi aaya abhi tak. 📭<br><small>Orders yahan dikhenge jab customer place karega.</small></div>";
+    container.innerHTML = "<div class='empty'>Koi order nahi aaya abhi tak. 📭</div>";
     return;
   }
-
-  // Latest first
   const sorted = [...ordersData.orders].sort((a,b) => new Date(b.time) - new Date(a.time));
-
-  sorted.forEach((order, i) => {
+  sorted.forEach((order) => {
     const realIndex = ordersData.orders.indexOf(order);
     const card = document.createElement("div");
     card.className = "order-card" + (order.status === "done" ? " done" : "");
-
     const payBadge = order.payment === "UPI"
       ? `<span class="order-badge badge-upi">UPI</span>`
       : `<span class="order-badge badge-cod">COD</span>`;
-
     const statusBadge = order.status === "done"
-      ? `<span class="order-badge badge-done">✓ DONE</span>`
-      : "";
-
+      ? `<span class="order-badge badge-done">✓ DONE</span>` : "";
     card.innerHTML = `
       <div class="order-head">
         <div>
-          <h4>${escapeHtml(order.item || "Item")} — ₹${order.price || 0}</h4>
+          ${order.token ? `<div class="token-badge">TOKEN #${escapeHtml(String(order.token))}</div>` : ''}
+          <h4>${escapeHtml(order.hotel || '')} · ${escapeHtml(order.item || "Item")} — ₹${order.price || 0}</h4>
           <small style="color:#999;font-size:11px">${new Date(order.time).toLocaleString('en-IN')}</small>
         </div>
         <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
-          ${payBadge}
-          ${statusBadge}
+          ${payBadge}${statusBadge}
         </div>
       </div>
       <div class="order-body">
@@ -551,4 +627,51 @@ function renderOrders(){
       </div>
       <div class="order-actions">
         ${order.status !== "done" ? `<button class="btn-sm btn-done" onclick="markOrderDone(${realIndex})">✓ Mark Done</button>` : ''}
-        <button
+        <button class="btn-sm btn-remove" onclick="removeOrder(${realIndex})">🗑️ Remove</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+async function markOrderDone(index){
+  ordersData.orders[index].status = "done";
+  await pushOrders("Order marked done");
+}
+async function removeOrder(index){
+  if(!confirm("Yeh order remove karein?")) return;
+  ordersData.orders.splice(index, 1);
+  await pushOrders("Order removed");
+}
+
+async function pushOrders(msg){
+  const token = getToken();
+  if(!token){ alert("Token missing!"); return; }
+  const contentString = JSON.stringify(ordersData, null, 2);
+  const encodedContent = btoa(unescape(encodeURIComponent(contentString)));
+  const body = { message: "Admin: " + msg + " " + new Date().toISOString(), content: encodedContent };
+  if(ordersSha) body.sha = ordersSha;
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ORDERS_FILE}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if(res.ok){
+      const result = await res.json();
+      ordersSha = result.content.sha;
+      showToast("✅ Orders updated!");
+      renderOrders();
+    } else {
+      const err = await res.json();
+      alert("Update failed: " + err.message);
+    }
+  }catch(e){ alert("Network error: " + e.message); }
+}
+</script>
+</body>
+</html>
