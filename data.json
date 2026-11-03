@@ -8,43 +8,43 @@
         {
           "name": "Idli (4 pcs)",
           "price": 50,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707332286-______.___",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707708874-______.___",
           "slot": "breakfast"
         },
         {
           "name": "Plain Dosa",
           "price": 50,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707715206-______.___",
           "slot": "breakfast"
         },
         {
           "name": "Masala Dosa",
           "price": 70,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707826823-______.___",
           "slot": "breakfast"
         },
         {
-          "name": "Medu Vada",
-          "price": 30,
-          "image": "",
+          "name": "Vada",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707866259-______.___",
           "slot": "breakfast"
         },
         {
           "name": "Tahari",
           "price": 90,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707911743-______.___",
           "slot": "morning"
         },
         {
           "name": "Chicken Biryani",
           "price": 180,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707939147-______.___",
           "slot": "lunch"
         },
         {
           "name": "Mutton Biryani",
           "price": 250,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707962070-______.___",
           "slot": "lunch"
         },
         {
