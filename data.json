@@ -1,16 +1,82 @@
 {
   "shopStatus": "open",
-  "menu": [
-    { "name": "Idli (4 pcs)", "price": 40, "image": "", "slot": "breakfast" },
-    { "name": "Plain Dosa", "price": 50, "image": "", "slot": "breakfast" },
-    { "name": "Masala Dosa", "price": 70, "image": "", "slot": "breakfast" },
-    { "name": "Medu Vada", "price": 30, "image": "", "slot": "breakfast" },
-    { "name": "Tahari", "price": 90, "image": "", "slot": "morning" },
-    { "name": "Chicken Biryani", "price": 180, "image": "", "slot": "lunch" },
-    { "name": "Mutton Biryani", "price": 250, "image": "", "slot": "lunch" },
-    { "name": "Veg Biryani", "price": 140, "image": "", "slot": "lunch" },
-    { "name": "Shami Parata", "price": 120, "image": "", "slot": "dinner" },
-    { "name": "Egg Dosa", "price": 80, "image": "", "slot": "dinner" },
-    { "name": "Sada Dosa", "price": 50, "image": "", "slot": "dinner" }
-  ]
+  "categories": [
+    {
+      "id": "c0",
+      "name": "BK MART",
+      "items": [
+        {
+          "name": "Idli (4 pcs)",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707332286-______.___",
+          "slot": "breakfast"
+        },
+        {
+          "name": "Plain Dosa",
+          "price": 50,
+          "image": "",
+          "slot": "breakfast"
+        },
+        {
+          "name": "Masala Dosa",
+          "price": 70,
+          "image": "",
+          "slot": "breakfast"
+        },
+        {
+          "name": "Medu Vada",
+          "price": 30,
+          "image": "",
+          "slot": "breakfast"
+        },
+        {
+          "name": "Tahari",
+          "price": 90,
+          "image": "",
+          "slot": "morning"
+        },
+        {
+          "name": "Chicken Biryani",
+          "price": 180,
+          "image": "",
+          "slot": "lunch"
+        },
+        {
+          "name": "Mutton Biryani",
+          "price": 250,
+          "image": "",
+          "slot": "lunch"
+        },
+        {
+          "name": "Veg Biryani",
+          "price": 140,
+          "image": "",
+          "slot": "lunch"
+        },
+        {
+          "name": "Shami Parata",
+          "price": 120,
+          "image": "",
+          "slot": "dinner"
+        },
+        {
+          "name": "Egg Dosa",
+          "price": 80,
+          "image": "",
+          "slot": "dinner"
+        },
+        {
+          "name": "Sada Dosa",
+          "price": 50,
+          "image": "",
+          "slot": "dinner"
+        }
+      ]
+    }
+  ],
+  "upi": {
+    "id": "",
+    "name": "BK MART",
+    "enabled": true
+  }
 }
