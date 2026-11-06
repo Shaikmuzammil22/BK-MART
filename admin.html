@@ -1,28 +1,495 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BK MART Admin</title><style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;background:#faf7f2;color:#222}header{background:#54290f;color:white;text-align:center;padding:22px}main{max-width:850px;margin:18px auto;padding:0 12px}.panel{background:white;padding:18px;border-radius:14px;margin:12px 0}h3{color:#54290f;margin-top:0}input,button{padding:11px;border-radius:9px;border:1px solid #ddd;margin:5px 0}input:not([type=file]):not([type=checkbox]){width:100%}button{cursor:pointer;font-weight:bold}.primary{background:#54290f;color:white;width:100%;border:0}.danger{color:#b22;background:#fff0f0}.cat,.item{border:1px solid #eee;background:#fcfaf7;border-radius:10px;padding:12px;margin:10px 0}.row{display:flex;gap:8px}.row>*{flex:1}.item img{width:60px;height:60px;object-fit:cover;float:right}.muted{font-size:12px;color:#777}label{display:block;font-size:12px;font-weight:bold;margin-top:8px}.tabs{display:flex;gap:8px;max-width:850px;margin:12px auto}.tabs button{flex:1}.tab{display:none}.tab.active{display:block}#toast{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px;border-radius:9px;display:none}
-</style></head><body><header><h1>BK MART Admin</h1><small>MENU · HOTEL CATEGORIES · UPI CONTROL</small></header>
-<div class="tabs"><button onclick="tab('menu',this)" class="primary">Menu</button><button onclick="tab('settings',this)">Settings</button></div><main>
-<section id="menu" class="tab active"><div class="panel"><h3>Shop Status</h3><label><input type="checkbox" id="open" checked> Shop open</label></div>
-<div class="panel"><h3>Hotels / Categories</h3><p class="muted">Hotel ya category banayein; har category mein apne items aur photos add karein.</p><div class="row"><input id="catname" placeholder="Hotel / category name"><button onclick="addCat()">+ Add category</button></div><div id="cats"></div><button class="primary" onclick="save()">Save all changes to GitHub</button></div></section>
-<section id="settings" class="tab"><div class="panel"><h3>GitHub Connection</h3><label>GitHub Personal Access Token</label><input id="token" type="password" placeholder="Token with repo contents read/write"><button class="primary" onclick="connect()">Connect / Reload</button><p class="muted">Token browser ke localStorage mein rehta hai. Is static frontend mein token secure server-side secret nahi hota.</p></div>
-<div class="panel"><h3>UPI Settings</h3><label>UPI ID</label><input id="upi" placeholder="shop@upi"><label>Payee name</label><input id="payee" placeholder="BK MART"><label><input type="checkbox" id="upion" checked> Enable UPI apps</label><button class="primary" onclick="save()">Save settings</button></div></section></main><div id="toast"></div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BK MART Admin</title>
+<style>
+  * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { margin: 0; background: #faf7f2; color: #222; padding-bottom: 30px; }
+
+  header {
+    background: linear-gradient(135deg, #54290f 0%, #8B4513 100%);
+    color: white; text-align: center; padding: 26px 16px;
+    box-shadow: 0 8px 24px rgba(84,41,15,0.3);
+  }
+  header h1 { margin: 0; font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; }
+  header small { display: block; margin-top: 6px; opacity: .85; font-size: .8rem; letter-spacing: .5px; }
+
+  .tabs { display: flex; gap: 8px; max-width: 850px; margin: 16px auto 0; padding: 0 12px; }
+  .tabs button {
+    flex: 1; padding: 13px; border: 1px solid #e0d6cd; background: #fff;
+    border-radius: 12px; font-weight: 700; cursor: pointer; font-size: .95rem;
+    transition: all .2s; color: #54290f;
+  }
+  .tabs button.primary { color: #fff; }
+
+  main { max-width: 850px; margin: 18px auto; padding: 0 12px; }
+  .panel {
+    background: white; padding: 22px; border-radius: 18px; margin: 14px 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #f0e6de;
+  }
+  h3 { color: #54290f; margin-top: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 8px; }
+
+  input, button, select { padding: 11px; border-radius: 10px; border: 1px solid #e0d6cd; margin: 5px 0; font-size: .95rem; }
+  input:not([type=file]):not([type=checkbox]):not([type=radio]) { width: 100%; }
+  input:focus { outline: none; border-color: #b85e1a; box-shadow: 0 0 0 3px rgba(184,94,26,0.12); }
+  button { cursor: pointer; font-weight: 700; transition: all .2s; }
+
+  /* ── PREMIUM PRIMARY BUTTON ── */
+  .primary {
+    background: linear-gradient(145deg, #8B4513 0%, #54290f 100%);
+    color: white; width: 100%; border: none; padding: 14px;
+    border-radius: 50px; font-size: 1rem; letter-spacing: .3px;
+    box-shadow: 0 6px 18px -3px rgba(84,41,15,0.4);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -3px rgba(84,41,15,0.55); }
+  .primary:active { transform: scale(.98); }
+
+  /* ── DANGER ── */
+  .danger {
+    color: #b22; background: #fff0f0; border: 1px solid #f5c2c2;
+    padding: 9px 14px; border-radius: 10px; font-weight: 700;
+  }
+  .danger:hover { background: #ffe0e0; }
+
+  /* ── SMALL ADD BUTTON ── */
+  .add-btn {
+    background: linear-gradient(145deg, #ff7a2b, #e0530e);
+    color: #fff; border: none; padding: 10px 18px; border-radius: 50px;
+    font-weight: 700; font-size: .9rem;
+    box-shadow: 0 4px 12px -2px rgba(224,83,14,0.4);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .add-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -2px rgba(224,83,14,0.55); }
+
+  /* ── CATEGORY / ITEM BOXES ── */
+  .cat, .item {
+    border: 1px solid #eee; background: #fcfaf7; border-radius: 14px;
+    padding: 14px; margin: 12px 0;
+  }
+  .cat { border-left: 5px solid #b85e1a; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row > * { flex: 1; }
+  .row button { flex: 0 0 auto; }
+
+  .item img { width: 60px; height: 60px; object-fit: cover; float: right; border-radius: 10px; border: 1px solid #eee; }
+  .muted { font-size: 12px; color: #777; }
+  label { display: block; font-size: 12px; font-weight: 700; margin-top: 10px; color: #5a4a3a; }
+
+  .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+  .time-grid input { padding: 9px; font-size: .9rem; }
+
+  /* ── TOKEN STATUS ── */
+  .token-status { padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-top: 10px; font-weight: 600; }
+  .token-status.ok { background: #e8f5e9; color: #1e7b3c; border: 1px solid #a5d6a7; }
+  .token-status.bad { background: #fff0f0; color: #b22; border: 1px solid #f5c2c2; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #222; color: #fff; padding: 14px 24px; border-radius: 12px;
+    display: none; z-index: 999; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    font-weight: 600; font-size: .9rem;
+  }
+
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* token input with eye */
+  .token-wrap { position: relative; }
+  .token-wrap input { padding-right: 46px; }
+  .eye-btn {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none; font-size: 1.2rem; cursor: pointer;
+    padding: 6px 10px; margin: 0; color: #8b6b4d;
+  }
+  .eye-btn:hover { color: #b85e1a; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔐 BK MART Admin</h1>
+  <small>HOTELS · ITEMS · TIMING · UPI · GITHUB TOKEN</small>
+</header>
+
+<div class="tabs">
+  <button onclick="tab('menu',this)" class="primary">🍛 Menu & Hotels</button>
+  <button onclick="tab('settings',this)">⚙️ Settings</button>
+</div>
+
+<main>
+  <!-- ============ MENU TAB ============ -->
+  <section id="menu" class="tab active">
+    <div class="panel">
+      <h3>🏪 Shop Status</h3>
+      <label><input type="checkbox" id="open" checked> Shop open (customer app par items dikhenge)</label>
+    </div>
+
+    <div class="panel">
+      <h3>🏨 Hotel Info (Top pe dikhega)</h3>
+      <label>Hotel Name (main title)</label>
+      <input id="hotelName" placeholder="e.g. BK MART" value="BK MART">
+      <label>Hotel Subtitle</label>
+      <input id="hotelSubtitle" placeholder="e.g. Biryani House" value="Biryani House">
+    </div>
+
+    <div class="panel">
+      <h3>🏨 Hotels / Categories</h3>
+      <p class="muted">Har hotel ke andar items add karein. Har item ke saath time slot set karein — us time par hi customer ko item dikhega.</p>
+      <div class="row">
+        <input id="catname" placeholder="Hotel / category name (e.g., Biryani House)">
+        <button class="add-btn" onclick="addCat()">➕ Add Hotel</button>
+      </div>
+      <div id="cats"></div>
+      <button class="primary" style="margin-top:16px" onclick="save()">💾 Save All Changes to GitHub</button>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS TAB ============ -->
+  <section id="settings" class="tab">
+    <div class="panel">
+      <h3>🔑 GitHub Token System</h3>
+      <p class="muted">Token <b>localStorage</b> mein save hota hai (sirf is browser mein). GitHub pe jaake Personal Access Token banayein — scope: <b>repo</b> ✅</p>
+      <label>GitHub Personal Access Token</label>
+      <div class="token-wrap">
+        <input id="token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+        <button type="button" class="eye-btn" onclick="toggleToken()" id="eyeBtn">👁️</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" onclick="connect()">🔗 Connect & Load</button>
+        <button class="danger" onclick="disconnect()">🗑 Disconnect</button>
+      </div>
+      <div id="tokenStatus" class="token-status"></div>
+      <p class="muted" style="margin-top:10px">
+        Token banane ke liye: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token → scope <b>repo</b> ✅
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>💳 UPI Settings</h3>
+      <label>UPI ID</label>
+      <input id="upi" placeholder="shop@upi">
+      <label>Payee name</label>
+      <input id="payee" placeholder="BK MART">
+      <label><input type="checkbox" id="upion" checked> Enable UPI apps (PhonePe/Paytm/GPay)</label>
+      <button class="primary" onclick="save()">💾 Save Settings</button>
+    </div>
+
+    <div class="panel">
+      <h3>ℹ️ Repo Info</h3>
+      <p class="muted">Owner: <b>Shaikmuzammil22</b> · Repo: <b>BK-MART</b> · File: <b>data.json</b></p>
+    </div>
+  </section>
+</main>
+
+<div id="toast"></div>
+
 <script>
-const OWNER='Shaikmuzammil22',REPO='BK-MART',FILE='data.json';let d={shopStatus:'open',categories:[],upi:{id:'',name:'BK MART',enabled:true}},sha=null;
-const $=x=>document.getElementById(x),tok=()=>$('token').value.trim()||localStorage.getItem('github_pat')||'';
-function msg(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2500)}
-function tab(id,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('primary'));b.classList.add('primary')}
-function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function norm(x){let cs=Array.isArray(x.categories)?x.categories:[];if(!cs.length&&x.menu?.length)cs=[{name:'BK MART',items:x.menu}];return {shopStatus:x.shopStatus||'open',categories:cs.map((c,i)=>({id:c.id||'c'+i,name:c.name||'Category',items:c.items||[]})),upi:{id:x.upi?.id||'',name:x.upi?.name||'BK MART',enabled:x.upi?.enabled!==false}}}
-async function connect(){let t=$('token').value.trim();if(t)localStorage.setItem('github_pat',t);await load()}
-async function load(){if(!tok())return;try{let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,{headers:{Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'}});if(r.ok){let f=await r.json();sha=f.sha;d=norm(JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\\n/g,''))))))}else if(r.status===404){sha=null}else throw Error((await r.json()).message);render();msg('GitHub data loaded')}catch(e){alert('Load error: '+e.message)}}
-function render(){$('open').checked=d.shopStatus!=='closed';$('upi').value=d.upi.id;$('payee').value=d.upi.name;$('upion').checked=d.upi.enabled;$('cats').innerHTML='';
-d.categories.forEach((c,i)=>{let box=document.createElement('div');box.className='cat';box.innerHTML=`<div class="row"><input value="${esc(c.name)}" onchange="d.categories[${i}].name=this.value"><button class="danger" onclick="delCat(${i})">Delete category</button></div><div id="items${i}"></div><button onclick="addItem(${i})">+ Add item</button>`;$('cats').appendChild(box);
-c.items.forEach((it,j)=>{let el=document.createElement('div');el.className='item';el.innerHTML=`${it.image?`<img src="${esc(it.image)}">`:''}<label>Item name</label><input value="${esc(it.name)}" onchange="d.categories[${i}].items[${j}].name=this.value"><label>Price ₹</label><input type="number" value="${Number(it.price)||0}" onchange="d.categories[${i}].items[${j}].price=Number(this.value)||0"><label>Choose photo from gallery</label><input type="file" accept="image/*" onchange="photo(event,${i},${j})"><input placeholder="Or paste photo URL" value="${esc(it.image)}" onchange="d.categories[${i}].items[${j}].image=this.value"><button class="danger" onclick="delItem(${i},${j})">Delete item</button>`;$('items'+i).appendChild(el)})})}
-function addCat(){let n=$('catname').value.trim();if(!n)return;d.categories.push({id:'c'+Date.now(),name:n,items:[]});$('catname').value='';render()}
-function delCat(i){if(confirm('Delete category and all its items?')){d.categories.splice(i,1);render()}}
-function addItem(i){d.categories[i].items.push({name:'New item',price:0,image:''});render()}
-function delItem(i,j){d.categories[i].items.splice(j,1);render()}
-async function photo(e,i,j){let f=e.target.files[0];if(!f)return;if(!f.type.startsWith('image/')||f.size>5*1024*1024)return alert('Image select karein (max 5MB)');if(!tok())return alert('GitHub token pehle connect karein');try{let b=await new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result.split(',')[1]);r.onerror=no;r.readAsDataURL(f)});let path='assets/'+Date.now()+'-'+f.name.replace(/[^\\w.-]/g,'_');let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:'Admin uploaded menu photo',content:b})});if(!r.ok)throw Error((await r.json()).message);d.categories[i].items[j].image=`https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${path}`;render();msg('Photo uploaded to GitHub')}catch(x){alert('Photo upload failed: '+x.message)}}
-async function save(){d.shopStatus=$('open').checked?'open':'closed';d.upi={id:$('upi').value.trim(),name:$('payee').value.trim()||'BK MART',enabled:$('upion').checked};if(!tok())return alert('Settings mein GitHub token connect karein');try{let body={message:'Admin updated categories, menu and UPI',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2))))};if(sha)body.sha=sha;let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,{method:'PUT',headers:{Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw Error((await r.json()).message);sha=(await r.json()).content.sha;msg('Saved to GitHub')}catch(e){alert('Save failed: '+e.message)}}
-$('open').onchange=()=>d.shopStatus=$('open').checked?'open':'closed';window.addEventListener('load',()=>{let t=localStorage.getItem('github_pat');if(t){$('token').value=t;load()}else render()});
-</script></body></html>
+// ==========================================
+// 🔐 GITHUB CONFIG
+// ==========================================
+const OWNER = 'Shaikmuzammil22';
+const REPO = 'BK-MART';
+const FILE = 'data.json';
+const TOKEN_KEY = 'bk_mart_github_pat';
+
+let d = {
+  shopStatus: 'open',
+  hotelName: 'BK MART',
+  hotelSubtitle: 'Biryani House',
+  categories: [],
+  upi: { id: '', name: 'BK MART', enabled: true }
+};
+let sha = null;
+
+const $ = (x) => document.getElementById(x);
+const getToken = () => localStorage.getItem(TOKEN_KEY) || '';
+
+function msg(s) {
+  const t = $('toast');
+  t.textContent = s;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+function tab(id, b) {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  $(id).classList.add('active');
+  document.querySelectorAll('.tabs button').forEach(x => { x.classList.remove('primary'); x.style.background='#fff'; x.style.color='#54290f'; });
+  b.classList.add('primary');
+  b.style.background = 'linear-gradient(145deg, #8B4513 0%, #54290f 100%)';
+  b.style.color = '#fff';
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function toggleToken() {
+  const t = $('token');
+  t.type = t.type === 'password' ? 'text' : 'password';
+  $('eyeBtn').textContent = t.type === 'password' ? '👁️' : '🙈';
+}
+
+// ==========================================
+// 📦 NORMALIZE DATA
+// ==========================================
+function norm(x) {
+  let cs = Array.isArray(x.categories) ? x.categories : [];
+  if (!cs.length && x.menu?.length) cs = [{ name: 'BK MART', items: x.menu }];
+  return {
+    shopStatus: x.shopStatus || 'open',
+    hotelName: x.hotelName || 'BK MART',
+    hotelSubtitle: x.hotelSubtitle || 'Biryani House',
+    categories: cs.map((c, i) => ({
+      id: c.id || 'c' + i,
+      name: c.name || 'Hotel',
+      items: (c.items || []).map(it => ({
+        name: it.name || '',
+        price: Number(it.price) || 0,
+        image: it.image || '',
+        from: it.from || '',
+        to: it.to || ''
+      }))
+    })),
+    upi: { id: x.upi?.id || '', name: x.upi?.name || 'BK MART', enabled: x.upi?.enabled !== false }
+  };
+}
+
+// ==========================================
+// 🎨 RENDER
+// ==========================================
+function render() {
+  $('open').checked = d.shopStatus !== 'closed';
+  $('hotelName').value = d.hotelName || '';
+  $('hotelSubtitle').value = d.hotelSubtitle || '';
+  $('upi').value = d.upi.id || '';
+  $('payee').value = d.upi.name || '';
+  $('upion').checked = d.upi.enabled !== false;
+
+  const cats = $('cats');
+  cats.innerHTML = '';
+
+  d.categories.forEach((c, i) => {
+    const box = document.createElement('div');
+    box.className = 'cat';
+    box.innerHTML = `
+      <div class="row">
+        <input value="${esc(c.name)}" onchange="d.categories[${i}].name=this.value" placeholder="Hotel name">
+        <button class="danger" onclick="delCat(${i})">🗑 Delete</button>
+      </div>
+      <div id="items${i}"></div>
+      <button class="add-btn" style="margin-top:10px" onclick="addItem(${i})">➕ Add Item</button>
+    `;
+    cats.appendChild(box);
+
+    const itemsWrap = box.querySelector(`#items${i}`);
+    c.items.forEach((it, j) => {
+      const el = document.createElement('div');
+      el.className = 'item';
+      el.innerHTML = `
+        ${it.image ? `<img src="${esc(it.image)}" alt="">` : ''}
+        <label>Item name</label>
+        <input value="${esc(it.name)}" onchange="d.categories[${i}].items[${j}].name=this.value" placeholder="Item name">
+        <label>Price ₹</label>
+        <input type="number" value="${Number(it.price) || 0}" onchange="d.categories[${i}].items[${j}].price=Number(this.value)||0">
+        <label>⏰ Available Time (from – to)</label>
+        <div class="time-grid">
+          <input type="time" value="${esc(it.from)}" onchange="d.categories[${i}].items[${j}].from=this.value" title="From">
+          <input type="time" value="${esc(it.to)}" onchange="d.categories[${i}].items[${j}].to=this.value" title="To">
+        </div>
+        <p class="muted" style="margin-top:4px">Khaali chhodo = hamesha available</p>
+        <label>Photo (gallery se choose karein)</label>
+        <input type="file" accept="image/*" onchange="photo(event,${i},${j})">
+        <label>Ya photo URL paste karein</label>
+        <input placeholder="https://..." value="${esc(it.image)}" onchange="d.categories[${i}].items[${j}].image=this.value">
+        <button class="danger" style="margin-top:10px" onclick="delItem(${i},${j})">🗑 Delete item</button>
+      `;
+      itemsWrap.appendChild(el);
+    });
+  });
+}
+
+// ==========================================
+// ✏️ ACTIONS
+// ==========================================
+function addCat() {
+  const n = $('catname').value.trim();
+  if (!n) return msg('Hotel name likhein');
+  d.categories.push({ id: 'c' + Date.now(), name: n, items: [] });
+  $('catname').value = '';
+  render();
+  msg('Hotel added ✅');
+}
+
+function delCat(i) {
+  if (confirm('Delete hotel and all its items?')) {
+    d.categories.splice(i, 1);
+    render();
+  }
+}
+
+function addItem(i) {
+  d.categories[i].items.push({ name: 'New item', price: 0, image: '', from: '', to: '' });
+  render();
+}
+
+function delItem(i, j) {
+  d.categories[i].items.splice(j, 1);
+  render();
+}
+
+// ==========================================
+// 📷 PHOTO UPLOAD TO GITHUB
+// ==========================================
+async function photo(e, i, j) {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (!f.type.startsWith('image/') || f.size > 5 * 1024 * 1024)
+    return alert('Image select karein (max 5MB)');
+  if (!getToken()) return alert('Pehle Settings mein GitHub token connect karein');
+
+  try {
+    const b = await new Promise((ok, no) => {
+      const r = new FileReader();
+      r.onload = () => ok(r.result.split(',')[1]);
+      r.onerror = no;
+      r.readAsDataURL(f);
+    });
+
+    const path = 'assets/' + Date.now() + '-' + f.name.replace(/[^\w.-]/g, '_');
+    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + getToken(),
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: 'Admin uploaded menu photo', content: b })
+    });
+
+    if (!r.ok) throw Error((await r.json()).message);
+
+    d.categories[i].items[j].image = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${path}`;
+    render();
+    msg('Photo GitHub pe upload ho gayi ✅');
+  } catch (x) {
+    alert('Photo upload failed: ' + x.message);
+  }
+}
+
+// ==========================================
+// ☁️ GITHUB CONNECT / SAVE
+// ==========================================
+async function connect() {
+  const t = $('token').value.trim();
+  if (!t) return setTokenStatus('bad', '❌ Token daalein');
+  localStorage.setItem(TOKEN_KEY, t);
+  await load();
+}
+
+function disconnect() {
+  if (!confirm('Token remove karein?')) return;
+  localStorage.removeItem(TOKEN_KEY);
+  $('token').value = '';
+  setTokenStatus('bad', '🔌 Disconnected');
+  msg('Token hataya gaya');
+}
+
+function setTokenStatus(type, text) {
+  const s = $('tokenStatus');
+  s.className = 'token-status ' + type;
+  s.textContent = text;
+}
+
+async function load() {
+  const tok = getToken();
+  if (!tok) return setTokenStatus('bad', '❌ Token nahi mila. Connect karein.');
+
+  setTokenStatus('ok', '⏳ Loading from GitHub...');
+  try {
+    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+      headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' }
+    });
+
+    if (r.ok) {
+      const f = await r.json();
+      sha = f.sha;
+      const content = decodeURIComponent(escape(atob(f.content.replace(/\n/g, ''))));
+      d = norm(JSON.parse(content));
+      setTokenStatus('ok', '✅ Connected · data.json loaded');
+    } else if (r.status === 404) {
+      sha = null;
+      setTokenStatus('ok', '✅ Connected · data.json abhi nahi hai, save karein');
+    } else {
+      const err = await r.json();
+      throw Error(err.message || 'GitHub error');
+    }
+  } catch (e) {
+    setTokenStatus('bad', '❌ ' + e.message);
+    alert('Load error: ' + e.message);
+  }
+  render();
+}
+
+async function save() {
+  d.shopStatus = $('open').checked ? 'open' : 'closed';
+  d.hotelName = $('hotelName').value.trim() || 'BK MART';
+  d.hotelSubtitle = $('hotelSubtitle').value.trim() || 'Biryani House';
+  d.upi = {
+    id: $('upi').value.trim(),
+    name: $('payee').value.trim() || 'BK MART',
+    enabled: $('upion').checked
+  };
+
+  const tok = getToken();
+  if (!tok) {
+    setTokenStatus('bad', '❌ Pehle Settings mein token connect karein');
+    return alert('Settings tab → GitHub token connect karein');
+  }
+
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(d, null, 2))));
+    const body = { message: 'Admin updated menu / hotels / timing / UPI', content };
+    if (sha) body.sha = sha;
+
+    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + tok,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!r.ok) throw Error((await r.json()).message);
+    sha = (await r.json()).content.sha;
+    setTokenStatus('ok', '✅ Saved to GitHub');
+    msg('GitHub pe save ho gaya ✅');
+  } catch (e) {
+    setTokenStatus('bad', '❌ Save failed: ' + e.message);
+    alert('Save failed: ' + e.message);
+  }
+}
+
+// ==========================================
+// 🚀 INIT
+// ==========================================
+$('open').onchange = () => { d.shopStatus = $('open').checked ? 'open' : 'closed'; };
+
+window.addEventListener('load', () => {
+  const t = localStorage.getItem(TOKEN_KEY);
+  if (t) {
+    $('token').value = t;
+    load();
+  } else {
+    render();
+  }
+});
+</script>
+</body>
+</html>
