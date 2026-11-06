@@ -1,75 +1,165 @@
 {
   "shopStatus": "open",
+  "hotelName": "BK MART",
+  "hotelSubtitle": "Biryani House",
   "categories": [
     {
-      "id": "c0",
-      "name": "BK MART",
+      "id": "c1793962915859",
+      "name": "Bhagya wanti",
       "items": [
         {
-          "name": "Idli (4 pcs)",
-          "price": 50,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707708874-______.___",
-          "slot": "breakfast"
+          "name": "Dosa",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793963380962-1000046977.webp",
+          "from": "18:00",
+          "to": "23:00"
         },
         {
-          "name": "Plain Dosa",
+          "name": "Butter Paneer Dosa ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793963321242-1000046976.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Cheese Paneer Dosa ",
+          "price": 90,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793963717315-1000046978.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Ghee Dosa ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793963825279-1000046979.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Neloor Karam Dosa ",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793964103612-1000046980.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Uttappa ",
           "price": 50,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707715206-______.___",
-          "slot": "breakfast"
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793964215717-1000046981.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Uthappa ",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793964446227-1000046982.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Idli ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793964570731-1000046985.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Tawa Idli ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793964648758-1000046986.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Tawa Bonda ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793965046312-1000046993.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Tawa Wada ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793965232001-1000047000.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Idli ",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793965905700-1000047002.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Idli Wada",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793965990184-1000047003.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Wada",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793966186829-1000047004.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Sambar Idli",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793966347714-1000047005.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Mysore Bonda",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793966562809-1000047006.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Onion Dosa ",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793966856531-1000047016.jpg",
+          "from": "18:00",
+          "to": "23:00"
         },
         {
           "name": "Masala Dosa",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793967646913-1000047019.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Dosa ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793967891809-1000047020.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Cheese Dosa",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793968015786-1000047022.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Cheese",
           "price": 70,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707826823-______.___",
-          "slot": "breakfast"
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793968127462-1000047023.jpg",
+          "from": "18:00",
+          "to": "23:00"
         },
         {
-          "name": "Vada",
-          "price": 50,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707866259-______.___",
-          "slot": "breakfast"
-        },
-        {
-          "name": "Tahari",
-          "price": 90,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707911743-______.___",
-          "slot": "morning"
-        },
-        {
-          "name": "Chicken Biryani",
-          "price": 180,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707939147-______.___",
-          "slot": "lunch"
-        },
-        {
-          "name": "Mutton Biryani",
-          "price": 250,
-          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793707962070-______.___",
-          "slot": "lunch"
-        },
-        {
-          "name": "Veg Biryani",
-          "price": 140,
-          "image": "",
-          "slot": "lunch"
-        },
-        {
-          "name": "Shami Parata",
-          "price": 120,
-          "image": "",
-          "slot": "dinner"
-        },
-        {
-          "name": "Egg Dosa",
-          "price": 80,
-          "image": "",
-          "slot": "dinner"
-        },
-        {
-          "name": "Sada Dosa",
-          "price": 50,
-          "image": "",
-          "slot": "dinner"
+          "name": "Paneer Dosa",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793968311588-1000047024.png",
+          "from": "18:00",
+          "to": "23:00"
         }
       ]
     }
