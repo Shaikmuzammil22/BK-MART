@@ -162,6 +162,194 @@
           "to": "23:00"
         }
       ]
+    },
+    {
+      "id": "c1793978997728",
+      "name": "NS HOTEL & TEA POINT",
+      "items": [
+        {
+          "name": "Ghee Dosa ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979219883-1000047029.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Kheema Dosa ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979235098-1000047030.webp",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Uthappa ",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979304264-1000047031.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Uthappa",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979375645-1000047032.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Plain Dosa ",
+          "price": 30,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979448691-1000047034.webp",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Masala Dosa ",
+          "price": 40,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979506839-1000047035.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Idli ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979573088-1000046985.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Tawa Idli ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979637366-1000046986.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Cheese Dosa ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979752681-1000047022.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Cheese Paneer Dosa ",
+          "price": 90,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979827693-1000047021.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Dosa ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793979884443-1000047020.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Paneer Dosa ",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980119143-1000047080.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Butter Cheese Dosa ",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980433988-1000047081.jpg",
+          "from": "18:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Paneer Dosa ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980523310-1000047024.png",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Egg Dosa ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980574276-1000047040.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Double Egg Dosa ",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980611286-1000047041.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Shami Parota ",
+          "price": 50,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980678160-1000047042.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Single Shami",
+          "price": 30,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980715263-1000047043.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Single Parota ",
+          "price": 20,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980751362-1000047045.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken 65 Full ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980787481-1000047047.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken 65 Half ",
+          "price": 90,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980820962-1000047046.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Leg Piece Full ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980928928-1000047083.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Leg Piece Half ",
+          "price": 70,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793980975578-1000047083.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Stick ",
+          "price": 30,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793981024966-1000047049.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Lolly Pop Plate ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793981081003-1000047052.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Fish Fry Plate ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793981121365-1000047053.jpg",
+          "from": "19:00",
+          "to": "23:00"
+        }
+      ]
     }
   ],
   "upi": {
