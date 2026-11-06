@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BK MART · Biryani House</title>
+  <title>BK MART · Food Delivery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,8 +18,25 @@
     .brand .hotel-sub .badge { background: linear-gradient(145deg, #ff6a2b, #e0530e); color: #fff; font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: .3px; box-shadow: 0 3px 8px rgba(224,83,14,0.3); }
     .brand p { font-size: 0.85rem; font-weight: 500; color: #8b6b4d; margin-top: 2px; }
 
+    /* ── HOTEL TABS (NEW) ── */
+    .hotel-tabs-container { max-width: 1200px; margin: 15px auto 0; padding: 0 20px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .hotel-tabs-container::-webkit-scrollbar { display: none; }
+    .hotel-tabs { display: flex; gap: 10px; padding-bottom: 5px; }
+    
+    .hotel-tab {
+      background: #ffffff; color: #8b6b4d; border: 1.5px solid #ede6de;
+      padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+    .hotel-tab:hover { border-color: #dbbd9c; background: #fffaf6; }
+    .hotel-tab.active {
+      background: linear-gradient(145deg, #ff6a2b, #e0530e); color: white;
+      border-color: transparent; box-shadow: 0 6px 16px -4px rgba(224,83,14,0.4);
+    }
+    
     /* ── SEARCH ── */
-    .search-container { max-width: 900px; margin: 20px auto 10px; padding: 0 20px; }
+    .search-container { max-width: 900px; margin: 15px auto 10px; padding: 0 20px; }
     .search-box { display: flex; align-items: center; background: white; border: 1px solid #ede6de; border-radius: 60px; padding: 12px 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); transition: box-shadow .2s, border .2s; }
     .search-box:focus-within { box-shadow: 0 4px 24px rgba(184,94,26,0.15); border-color: #dbbd9c; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; margin-left: 12px; background: transparent; }
@@ -36,6 +53,8 @@
     
     .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: .7rem; font-weight: 700; padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(6px); letter-spacing: .3px; display: flex; align-items: center; gap: 4px; }
     .card-time-badge.closed { background: rgba(220, 38, 38, 0.9); }
+    
+    .card-hotel-badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 255, 255, 0.9); color: #b85e1a; font-size: .7rem; font-weight: 800; padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(6px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     
     .card-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.2rem; font-weight: 700; color: #2c1d12; margin-bottom: 4px; }
@@ -57,7 +76,6 @@
     .buy-btn:not(.closed):hover::after { opacity: 1; }
     .buy-btn:not(.closed):active { transform: scale(.97); }
     
-    /* Closed Button Style */
     .buy-btn.closed { background: #f1f1f1; color: #888; box-shadow: none; border: 1px solid #e0e0e0; }
 
     /* ── MODAL ── */
@@ -116,12 +134,19 @@
 
 <div class="header">
   <div class="brand">
-    <h1 id="hotelName">BK MART</h1>
+    <h1 id="hotelName">BK FOOD DELIVERY</h1>
     <div class="hotel-sub">
-      <span id="hotelSubtitle">Biryani House</span>
+      <span id="hotelSubtitle">ALL ITEMS</span>
       <span class="badge" id="productCount">0 items</span>
     </div>
     <p>★★★★★ 4.5</p>
+  </div>
+</div>
+
+<!-- HOTEL CATEGORIES TABS -->
+<div class="hotel-tabs-container">
+  <div class="hotel-tabs" id="hotelTabs">
+    <!-- JS se generate hoga -->
   </div>
 </div>
 
@@ -214,6 +239,7 @@
   let currentItem = null;
   let allMenuItems = [];
   let menuCategories = [];
+  let activeCategory = "ALL"; // Currently selected hotel
   let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME, enabled: true };
 
   const searchInput = document.getElementById("searchInput");
@@ -238,7 +264,7 @@
     if (f === null) return cur <= t;
     if (t === null) return cur >= f;
     if (f <= t) return cur >= f && cur <= t;
-    return cur >= f || cur <= t; // Overnight case
+    return cur >= f || cur <= t;
   }
 
   function formatTime12(t) {
@@ -249,18 +275,56 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
-  // ── RENDER (All Items Show, But Time Check on Click) ──
-  function renderMenu(items) {
+  // ── RENDER HOTEL TABS (NEW) ──
+  function renderHotelTabs() {
+    const container = document.getElementById("hotelTabs");
+    container.innerHTML = "";
+
+    // "All Items" Tab
+    const allTab = document.createElement("button");
+    allTab.className = `hotel-tab ${activeCategory === "ALL" ? "active" : ""}`;
+    allTab.innerHTML = `🍽️ All Items`;
+    allTab.onclick = () => {
+      activeCategory = "ALL";
+      renderHotelTabs();
+      renderMenu();
+    };
+    container.appendChild(allTab);
+
+    // Hotel Tabs
+    menuCategories.forEach(cat => {
+      if (!cat.items || cat.items.length === 0) return; // Empty categories skip
+
+      const btn = document.createElement("button");
+      btn.className = `hotel-tab ${activeCategory === cat.name ? "active" : ""}`;
+      btn.innerHTML = `🏨 ${cat.name}`;
+      btn.onclick = () => {
+        activeCategory = cat.name;
+        renderHotelTabs();
+        renderMenu();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  // ── RENDER MENU CARDS ──
+  function renderMenu() {
     const grid = document.getElementById("menuGrid");
     grid.innerHTML = "";
     const query = searchInput.value.trim().toLowerCase();
     let found = 0;
     let totalVisible = 0;
 
-    const categories = menuCategories.length ? menuCategories : [{ name: "BK MART", items: items }];
+    // Filter based on selected hotel
+    let categoriesToRender = menuCategories;
+    if (activeCategory !== "ALL") {
+      categoriesToRender = menuCategories.filter(c => c.name === activeCategory);
+    }
 
-    categories.forEach(category => {
-      // FIX: Time check hata diya taaki sab dikhein
+    // Header Text Update
+    document.getElementById("hotelSubtitle").textContent = activeCategory === "ALL" ? "ALL ITEMS" : activeCategory;
+
+    categoriesToRender.forEach(category => {
       const matches = (category.items || []).filter(item =>
         String(item.name || "").toLowerCase().includes(query)
       );
@@ -282,7 +346,9 @@
           timeBadge = `<span class="card-time-badge ${isAvailable ? '' : 'closed'}">🕒 ${timeStr}</span>`;
         }
 
-        // Button text agar closed hai
+        // Show Hotel Name Badge only if we are in "ALL" view
+        let hotelBadge = (activeCategory === "ALL") ? `<span class="card-hotel-badge">🏨 ${category.name}</span>` : "";
+
         let btnClass = isAvailable ? "" : "closed";
         let btnText = isAvailable ? "BUY NOW" : "CLOSED";
         let btnIcon = isAvailable ? "🛍️" : "⏰";
@@ -291,6 +357,7 @@
           <div class="card-img-container">
             <img src="${imgSrc}">
             ${timeBadge}
+            ${hotelBadge}
           </div>
           <div class="card-content">
             <h3 class="card-title">${item.name}</h3>
@@ -300,14 +367,13 @@
             </button>
           </div>`;
           
-        // Har button pe click lagega, availability ka check andar hoga
         div.querySelector(".buy-btn").addEventListener("click", () => {
           if (!isAvailable) {
             let timeStr = `${formatTime12(item.from) || "Start"} se ${formatTime12(item.to) || "End"}`;
             alert(`⏰ Sorry! Yeh item abhi available nahi hai.\n\nAap ise sirf ${timeStr} ke beech hi order kar sakte hain.`);
             return;
           }
-          openCheckout(item.name, Number(item.price) || 0);
+          openCheckout(item.name, Number(item.price) || 0, category.name);
         });
         
         grid.appendChild(div);
@@ -317,7 +383,7 @@
     document.getElementById("productCount").textContent = totalVisible + " items";
 
     if (!found) {
-      grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;padding:35px;color:#888'>No items found.</p>";
+      grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;padding:35px;color:#888'>Is hotel mein koi item nahi mila.</p>";
     }
   }
 
@@ -340,8 +406,7 @@
       }
       
       if (data.hotelName) document.getElementById("hotelName").textContent = data.hotelName;
-      if (data.hotelSubtitle) document.getElementById("hotelSubtitle").textContent = data.hotelSubtitle;
-
+      
       if (Array.isArray(data.categories) && data.categories.length) {
         menuCategories = data.categories.map(c => ({
           name: c.name || "Hotel",
@@ -361,13 +426,12 @@
     }
     
     document.getElementById("upiIdDisplay").textContent = globalUpi.id;
-    renderMenu(allMenuItems);
+    renderHotelTabs(); // Render tabs first
+    renderMenu();      // Then render items
   }
 
-  searchInput.addEventListener("input", () => renderMenu(allMenuItems));
-  
-  // Har 1 minute mein check karega ki koi item open/close hua kya
-  setInterval(() => renderMenu(allMenuItems), 60000);
+  searchInput.addEventListener("input", renderMenu);
+  setInterval(() => { renderHotelTabs(); renderMenu(); }, 60000);
 
   // ── LOCATION & CHECKOUT ──
   function detectLocation() {
@@ -387,10 +451,14 @@
     document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
   }
 
-  window.openCheckout = function(name, price) {
+  window.openCheckout = function(name, price, hotelName) {
     if (!shopOpen) return alert("Shop is closed today.");
     currentItem = { name, price };
-    document.getElementById("orderSummary").innerHTML = `<h4>${name}</h4><p>₹${price}</p>`;
+    document.getElementById("orderSummary").innerHTML = `
+      <h4>${name}</h4>
+      <p style="font-size:0.85rem; color:#8b6b4d;">Hotel: ${hotelName}</p>
+      <p style="font-weight:800; margin-top:5px;">₹${price}</p>
+    `;
     document.getElementById("checkoutModal").classList.add("active");
     generateQR(price);
     detectLocation();
