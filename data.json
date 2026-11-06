@@ -1,11 +1,11 @@
 {
   "shopStatus": "open",
-  "hotelName": "BK MART",
-  "hotelSubtitle": "Biryani House",
+  "hotelName": "Bhagyawanti",
+  "hotelSubtitle": "12 items",
   "categories": [
     {
       "id": "c1793962915859",
-      "name": "Bhagya wanti",
+      "name": "Bhagyawanti",
       "items": [
         {
           "name": "Dosa",
