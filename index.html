@@ -26,7 +26,6 @@
 
     /* ── ALERTS ── */
     .alert-closed { max-width: 900px; margin: 0 auto 16px; background: #fff1f0; color: #b3402c; padding: 16px 24px; border-radius: 60px; text-align: center; font-weight: 700; display: none; }
-    .alert-time { max-width: 900px; margin: 0 auto 16px; background: #fff8e6; color: #9a6b00; padding: 14px 24px; border-radius: 60px; text-align: center; font-weight: 600; font-size: .85rem; display: none; }
 
     /* ── MENU GRID ── */
     .menu-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px; }
@@ -34,7 +33,10 @@
     .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1); }
     .card-img-container { position: relative; width: 100%; height: 190px; background: #efe8e0; }
     .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-    .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: .7rem; font-weight: 700; padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(6px); letter-spacing: .3px; }
+    
+    .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: .7rem; font-weight: 700; padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(6px); letter-spacing: .3px; display: flex; align-items: center; gap: 4px; }
+    .card-time-badge.closed { background: rgba(220, 38, 38, 0.9); }
+    
     .card-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.2rem; font-weight: 700; color: #2c1d12; margin-bottom: 4px; }
     .card-price { font-size: 1.1rem; color: #b85e1a; font-weight: 800; margin-bottom: 16px; }
@@ -44,20 +46,19 @@
     .buy-btn {
       margin-top: auto;
       background: linear-gradient(145deg, #ff7a2b 0%, #e0530e 100%);
-      color: white; border: none; padding: 15px; border-radius: 50px;
-      font-weight: 800; cursor: pointer; font-size: 1rem; letter-spacing: .3px;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
+      color: white; border: none; padding: 14px 10px; border-radius: 50px;
+      font-weight: 800; cursor: pointer; font-size: 0.95rem; letter-spacing: .3px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
       transition: all .25s; box-shadow: 0 8px 20px -4px rgba(224,83,14,0.45);
-      position: relative; overflow: hidden;
+      position: relative; overflow: hidden; text-align: center;
     }
     .buy-btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(145deg, rgba(255,255,255,.25), transparent); opacity: 0; transition: opacity .25s; }
-    .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(224,83,14,0.6); }
-    .buy-btn:hover::after { opacity: 1; }
-    .buy-btn:active { transform: scale(.97); }
-    .buy-btn .btn-icon { font-size: 1.15rem; }
+    .buy-btn:not(.closed):hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(224,83,14,0.6); }
+    .buy-btn:not(.closed):hover::after { opacity: 1; }
+    .buy-btn:not(.closed):active { transform: scale(.97); }
     
-    /* Time out button style */
-    .buy-btn.closed { background: #e0e0e0; color: #888; box-shadow: none; pointer-events: none; }
+    /* Closed Button Style */
+    .buy-btn.closed { background: #f1f1f1; color: #888; box-shadow: none; border: 1px solid #e0e0e0; }
 
     /* ── MODAL ── */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 15, 10, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(4px); }
@@ -132,7 +133,6 @@
 </div>
 
 <div id="shopAlert" class="alert-closed">⚠️ Aaj Dukan Band Hai (Shop Closed for Holiday)</div>
-<div id="timeAlert" class="alert-time">🕒 Abhi koi item available nahi hai. Timing check karein.</div>
 
 <div class="menu-container" id="menuGrid"></div>
 
@@ -218,38 +218,27 @@
 
   const searchInput = document.getElementById("searchInput");
   const shopAlert = document.getElementById("shopAlert");
-  const timeAlert = document.getElementById("timeAlert");
 
-  const masterMenu = [
-    { name: "Idli (4 pcs)", price: 40, image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "23:59" },
-    { name: "Plain Dosa", price: 50, image: "https://images.unsplash.com/photo-1630383249896-424e482df921?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "23:59" },
-    { name: "Masala Dosa", price: 70, image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "23:59" },
-    { name: "Medu Vada", price: 30, image: "https://images.unsplash.com/photo-1626509653291-18d9a934b9db?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Tahari", price: 90, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Chicken Biryani", price: 180, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Mutton Biryani", price: 250, image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Veg Biryani", price: 140, image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Shami Parata", price: 120, image: "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Egg Dosa", price: 80, image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" }
-  ];
-
-  // ── TIME WINDOW ──
+  // ── TIME WINDOW CHECK ──
   function isItemAvailable(item) {
     if (!item.from && !item.to) return true;
     const now = new Date();
     const cur = now.getHours() * 60 + now.getMinutes();
+    
     function toMin(t) {
       if (!t) return null;
       const [h, m] = t.split(":").map(Number);
       return h * 60 + (m || 0);
     }
+    
     const f = toMin(item.from);
     const t = toMin(item.to);
+    
     if (f === null && t === null) return true;
     if (f === null) return cur <= t;
     if (t === null) return cur >= f;
     if (f <= t) return cur >= f && cur <= t;
-    return cur >= f || cur <= t;
+    return cur >= f || cur <= t; // Overnight case
   }
 
   function formatTime12(t) {
@@ -260,7 +249,7 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
-  // ── RENDER ──
+  // ── RENDER (All Items Show, But Time Check on Click) ──
   function renderMenu(items) {
     const grid = document.getElementById("menuGrid");
     grid.innerHTML = "";
@@ -271,8 +260,8 @@
     const categories = menuCategories.length ? menuCategories : [{ name: "BK MART", items: items }];
 
     categories.forEach(category => {
-      // FIX: Ab hum query match karne ke baad time check karenge taaki items dikhein
-      const matches = (category.items || []).filter(item => 
+      // FIX: Time check hata diya taaki sab dikhein
+      const matches = (category.items || []).filter(item =>
         String(item.name || "").toLowerCase().includes(query)
       );
       
@@ -289,8 +278,14 @@
         
         let timeBadge = "";
         if (item.from || item.to) {
-          timeBadge = `<span class="card-time-badge" style="${isAvailable ? '' : 'background:rgba(200,0,0,0.8)'}">🕒 ${formatTime12(item.from) || "—"} – ${formatTime12(item.to) || "—"}</span>`;
+          let timeStr = `${formatTime12(item.from) || "—"} - ${formatTime12(item.to) || "—"}`;
+          timeBadge = `<span class="card-time-badge ${isAvailable ? '' : 'closed'}">🕒 ${timeStr}</span>`;
         }
+
+        // Button text agar closed hai
+        let btnClass = isAvailable ? "" : "closed";
+        let btnText = isAvailable ? "BUY NOW" : "CLOSED";
+        let btnIcon = isAvailable ? "🛍️" : "⏰";
 
         div.innerHTML = `
           <div class="card-img-container">
@@ -298,17 +293,22 @@
             ${timeBadge}
           </div>
           <div class="card-content">
-            <h3 class="card-title">${item.name} ${!isAvailable ? '<span style="font-size:0.7rem;color:#d32f2f">(Closed)</span>' : ''}</h3>
+            <h3 class="card-title">${item.name}</h3>
             <p class="card-price">${Number(item.price) || 0}</p>
-            <button class="buy-btn ${!isAvailable ? 'closed' : ''}">
-              <span class="btn-icon">${isAvailable ? '🛍️' : '⏰'}</span> 
-              ${isAvailable ? 'BUY NOW' : 'NOT AVAILABLE'}
+            <button class="buy-btn ${btnClass}">
+              <span class="btn-icon">${btnIcon}</span> ${btnText}
             </button>
           </div>`;
           
-        if (isAvailable) {
-          div.querySelector(".buy-btn").addEventListener("click", () => openCheckout(item.name, Number(item.price) || 0));
-        }
+        // Har button pe click lagega, availability ka check andar hoga
+        div.querySelector(".buy-btn").addEventListener("click", () => {
+          if (!isAvailable) {
+            let timeStr = `${formatTime12(item.from) || "Start"} se ${formatTime12(item.to) || "End"}`;
+            alert(`⏰ Sorry! Yeh item abhi available nahi hai.\n\nAap ise sirf ${timeStr} ke beech hi order kar sakte hain.`);
+            return;
+          }
+          openCheckout(item.name, Number(item.price) || 0);
+        });
         
         grid.appendChild(div);
       });
@@ -319,16 +319,11 @@
     if (!found) {
       grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;padding:35px;color:#888'>No items found.</p>";
     }
-
-    const totalAll = categories.reduce((s, c) => s + (c.items || []).length, 0);
-    const availableCount = categories.reduce((s, c) => s + (c.items || []).filter(isItemAvailable).length, 0);
-    timeAlert.style.display = (totalAll > 0 && availableCount === 0) ? "block" : "none";
   }
 
-  // ── LOAD (FIXED) ──
+  // ── LOAD DATA ──
   async function loadMenu() {
     try {
-      // Cache bypass taaki naya data turant aaye
       const response = await fetch('data.json?v=' + Date.now());
       if (!response.ok) throw new Error();
       const data = await response.json();
@@ -347,235 +342,34 @@
       if (data.hotelName) document.getElementById("hotelName").textContent = data.hotelName;
       if (data.hotelSubtitle) document.getElementById("hotelSubtitle").textContent = data.hotelSubtitle;
 
-      // FIX: Proper Category Mapping
       if (Array.isArray(data.categories) && data.categories.length) {
         menuCategories = data.categories.map(c => ({
           name: c.name || "Hotel",
-          items: Array.isArray(c.items) ? c.items : [] // Ensure items is an array
+          items: Array.isArray(c.items) ? c.items : []
         }));
         allMenuItems = menuCategories.flatMap(c => c.items);
       } else if (Array.isArray(data.menu) && data.menu.length) {
         menuCategories = [{ name: data.hotelName || "BK MART", items: data.menu }];
         allMenuItems = data.menu;
       } else {
-        throw new Error("No categories found"); // Trigger fallback
+        throw new Error("No items found");
       }
       
     } catch (e) {
-      console.log("Data load error, using fallback:", e);
-      menuCategories = [{ name: "BK MART", items: masterMenu }];
-      allMenuItems = masterMenu;
-      shopAlert.style.display = "none";
+      menuCategories = [{ name: "BK MART", items: [] }];
+      allMenuItems = [];
     }
     
-    document.getElementById("upiIsubmit="placeOrder(event)">
-      <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" id="custName" required placeholder="Full name">
-      </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="custPhone" required placeholder="10-digit mobile" pattern="[0-9]{10}">
-      </div>
-      <div class="form-group">
-        <label>Delivery Address (Auto-detect ho raha hai...)</label>
-        <textarea id="custAddress" required rows="2" placeholder="Location fetch ho rahi hai..."></textarea>
-      </div>
-
-      <label style="font-weight: 700; margin-bottom: 10px; display: block;">Payment Method</label>
-      <div class="payment-options">
-        <!-- UPI Option -->
-        <label class="pay-label" onclick="toggleQR(true)">
-          <input type="radio" name="payment" value="UPI" checked>
-          📱 Online Payment (UPI)
-        </label>
-        <!-- COD Option -->
-        <label class="pay-label" onclick="toggleQR(false)">
-          <input type="radio" name="payment" value="COD">
-          💵 Cash on Delivery
-        </label>
-      </div>
-
-      <div class="qr-section" id="qrSection">
-        <p style="font-weight:600;">Scan QR to Pay</p>
-        <img id="qrImage" src="" alt="UPI QR">
-        <p style="margin-top:10px; font-size:0.8rem; color:#777;">UPI ID: <b id="upiIdDisplay">9353481235@axl</b></p>
-        
-        <!-- REAL LOGOS WITH DIRECT CDN -->
-        <div class="payment-options" style="margin-top: 15px;">
-          <button type="button" class="app-pay-btn" onclick="payWithApp('phonepe')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe Logo" class="app-logo"> 
-            <span>PhonePe</span>
-          </button>
-          
-          <button type="button" class="app-pay-btn" onclick="payWithApp('paytm')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm Logo" class="app-logo"> 
-            <span>Paytm</span>
-          </button>
-          
-          <button type="button" class="app-pay-btn" onclick="payWithApp('gpay')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay Logo" class="app-logo"> 
-            <span>Google Pay</span>
-          </button>
-        </div>
-      </div>
-
-      <button type="submit" class="place-order-btn">
-        <span class="btn-icon">🛒</span> Place Order · Pay Now
-      </button>
-    </form>
-  </div>
-</div>
-
-<script>
-  // ==========================================
-  // ✅ SETTINGS
-  // ==========================================
-  const WHATSAPP_NUMBER = "919353481235";
-  const DEFAULT_UPI_ID = "9353481235@axl";
-  const PAYEE_NAME = "BK MART";
-
-  let shopOpen = true;
-  let currentItem = null;
-  let allMenuItems = [];
-  let menuCategories = [];
-  let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME, enabled: true };
-
-  const searchInput = document.getElementById("searchInput");
-  const shopAlert = document.getElementById("shopAlert");
-  const timeAlert = document.getElementById("timeAlert");
-
-  const masterMenu = [
-    { name: "Idli (4 pcs)", price: 40, image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Plain Dosa", price: 50, image: "https://images.unsplash.com/photo-1630383249896-424e482df921?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Masala Dosa", price: 70, image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Medu Vada", price: 30, image: "https://images.unsplash.com/photo-1626509653291-18d9a934b9db?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Tahari", price: 90, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Chicken Biryani", price: 180, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Mutton Biryani", price: 250, image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Veg Biryani", price: 140, image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Shami Parata", price: 120, image: "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Egg Dosa", price: 80, image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" }
-  ];
-
-  // ── TIME WINDOW ──
-  function isItemAvailable(item) {
-    if (!item.from && !item.to) return true;
-    const now = new Date();
-    const cur = now.getHours() * 60 + now.getMinutes();
-    function toMin(t) {
-      if (!t) return null;
-      const [h, m] = t.split(":").map(Number);
-      return h * 60 + (m || 0);
-    }
-    const f = toMin(item.from);
-    const t = toMin(item.to);
-    if (f === null && t === null) return true;
-    if (f === null) return cur <= t;
-    if (t === null) return cur >= f;
-    if (f <= t) return cur >= f && cur <= t;
-    return cur >= f || cur <= t;
-  }
-
-  function formatTime12(t) {
-    if (!t) return "";
-    const [h, m] = t.split(":").map(Number);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const hh = h % 12 || 12;
-    return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
-  }
-
-  // ── RENDER ──
-  function renderMenu(items) {
-    const grid = document.getElementById("menuGrid");
-    grid.innerHTML = "";
-    const query = searchInput.value.trim().toLowerCase();
-    let found = 0;
-    let totalVisible = 0;
-
-    const categories = menuCategories.length ? menuCategories : [{ name: "BK MART", items }];
-
-    categories.forEach(category => {
-      const matches = (category.items || []).filter(item =>
-        String(item.name || "").toLowerCase().includes(query) && isItemAvailable(item)
-      );
-      if (!matches.length) return;
-      found += matches.length;
-
-      matches.forEach(item => {
-        totalVisible++;
-        const div = document.createElement("div");
-        div.className = "card";
-        const imgSrc = item.image || "https://via.placeholder.com/280x180?text=No+Image";
-        const timeBadge = (item.from || item.to)
-          ? `<span class="card-time-badge">🕒 ${formatTime12(item.from) || "—"} – ${formatTime12(item.to) || "—"}</span>`
-          : "";
-        div.innerHTML = `
-          <div class="card-img-container">
-            <img src="${imgSrc}">
-            ${timeBadge}
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">${item.name}</h3>
-            <p class="card-price">${Number(item.price) || 0}</p>
-            <button class="buy-btn"><span class="btn-icon">🛍️</span> BUY NOW</button>
-          </div>`;
-        div.querySelector(".buy-btn").addEventListener("click", () => openCheckout(item.name, Number(item.price) || 0));
-        grid.appendChild(div);
-      });
-    });
-
-    document.getElementById("productCount").textContent = totalVisible + " items";
-
-    if (!found) {
-      grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;padding:35px;color:#888'>No items found.</p>";
-    }
-
-    const totalAll = categories.reduce((s, c) => s + (c.items || []).length, 0);
-    const availableCount = categories.reduce((s, c) => s + (c.items || []).filter(isItemAvailable).length, 0);
-    timeAlert.style.display = (totalAll > 0 && availableCount === 0) ? "block" : "none";
-  }
-
-  // ── LOAD ──
-  async function loadMenu() {
-    try {
-      const response = await fetch('data.json?v=' + Date.now());
-      if (!response.ok) throw new Error();
-      const data = await response.json();
-
-      shopOpen = data.shopStatus !== "closed";
-      shopAlert.style.display = shopOpen ? "none" : "block";
-
-      if (data.upi) {
-        globalUpi = {
-          id: data.upi.id || DEFAULT_UPI_ID,
-          name: data.upi.name || PAYEE_NAME,
-          enabled: data.upi.enabled !== false
-        };
-      }
-      if (data.hotelName) document.getElementById("hotelName").textContent = data.hotelName;
-      if (data.hotelSubtitle) document.getElementById("hotelSubtitle").textContent = data.hotelSubtitle;
-
-      if (Array.isArray(data.categories) && data.categories.length) {
-        menuCategories = data.categories;
-        allMenuItems = data.categories.flatMap(c => c.items || []);
-      } else {
-        menuCategories = [{ name: data.hotelName || "BK MART", items: data.menu || [] }];
-        allMenuItems = menuCategories[0].items;
-      }
-    } catch (e) {
-      menuCategories = [{ name: "BK MART", items: masterMenu }];
-      allMenuItems = masterMenu;
-      shopAlert.style.display = "none";
-    }
     document.getElementById("upiIdDisplay").textContent = globalUpi.id;
     renderMenu(allMenuItems);
   }
 
   searchInput.addEventListener("input", () => renderMenu(allMenuItems));
-  setInterval(() => renderMenu(allMenuItems), 30000);
+  
+  // Har 1 minute mein check karega ki koi item open/close hua kya
+  setInterval(() => renderMenu(allMenuItems), 60000);
 
-  // ── LOCATION ──
+  // ── LOCATION & CHECKOUT ──
   function detectLocation() {
     const addressField = document.getElementById("custAddress");
     if (navigator.geolocation) {
@@ -588,222 +382,6 @@
     }
   }
 
-  // ── QR ──
-  function generateQR(amount) {
-    const upiUrl = `upi://pay?pa=${globalUpi.id}&pn=${encodeURIComponent(globalUpi.name)}&am=${amount}&cu=INR`;
-    document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(urm" onsubmit="placeOrder(event)">
-      <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" id="custName" required placeholder="Full name">
-      </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="custPhone" required placeholder="10-digit mobile" pattern="[0-9]{10}">
-      </div>
-      <div class="form-group">
-        <label>Delivery Address (Auto-detect ho raha hai...)</label>
-        <textarea id="custAddress" required rows="2" placeholder="Location fetch ho rahi hai..."></textarea>
-      </div>
-
-      <label style="font-weight: 700; margin-bottom: 10px; display: block;">Payment Method</label>
-      <div class="payment-options">
-        <label class="pay-label">
-          <input type="radio" name="payment" value="UPI" onclick="toggleQR(true)" checked>
-          📱 UPI (GPay / PhonePe / Paytm)
-        </label>
-        <label class="pay-label">
-          <input type="radio" name="payment" value="COD" onclick="toggleQR(false)">
-          💵 Cash on Delivery
-        </label>
-      </div>
-
-      <div class="qr-section" id="qrSection">
-        <p style="font-weight:600;">Scan QR to Pay</p>
-        <img id="qrImage" src="" alt="UPI QR">
-        <p style="margin-top:10px; font-size:0.8rem; color:#777;">UPI ID: <b id="upiIdDisplay">9353481235@axl</b></p>
-        
-        <div class="payment-options" style="margin-top: 15px;">
-          <button type="button" class="app-pay-btn" onclick="payWithApp('phonepe')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/320px-PhonePe_Logo.svg.png" alt="PhonePe" class="app-logo"> PhonePe
-          </button>
-          <button type="button" class="app-pay-btn" onclick="payWithApp('paytm')">
-            <img src="https://cdn.jsdelivr.net/npm/@thesvg/icons/icons/paytm.svg" alt="Paytm" class="app-logo"> Paytm
-          </button>
-          <button type="button" class="app-pay-btn" onclick="payWithApp('gpay')">
-            <img src="https://cdn.jsdelivr.net/npm/@thesvg/icons/icons/google-pay.svg" alt="Google Pay" class="app-logo"> Google Pay
-          </button>
-        </div>
-      </div>
-
-      <button type="submit" class="place-order-btn">
-        <span class="btn-icon">🛒</span> Place Order · Pay Now
-      </button>
-    </form>
-  </div>
-</div>
-
-<script>
-  // ==========================================
-  // ✅ SETTINGS
-  // ==========================================
-  const WHATSAPP_NUMBER = "919353481235";
-  const DEFAULT_UPI_ID = "9353481235@axl";
-  const PAYEE_NAME = "BK MART";
-
-  let shopOpen = true;
-  let currentItem = null;
-  let allMenuItems = [];
-  let menuCategories = [];
-  let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME, enabled: true };
-
-  const searchInput = document.getElementById("searchInput");
-  const shopAlert = document.getElementById("shopAlert");
-  const timeAlert = document.getElementById("timeAlert");
-
-  const masterMenu = [
-    { name: "Idli (4 pcs)", price: 40, image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Plain Dosa", price: 50, image: "https://images.unsplash.com/photo-1630383249896-424e482df921?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Masala Dosa", price: 70, image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Medu Vada", price: 30, image: "https://images.unsplash.com/photo-1626509653291-18d9a934b9db?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Tahari", price: 90, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Chicken Biryani", price: 180, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Mutton Biryani", price: 250, image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Veg Biryani", price: 140, image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=600&auto=format&fit=crop", from: "11:00", to: "23:59" },
-    { name: "Shami Parata", price: 120, image: "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" },
-    { name: "Egg Dosa", price: 80, image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop", from: "06:00", to: "11:00" }
-  ];
-
-  // ── TIME WINDOW ──
-  function isItemAvailable(item) {
-    if (!item.from && !item.to) return true;
-    const now = new Date();
-    const cur = now.getHours() * 60 + now.getMinutes();
-    function toMin(t) {
-      if (!t) return null;
-      const [h, m] = t.split(":").map(Number);
-      return h * 60 + (m || 0);
-    }
-    const f = toMin(item.from);
-    const t = toMin(item.to);
-    if (f === null && t === null) return true;
-    if (f === null) return cur <= t;
-    if (t === null) return cur >= f;
-    if (f <= t) return cur >= f && cur <= t;
-    return cur >= f || cur <= t;
-  }
-
-  function formatTime12(t) {
-    if (!t) return "";
-    const [h, m] = t.split(":").map(Number);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const hh = h % 12 || 12;
-    return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
-  }
-
-  // ── RENDER ──
-  function renderMenu(items) {
-    const grid = document.getElementById("menuGrid");
-    grid.innerHTML = "";
-    const query = searchInput.value.trim().toLowerCase();
-    let found = 0;
-    let totalVisible = 0;
-
-    const categories = menuCategories.length ? menuCategories : [{ name: "BK MART", items }];
-
-    categories.forEach(category => {
-      const matches = (category.items || []).filter(item =>
-        String(item.name || "").toLowerCase().includes(query) && isItemAvailable(item)
-      );
-      if (!matches.length) return;
-      found += matches.length;
-
-      matches.forEach(item => {
-        totalVisible++;
-        const div = document.createElement("div");
-        div.className = "card";
-        const imgSrc = item.image || "https://via.placeholder.com/280x180?text=No+Image";
-        const timeBadge = (item.from || item.to)
-          ? `<span class="card-time-badge">🕒 ${formatTime12(item.from) || "—"} – ${formatTime12(item.to) || "—"}</span>`
-          : "";
-        div.innerHTML = `
-          <div class="card-img-container">
-            <img src="${imgSrc}">
-            ${timeBadge}
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">${item.name}</h3>
-            <p class="card-price">${Number(item.price) || 0}</p>
-            <button class="buy-btn"><span class="btn-icon">🛍️</span> BUY NOW</button>
-          </div>`;
-        div.querySelector(".buy-btn").addEventListener("click", () => openCheckout(item.name, Number(item.price) || 0));
-        grid.appendChild(div);
-      });
-    });
-
-    document.getElementById("productCount").textContent = totalVisible + " items";
-
-    if (!found) {
-      grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;padding:35px;color:#888'>No items found.</p>";
-    }
-
-    const totalAll = categories.reduce((s, c) => s + (c.items || []).length, 0);
-    const availableCount = categories.reduce((s, c) => s + (c.items || []).filter(isItemAvailable).length, 0);
-    timeAlert.style.display = (totalAll > 0 && availableCount === 0) ? "block" : "none";
-  }
-
-  // ── LOAD ──
-  async function loadMenu() {
-    try {
-      const response = await fetch('data.json?v=' + Date.now());
-      if (!response.ok) throw new Error();
-      const data = await response.json();
-
-      shopOpen = data.shopStatus !== "closed";
-      shopAlert.style.display = shopOpen ? "none" : "block";
-
-      if (data.upi) {
-        globalUpi = {
-          id: data.upi.id || DEFAULT_UPI_ID,
-          name: data.upi.name || PAYEE_NAME,
-          enabled: data.upi.enabled !== false
-        };
-      }
-      if (data.hotelName) document.getElementById("hotelName").textContent = data.hotelName;
-      if (data.hotelSubtitle) document.getElementById("hotelSubtitle").textContent = data.hotelSubtitle;
-
-      if (Array.isArray(data.categories) && data.categories.length) {
-        menuCategories = data.categories;
-        allMenuItems = data.categories.flatMap(c => c.items || []);
-      } else {
-        menuCategories = [{ name: data.hotelName || "BK MART", items: data.menu || [] }];
-        allMenuItems = menuCategories[0].items;
-      }
-    } catch (e) {
-      menuCategories = [{ name: "BK MART", items: masterMenu }];
-      allMenuItems = masterMenu;
-      shopAlert.style.display = "none";
-    }
-    document.getElementById("upiIdDisplay").textContent = globalUpi.id;
-    renderMenu(allMenuItems);
-  }
-
-  searchInput.addEventListener("input", () => renderMenu(allMenuItems));
-  setInterval(() => renderMenu(allMenuItems), 30000);
-
-  // ── LOCATION ──
-  function detectLocation() {
-    const addressField = document.getElementById("custAddress");
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          addressField.value = `Lat: ${position.coords.latitude}, Lng: ${position.coords.longitude} (Please add house details)`;
-        },
-        () => { addressField.placeholder = "Location denied. Please type address manually."; }
-      );
-    }
-  }
-
-  // ── QR ──
   function generateQR(amount) {
     const upiUrl = `upi://pay?pa=${globalUpi.id}&pn=${encodeURIComponent(globalUpi.name)}&am=${amount}&cu=INR`;
     document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
@@ -816,6 +394,9 @@
     document.getElementById("checkoutModal").classList.add("active");
     generateQR(price);
     detectLocation();
+    
+    document.querySelector('input[value="UPI"]').checked = true;
+    toggleQR(true);
   };
 
   window.closeModal = function() {
