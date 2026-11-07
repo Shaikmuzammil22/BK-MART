@@ -512,7 +512,7 @@
         {
           "name": "DAL METHI ",
           "price": 130,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794035946002-1000047251.jpg",
           "from": "13:00",
           "to": "23:00"
         },
@@ -533,7 +533,7 @@
         {
           "name": "ALU GOBI ",
           "price": 120,
-          "image": "",
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794035983003-1000047252.jpg",
           "from": "13:00",
           "to": "23:00"
         },
