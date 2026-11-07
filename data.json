@@ -350,6 +350,432 @@
           "to": "23:00"
         }
       ]
+    },
+    {
+      "id": "c1793986290235",
+      "name": "SHIV MALHAR DHABA",
+      "items": [
+        {
+          "name": "GOBI MANCHURIAN ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793986373084-1000047101.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "VEG 65 ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987156493-1000047104.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "GOBI 65 ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987265659-1000047105.webp",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "GOBI MANCHURIAN GRAVY ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987539773-1000047107.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "GOBI TIKKA ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987626482-1000047108.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "JEERA ALOO ",
+          "price": 130,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987838578-1000047109.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MUSHROOM 65 ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793987974901-1000047110.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER 65 ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988074596-1000047111.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "CHILLI PANEER ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988165415-1000047112.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "DRAGON PANEER",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988242996-1000047116.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER MAJESTIC ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988368605-1000047117.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER TIKKA ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988498458-1000047118.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER MALAI TIKKA ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988647103-1000047122.jpg",
+          "from": "13:00",
+          "to": "23:01"
+        },
+        {
+          "name": "VEG NOODLES ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988715893-1000047123.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "SCHEZWAN NOODLES ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988823596-1000047126.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "VEG FRIED RICE ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793988917525-1000047131.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "SCHEZWAN FRIED RICE ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793989374515-1000047138.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "SPECIAL FRIED RICE ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793989273004-1000047139.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "YELLOW DAL ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793989576564-1000047141.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "DAL FRY ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793989725076-1000047142.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "DAL TADKA ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793989965246-1000047150.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PALAK DAL ",
+          "price": 130,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793990279276-1000047152.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "DAL METHI ",
+          "price": 130,
+          "image": "",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MIX VEL",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793990551590-1000047154.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "VEL KOLHAPURI ",
+          "price": 140,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1793992041840-1000047155.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "ALU GOBI ",
+          "price": 120,
+          "image": "",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PLAIN PALAK ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794024650216-1000047185.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "METHI MASALA ",
+          "price": 130,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794024956006-1000047186.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MALAI KOFTA ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025134648-1000047187.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "BUL BUL KOFTA ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025256677-1000047189.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER KOFTA ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025434760-1000047191.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MUSHROOM MASALA ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025607575-1000047194.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MUSHROOM PANEER ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025841715-1000047197.jpg",
+          "from": "13:00",
+          "to": "11:00"
+        },
+        {
+          "name": "PANEER BUTTER MASALA ",
+          "price": 140,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794025799285-1000047196.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER BUTTER MASALA -. Haif",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026166691-1000047196.jpg",
+          "from": "13:00",
+          "to": "11:00"
+        },
+        {
+          "name": "KADHAI PANEER ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026223492-1000047198.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "SHAHI PANEER ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026366295-1000047200.jpg",
+          "from": "13:00",
+          "to": "11:00"
+        },
+        {
+          "name": "PALAK PANEER ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026481850-1000047201.webp",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER BHURJI ",
+          "price": 160,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026597380-1000047203.jpg",
+          "from": "01:00",
+          "to": "11:00"
+        },
+        {
+          "name": "PANEER CHATPATA ",
+          "price": 160,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794026959237-1000047205.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "METHI PANEER ",
+          "price": 160,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027154865-1000047207.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KEEMA PANEER ",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027377895-1000047208.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU PANEER ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027452680-1000047209.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU MASALA ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027522982-1000047210.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "METHI CHAMAN",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027589993-1000047211.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "TADKA PANEER ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027673501-1000047212.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU KORMA ",
+          "price": 180,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794027754516-1000047213.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU KADHAI ",
+          "price": 200,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794033885722-1000047214.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "BEWAFA PANEER ",
+          "price": 200,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034091102-1000047234.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "GOLDEN PANEER ",
+          "price": 200,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034295922-1000047235.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER TIKKA MASALA ",
+          "price": 220,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034422063-1000047236.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "VEG HANDI BIRYANI ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034525436-1000047238.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "PANEER HANDI BIRYANI ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034583916-1000047240.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU HANDI BIRYANI ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034682246-1000047241.png",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "SPECIAL BIRYANI ",
+          "price": 160,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034788734-1000047242.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "JEERA RICE ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034909695-1000047243.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "KAJU GHEE RICE ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794034987377-1000047244.webp",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MASALA RICE",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794035082007-1000047246.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "TOMATO RICE ",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794035213472-1000047247.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "MIX VEG PULAV ",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794035313046-1000047249.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        }
+      ]
     }
   ],
   "upi": {
