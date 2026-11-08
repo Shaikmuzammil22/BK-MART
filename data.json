@@ -769,6 +769,145 @@
           "to": "23:00"
         }
       ]
+    },
+    {
+      "id": "c1794128800728",
+      "name": "ARZOO HOTEL",
+      "items": [
+        {
+          "name": "Egg Biryani Full",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794128860297-1000047275.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Egg Biryani Half",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794128896046-1000047275.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Mutton Biryani Full",
+          "price": 140,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794128939279-1000047277.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Mutton Biryani half",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794128973391-1000047277.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": " P. Rice Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129043106-1000047107.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": " P. Rice Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129088600-1000047107.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "G. Manchurian Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129159044-1000047285.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "G. Manchurian Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129196644-1000047285.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Lollipop (5 Pcs)",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129257578-1000047052.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Manchurian Full",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129353145-1000047105.webp",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Manchurian Half",
+          "price": 120,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129423179-1000047105.webp",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Noodles Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129491078-1000047123.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Noodles Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129516891-1000047123.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Veg Rice Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129598466-1000047283.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Veg Rice Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129629690-1000047283.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Egg Rice Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129698379-1000047415.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Egg Rice Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129727302-1000047415.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Lollipop ",
+          "price": 150,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129831678-1000047083.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken Lollipop Half",
+          "price": 90,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794129940426-1000047083.jpg",
+          "from": "13:00",
+          "to": "23:00"
+        }
+      ]
     }
   ],
   "upi": {
