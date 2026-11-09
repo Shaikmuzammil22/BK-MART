@@ -908,6 +908,26 @@
           "to": "23:00"
         }
       ]
+    },
+    {
+      "id": "c1794225055496",
+      "name": "SMILE PANI PURI",
+      "items": [
+        {
+          "name": "Golgappe (100) Pcs",
+          "price": 170,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794225195082-1000047730.png",
+          "from": "15:00",
+          "to": "20:00"
+        },
+        {
+          "name": "Golgappe (50) Pcs",
+          "price": 100,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794225266956-1000047730.png",
+          "from": "15:00",
+          "to": "20:00"
+        }
+      ]
     }
   ],
   "upi": {
