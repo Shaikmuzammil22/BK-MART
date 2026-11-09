@@ -928,6 +928,54 @@
           "to": "20:00"
         }
       ]
+    },
+    {
+      "id": "c1794225422116",
+      "name": "SOCCER HOTEL🍲",
+      "items": [
+        {
+          "name": "Tahari full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794225548960-1000047731.jpg",
+          "from": "07:00",
+          "to": "11:00"
+        },
+        {
+          "name": "Tahari Half",
+          "price": 60,
+          "image": "",
+          "from": "07:00",
+          "to": "23:00"
+        },
+        {
+          "name": "Chicken biryani Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794225693388-1000047732.jpg",
+          "from": "11:00",
+          "to": "22:00"
+        },
+        {
+          "name": "Chicken biryani Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794225754107-1000047732.jpg",
+          "from": "11:00",
+          "to": "22:00"
+        },
+        {
+          "name": "mutton biryani Full",
+          "price": 80,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794226012462-1000047276.jpg",
+          "from": "11:00",
+          "to": "22:00"
+        },
+        {
+          "name": "mutton biryani Half",
+          "price": 60,
+          "image": "https://raw.githubusercontent.com/Shaikmuzammil22/BK-MART/main/assets/1794226056856-1000047276.jpg",
+          "from": "11:00",
+          "to": "22:00"
+        }
+      ]
     }
   ],
   "upi": {
