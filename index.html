@@ -10,18 +10,30 @@
   <style>
     /* ── PREMIUM ANIMATIONS & RESETS ── */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
-    body { background: #f7f4f0; color: #1e1e1e; padding-bottom: 100px; overflow-x: hidden; }
     
+    /* BACKGROUND ANIMATION */
+    body { 
+      background: linear-gradient(135deg, #f7f4f0 0%, #ffece0 50%, #f7f4f0 100%); 
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #1e1e1e; 
+      padding-bottom: 100px; 
+      overflow-x: hidden; 
+    }
+    @keyframes gradientBG { 
+      0% { background-position: 0% 50%; } 
+      50% { background-position: 100% 50%; } 
+      100% { background-position: 0% 50%; } 
+    }
+
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    @keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { transform: scale(1); opacity: 1; } }
 
     .animate-fade { animation: fadeIn 0.5s ease forwards; }
-    .animate-slide { animation: slideUp 0.4s ease forwards; }
 
     /* ── PREMIUM HEADER ── */
-    .header { background: linear-gradient(135deg, #ffffff 0%, #fefbf8 100%); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); border-bottom: 1px solid rgba(139, 69, 19, 0.08); }
+    .header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); border-bottom: 1px solid rgba(139, 69, 19, 0.08); }
     .brand h1 { font-size: 2.2rem; font-weight: 800; background: linear-gradient(145deg, #0056D2 0%, #003b8f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
     .brand .hotel-sub { font-size: 0.85rem; font-weight: 600; color: #0056D2; margin-top: 4px; display: flex; align-items: center; gap: 8px; }
     .brand .hotel-sub .badge { background: linear-gradient(145deg, #ff6a2b, #e0530e); color: #fff; font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; box-shadow: 0 3px 8px rgba(224,83,14,0.3); }
@@ -36,8 +48,8 @@
     
     /* ── SEARCH ── */
     .search-container { max-width: 900px; margin: 15px auto 10px; padding: 0 20px; }
-    .search-box { display: flex; align-items: center; background: white; border: 1px solid #ede6de; border-radius: 60px; padding: 12px 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); transition: all 0.3s; }
-    .search-box:focus-within { box-shadow: 0 8px 24px rgba(0,86,210,0.15); border-color: #0056D2; transform: translateY(-2px); }
+    .search-box { display: flex; align-items: center; background: rgba(255, 255, 255, 0.9); border: 1px solid #ede6de; border-radius: 60px; padding: 12px 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); transition: all 0.3s; }
+    .search-box:focus-within { box-shadow: 0 8px 24px rgba(0,86,210,0.15); border-color: #0056D2; transform: translateY(-2px); background: #fff; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; margin-left: 12px; background: transparent; }
 
     /* ── MENU GRID & CARDS ── */
@@ -48,9 +60,9 @@
     .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .card:hover .card-img-container img { transform: scale(1.1); }
     
-    .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: .7rem; font-weight: 700; padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(6px); }
-    .card-time-badge.closed { background: rgba(220, 38, 38, 0.9); }
-    .card-hotel-badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 255, 255, 0.9); color: #0056D2; font-size: .7rem; font-weight: 800; padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(6px); }
+    /* Time Badge */
+    .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.75); color: #fff; font-size: .75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px); letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .card-hotel-badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 255, 255, 0.95); color: #0056D2; font-size: .7rem; font-weight: 800; padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(6px); }
     
     .card-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.2rem; font-weight: 700; color: #2c1d12; margin-bottom: 4px; }
@@ -67,9 +79,8 @@
     .add-btn { margin-top: auto; background: linear-gradient(145deg, #0056D2 0%, #003b8f 100%); color: white; border: none; padding: 14px 10px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(0,86,210,0.45); }
     .add-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(0,86,210,0.6); }
     .add-btn:active { transform: scale(0.95); }
-    .add-btn.closed { background: #e0e0e0; color: #888; box-shadow: none; cursor: not-allowed; pointer-events: none; }
 
-    /* ── FLOATING CART BUTTON (PREMIUM) ── */
+    /* ── FLOATING CART BUTTON ── */
     .floating-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #1e9e4a, #157a36); color: white; padding: 16px 24px; border-radius: 50px; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 40px); max-width: 450px; box-shadow: 0 10px 30px rgba(30, 158, 74, 0.4); cursor: pointer; z-index: 500; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; }
     .floating-cart.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .floating-cart:hover { transform: translateX(-50%) translateY(-5px); box-shadow: 0 15px 40px rgba(30, 158, 74, 0.6); }
@@ -78,20 +89,17 @@
     .cart-total-price { font-size: 1.2rem; font-weight: 800; }
     .view-cart-text { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 5px; }
 
-    /* ── MODALS (ANIMATED) ── */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 15, 10, 0.7); z-index: 1000; justify-content: center; align-items: flex-end; /* Mobile style bottom sheet */ backdrop-filter: blur(5px); }
+    /* ── MODALS ── */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 15, 10, 0.7); z-index: 1000; justify-content: center; align-items: flex-end; backdrop-filter: blur(5px); }
     .modal.active { display: flex; animation: fadeIn 0.3s ease; }
     .modal-content { background: #ffffff; width: 100%; max-width: 600px; border-radius: 32px 32px 0 0; padding: 28px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; position: relative; }
     
-    /* Drag handle for bottom sheet */
     .drag-handle { width: 50px; height: 5px; background: #e0e0e0; border-radius: 10px; margin: 0 auto 20px auto; }
-
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #f0e6de; padding-bottom: 14px; }
     .modal-header h2 { font-size: 1.4rem; font-weight: 800; color: #2c1d12; }
     .close-btn { background: #f5f5f5; border: none; font-size: 1.5rem; cursor: pointer; color: #555; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
     .close-btn:hover { background: #e0e0e0; transform: rotate(90deg); }
     
-    /* Cart Item List in Checkout */
     .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #f0e6de; animation: slideUp 0.3s ease; }
     .cart-item-info { display: flex; flex-direction: column; }
     .cart-item-name { font-weight: 700; color: #333; font-size: 0.95rem; }
@@ -102,46 +110,44 @@
     .summary-row.total { font-weight: 800; font-size: 1.2rem; color: #2c1d12; border-top: 1px dashed #dbbd9c; padding-top: 12px; margin-top: 12px; }
     .delivery-badge { background: #e8f5e9; color: #1e7b3c; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; }
 
-    /* Forms */
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.85rem; color: #5f4b3a; }
     .form-group input, .form-group textarea { width: 100%; padding: 14px; border: 1.5px solid #e2d8d0; border-radius: 18px; font-size: 0.95rem; transition: all 0.3s; background: #fafafa; }
     .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #0056D2; background: #fff; box-shadow: 0 0 0 4px rgba(0,86,210,0.1); }
     .form-group textarea { resize: none; color: #777; }
     
-    /* Payment Options */
     .payment-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
     .pay-label { display: flex; align-items: center; padding: 15px 18px; border: 1.5px solid #ede6de; border-radius: 18px; cursor: pointer; font-weight: 600; background: #fefcfb; transition: all 0.2s; gap: 10px; }
     .pay-label:has(input:checked) { border-color: #0056D2; background: #f0f5ff; box-shadow: 0 0 0 3px rgba(0,86,210,0.1); transform: scale(1.02); }
     .pay-label input { accent-color: #0056D2; width: 20px; height: 20px; }
 
-    /* QR Section */
     .qr-section { display: none; text-align: center; margin: 16px 0; padding: 20px; background: #fdf8f4; border-radius: 22px; border: 1px dashed #dbbd9c; animation: popIn 0.4s ease; }
     .qr-section img#qrImage { width: 180px; height: 180px; margin-top: 10px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
     .app-pay-btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px; border: 1.5px solid #ede6de; border-radius: 18px; background: #fff; cursor: pointer; transition: all 0.2s; font-size: 1rem; font-weight: 700; color: #333; width: 100%; margin-top: 8px; }
     .app-pay-btn:hover { border-color: #0056D2; background: #f0f5ff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
     .app-logo { height: 24px; width: auto; }
 
-    /* Submit Button */
     .place-order-btn { width: 100%; background: linear-gradient(145deg, #1e9e4a 0%, #157a36 100%); color: white; padding: 18px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s; box-shadow: 0 8px 24px -4px rgba(30,158,74,0.45); }
     .place-order-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -4px rgba(30,158,74,0.6); }
     .place-order-btn:active { transform: scale(0.98); }
 
-    /* Toast */
     #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #333; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; z-index: 2000; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* Empty State */
+    .empty-state { text-align: center; padding: 50px 20px; color: #888; animation: fadeIn 0.5s ease; }
+    .empty-state h2 { font-size: 1.5rem; color: #333; margin-bottom: 8px; }
   </style>
 </head>
 <body>
 
-<!-- Toast Notification -->
 <div id="toast">Item added to cart!</div>
 
 <div class="header">
   <div class="brand">
     <h1 id="hotelName">BASVAKALYAN MART</h1>
     <div class="hotel-sub">
-      <span id="hotelSubtitle">ALL ITEMS</span>
+      <span id="hotelSubtitle">Select a Hotel</span>
       <span class="badge" id="productCount">0 items</span>
     </div>
   </div>
@@ -157,8 +163,6 @@
     <input type="text" id="searchInput" placeholder="Search Biryani, Dosa...">
   </div>
 </div>
-
-<div id="shopAlert" style="display:none; max-width:900px; margin:0 auto 16px; background:#fff1f0; color:#b3402c; padding:16px; border-radius:20px; text-align:center; font-weight:700;">⚠️ Aaj Dukan Band Hai</div>
 
 <div class="menu-container" id="menuGrid"></div>
 
@@ -181,10 +185,7 @@
       <button class="close-btn" onclick="closeModal()">×</button>
     </div>
 
-    <!-- Bill Summary -->
-    <div id="cartItemsList" style="margin-bottom: 20px;">
-      <!-- Cart items will be injected here -->
-    </div>
+    <div id="cartItemsList" style="margin-bottom: 20px;"></div>
 
     <div style="background:#fdf8f4; padding:16px; border-radius:20px; margin-bottom:22px;">
       <div class="summary-row">
@@ -255,26 +256,19 @@
 </div>
 
 <script>
-  // ==========================================
-  // ✅ SETTINGS
-  // ==========================================
   const WHATSAPP_NUMBER = "919353481235";
   const DEFAULT_UPI_ID = "9353481235@axl";
   const PAYEE_NAME = "BASVAKALYAN MART";
-  const DELIVERY_CHARGE = 10; // ₹10 Flat Delivery Charge
+  const DELIVERY_CHARGE = 10; // Flat ₹10
 
   let shopOpen = true;
-  let allMenuItems = [];
   let menuCategories = [];
-  let activeCategory = "ALL"; 
+  let activeCategory = ""; // Starts empty (No "ALL" tab)
   let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME };
-  
-  // Cart Object: { "Item Name": { price: 50, qty: 2 } }
   let cart = {}; 
 
   const searchInput = document.getElementById("searchInput");
 
-  // ── TOAST NOTIFICATION ──
   function showToast(msg) {
     const t = document.getElementById("toast");
     t.textContent = msg;
@@ -302,78 +296,93 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
-  // ── RENDER HOTEL TABS ──
+  // ── RENDER HOTEL TABS (No "All Items") ──
   function renderHotelTabs() {
     const container = document.getElementById("hotelTabs");
     container.innerHTML = "";
-    const allTab = document.createElement("button");
-    allTab.className = `hotel-tab ${activeCategory === "ALL" ? "active" : ""}`;
-    allTab.innerHTML = `🍽️ All Items`;
-    allTab.onclick = () => { activeCategory = "ALL"; renderHotelTabs(); renderMenu(); };
-    container.appendChild(allTab);
 
-    menuCategories.forEach(cat => {
-      if (!cat.items || cat.items.length === 0) return; 
+    menuCategories.forEach((cat, index) => {
+      // Check if this hotel has ANY item available right now
+      const hasAvailableItems = (cat.items || []).some(item => isItemAvailable(item));
+      if (!hasAvailableItems) return; // Agar hotel ka koi item available nahi hai, toh tab hi mat dikhao
+
+      // Auto-select the first available hotel
+      if (activeCategory === "") activeCategory = cat.name;
+
       const btn = document.createElement("button");
       btn.className = `hotel-tab ${activeCategory === cat.name ? "active" : ""}`;
       btn.innerHTML = `🏨 ${cat.name}`;
       btn.onclick = () => { activeCategory = cat.name; renderHotelTabs(); renderMenu(); };
       container.appendChild(btn);
     });
+
+    // Update Header Subtitle
+    document.getElementById("hotelSubtitle").textContent = activeCategory || "Closed";
   }
 
-  // ── RENDER MENU CARDS ──
+  // ── RENDER MENU (Only Available Items) ──
   function renderMenu() {
     const grid = document.getElementById("menuGrid");
     grid.innerHTML = "";
     const query = searchInput.value.trim().toLowerCase();
     let totalVisible = 0;
 
-    let categoriesToRender = activeCategory === "ALL" ? menuCategories : menuCategories.filter(c => c.name === activeCategory);
-    document.getElementById("hotelSubtitle").textContent = activeCategory === "ALL" ? "ALL ITEMS" : activeCategory;
+    // Filter by selected category
+    let categoriesToRender = menuCategories.filter(c => c.name === activeCategory);
+    
+    // Agar active category set nahi hai (sab band hain)
+    if (categoriesToRender.length === 0) {
+       grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+          <h2>⏰ Abhi Koi Dukan Band Hai</h2>
+          <p>Kripya timing check karein. Us time ke hisaab se items show honge.</p>
+       </div>`;
+       document.getElementById("productCount").textContent = `0 items`;
+       return;
+    }
 
     categoriesToRender.forEach(category => {
-      const matches = (category.items || []).filter(item => String(item.name || "").toLowerCase().includes(query));
-      if (!matches.length) return;
+      // Filter items: Must be available NOW and match search
+      const matches = (category.items || []).filter(item => 
+        isItemAvailable(item) && String(item.name || "").toLowerCase().includes(query)
+      );
+      
+      if (!matches.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+          <h2>😕 Koi item available nahi hai</h2>
+          <p>Is time par is hotel mein kuch nahi mil raha.</p>
+       </div>`;
+        return;
+      }
 
       matches.forEach(item => {
         totalVisible++;
-        const isAvailable = isItemAvailable(item);
         const itemQty = cart[item.name] ? cart[item.name].qty : 0;
         
         const div = document.createElement("div");
         div.className = "card";
         
-        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge ${isAvailable ? '' : 'closed'}">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
-        let hotelBadge = (activeCategory === "ALL") ? `<span class="card-hotel-badge">🏨 ${category.name}</span>` : "";
+        // Time Badge (Will always show because these items are currently available)
+        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
 
         let actionHtml = "";
-        if (isAvailable) {
-          if (itemQty > 0) {
-            // Quantity Controller
-            actionHtml = `
-              <div class="qty-container">
-                <button class="qty-btn" onclick="updateCart('${item.name}', ${item.price}, -1)">−</button>
-                <span class="qty-num">${itemQty}</span>
-                <button class="qty-btn" onclick="updateCart('${item.name}', ${item.price}, 1)">+</button>
-              </div>`;
-          } else {
-            // Add Button
-            actionHtml = `
-              <button class="add-btn" onclick="updateCart('${item.name}', ${item.price}, 1)">
-                <span>🛍️</span> ADD ITEM
-              </button>`;
-          }
+        if (itemQty > 0) {
+          actionHtml = `
+            <div class="qty-container">
+              <button class="qty-btn" onclick="updateCart('${item.name}', ${item.price}, -1)">−</button>
+              <span class="qty-num">${itemQty}</span>
+              <button class="qty-btn" onclick="updateCart('${item.name}', ${item.price}, 1)">+</button>
+            </div>`;
         } else {
-          // Closed Button
-          actionHtml = `<button class="add-btn closed"><span>⏰</span> CLOSED</button>`;
+          actionHtml = `
+            <button class="add-btn" onclick="updateCart('${item.name}', ${item.price}, 1)">
+              <span>🛍️</span> ADD ITEM
+            </button>`;
         }
 
         div.innerHTML = `
           <div class="card-img-container">
             <img src="${item.image || 'https://via.placeholder.com/280x180?text=No+Image'}" loading="lazy">
             ${timeBadge}
-            ${hotelBadge}
           </div>
           <div class="card-content">
             <h3 class="card-title">${item.name}</h3>
@@ -398,8 +407,8 @@
       showToast(`✅ ${itemName} added!`);
     }
     
-    renderMenu(); // Update buttons
-    updateFloatingCart(); // Update bottom bar
+    renderMenu(); 
+    updateFloatingCart(); 
   };
 
   function updateFloatingCart() {
@@ -419,23 +428,20 @@
       floatingCart.classList.add("show");
     } else {
       floatingCart.classList.remove("show");
-      closeModal(); // Auto close if cart is empty
+      closeModal(); 
     }
   }
 
-  // ── RENDER CHECKOUT BILL ──
   function renderCheckoutBill() {
     const listContainer = document.getElementById("cartItemsList");
     listContainer.innerHTML = "";
     
     let itemTotal = 0;
-    let totalItems = 0;
 
     Object.keys(cart).forEach(itemName => {
       const item = cart[itemName];
       const subTotal = item.price * item.qty;
       itemTotal += subTotal;
-      totalItems += item.qty;
 
       listContainer.innerHTML += `
         <div class="cart-item-row">
@@ -457,7 +463,6 @@
     generateQR(grandTotal);
   }
 
-  // ── OPEN / CLOSE MODAL ──
   window.openCheckout = function() {
     if (Object.keys(cart).length === 0) return;
     
@@ -477,7 +482,6 @@
     document.getElementById("qrSection").style.display = show ? "block" : "none";
   };
 
-  // ── AUTO LOCATION DETECT ──
   function detectLocation() {
     const addressField = document.getElementById("custAddress");
     const locStatus = document.getElementById("locStatus");
@@ -503,7 +507,6 @@
     }
   }
 
-  // ── QR & APP PAYMENT ──
   function getGrandTotal() {
     let itemTotal = 0;
     Object.keys(cart).forEach(key => { itemTotal += (cart[key].price * cart[key].qty); });
@@ -529,7 +532,6 @@
     window.location.href = links[app];
   };
 
-  // ── PLACE ORDER ──
   window.placeOrder = function(event) {
     event.preventDefault();
     
@@ -563,7 +565,7 @@
     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
   };
 
-  // ── LOAD DATA & INIT ──
+  // ── LOAD DATA ──
   async function loadMenu() {
     try {
       const response = await fetch('data.json?v=' + Date.now());
@@ -585,12 +587,21 @@
     }
     
     document.getElementById("upiIdDisplay").textContent = globalUpi.id;
+    
+    // Select first available hotel automatically
+    if (menuCategories.length > 0) activeCategory = menuCategories[0].name;
+
     renderHotelTabs();
     renderMenu();
   }
 
   searchInput.addEventListener("input", renderMenu);
-  setInterval(() => { renderHotelTabs(); renderMenu(); }, 60000); // Time refresh
+  
+  // Auto refresh every minute to show/hide items based on time
+  setInterval(() => { 
+    renderHotelTabs(); 
+    renderMenu(); 
+  }, 60000); 
 
   loadMenu();
 </script>
