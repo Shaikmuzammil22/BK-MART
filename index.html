@@ -6,7 +6,7 @@
   <title>BASVAKALYAN MART</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
   <style>
     /* ── PREMIUM ANIMATIONS & RESETS ── */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
@@ -30,15 +30,31 @@
     @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-    /* ── PREMIUM HEADER (Golden Text with Black Shadow) ── */
+    /* ── PREMIUM HEADER (Black Gold 3D Style) ── */
     .header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); border-bottom: 1px solid rgba(139, 69, 19, 0.08); }
     
     .brand h1 { 
       font-size: 2.2rem; 
-      font-weight: 800; 
-      color: #D4AF37; /* Golden */
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8), 0px 0px 10px rgba(0, 0, 0, 0.4); /* Black Shadow */
+      font-weight: 900; 
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      
+      /* 3D Gold Gradient */
+      background: linear-gradient(to bottom, #CFB53B, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      
+      /* 3D Embossed Shadow (Black shadow) */
+      text-shadow: 
+        1px 1px 0px #7a5a17,
+        2px 2px 0px #5a3d0c,
+        3px 3px 1px rgba(0,0,0,0.6),
+        4px 4px 8px rgba(0, 0, 0, 0.4); 
+        
       line-height: 1.1; 
+      filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.2));
     }
     
     .brand .hotel-sub { font-size: 0.85rem; font-weight: 700; color: #111111; margin-top: 4px; display: flex; align-items: center; gap: 8px; }
@@ -66,25 +82,35 @@
     .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .card:hover .card-img-container img { transform: scale(1.1); }
     
+    /* Item Closed Overlay */
+    .card.closed .card-img-container img { filter: grayscale(0.8) opacity(0.7); }
+    .card.closed { background: #fafafa; border-color: #eaeaea; }
+
     /* Time Badge */
     .card-time-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.75); color: #fff; font-size: .75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px); letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .card-time-badge.closed-badge { background: rgba(220, 38, 38, 0.9); }
     
     .card-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.2rem; font-weight: 700; color: #2c1d12; margin-bottom: 4px; }
+    .card.closed .card-title { color: #666; }
     .card-price { font-size: 1.1rem; color: #111; font-weight: 800; margin-bottom: 16px; }
+    .card.closed .card-price { color: #888; }
     .card-price::before { content: "₹"; margin-right: 2px; }
 
     /* ── QUANTITY CONTROLS (In Card) ── */
     .qty-container { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 50px; padding: 5px; margin-top: auto; animation: popIn 0.3s ease; }
     .qty-btn { background: #ffffff; color: #111; border: 1px solid #e0e0e0; width: 38px; height: 38px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     .qty-btn:hover { background: #111; color: white; border-color: #111; transform: scale(1.1); }
-    .qty-btn:active { transform: scale(0.9); }
     .qty-num { font-weight: 800; font-size: 1.1rem; color: #111; animation: popIn 0.2s ease; }
 
     /* ── BUY BUTTON ── */
     .buy-action-btn { margin-top: auto; background: linear-gradient(145deg, #111 0%, #333 100%); color: white; border: none; padding: 14px 10px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.45); }
     .buy-action-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(0,0,0,0.6); }
     .buy-action-btn:active { transform: scale(0.95); }
+    
+    /* Closed Buy Button */
+    .buy-action-btn.closed { background: #e0e0e0; color: #888; box-shadow: none; cursor: not-allowed; }
+    .buy-action-btn.closed:hover { transform: none; box-shadow: none; }
 
     /* ── FLOATING CART BUTTON ── */
     .floating-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #D4AF37, #B8860B); color: white; padding: 16px 24px; border-radius: 50px; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 40px); max-width: 450px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); cursor: pointer; z-index: 500; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; }
@@ -118,7 +144,6 @@
     .qty-popup-btn:hover { background: #e0e0e0; }
     .qty-popup-num { font-size: 1.8rem; font-weight: 800; color: #111; width: 40px; }
     
-    /* UPDATED BUTTON: BUY */
     .qty-popup-add-btn { width: 100%; background: linear-gradient(145deg, #111, #333); color: white; padding: 16px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: 0.3s; }
     .qty-popup-add-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0,0,0,0.4); }
 
@@ -210,7 +235,6 @@
       <button class="qty-popup-btn" onclick="changePopupQty(1)">+</button>
     </div>
     
-    <!-- YAHAN BUY KAR DIYA HAI -->
     <button class="qty-popup-add-btn" onclick="addFromPopup()">BUY</button>
   </div>
 </div>
@@ -341,8 +365,7 @@
     container.innerHTML = "";
 
     menuCategories.forEach((cat) => {
-      const hasAvailableItems = (cat.items || []).some(item => isItemAvailable(item));
-      if (!hasAvailableItems) return; 
+      if (!cat.items || cat.items.length === 0) return; 
 
       if (activeCategory === "") activeCategory = cat.name;
 
@@ -366,45 +389,65 @@
     
     if (categoriesToRender.length === 0) {
        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
-          <h2>⏰ Abhi Koi Dukan Band Hai</h2>
+          <h2>⏰ Hotel nahi mila</h2>
        </div>`;
        document.getElementById("productCount").textContent = `0 items`;
        return;
     }
 
     categoriesToRender.forEach(category => {
-      const matches = (category.items || []).filter(item => 
-        isItemAvailable(item) && String(item.name || "").toLowerCase().includes(query)
+      // 1. Get all matched items
+      let matches = (category.items || []).filter(item => 
+        String(item.name || "").toLowerCase().includes(query)
       );
       
       if (!matches.length) {
         grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
-          <h2>😕 Koi item available nahi hai</h2>
+          <h2>😕 Koi item nahi mila</h2>
        </div>`;
         return;
       }
 
+      // 2. Sort items: Available items first, then Closed items
+      matches.sort((a, b) => {
+        const aAvail = isItemAvailable(a) ? 1 : 0;
+        const bAvail = isItemAvailable(b) ? 1 : 0;
+        return bAvail - aAvail;
+      });
+
       matches.forEach(item => {
         totalVisible++;
+        const isAvail = isItemAvailable(item);
         const itemQty = cart[item.name] ? cart[item.name].qty : 0;
         
         const div = document.createElement("div");
-        div.className = "card";
+        div.className = `card ${isAvail ? '' : 'closed'}`;
         
-        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
+        let timeBadge = "";
+        if (item.from || item.to) {
+          timeBadge = `<span class="card-time-badge ${isAvail ? '' : 'closed-badge'}">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>`;
+        }
 
         let actionHtml = "";
-        if (itemQty > 0) {
-          actionHtml = `
-            <div class="qty-container">
-              <button class="qty-btn" onclick="updateCartDirect('${item.name}', -1)">−</button>
-              <span class="qty-num">${itemQty}</span>
-              <button class="qty-btn" onclick="updateCartDirect('${item.name}', 1)">+</button>
-            </div>`;
+        if (isAvail) {
+          if (itemQty > 0) {
+            actionHtml = `
+              <div class="qty-container">
+                <button class="qty-btn" onclick="updateCartDirect('${item.name}', -1)">−</button>
+                <span class="qty-num">${itemQty}</span>
+                <button class="qty-btn" onclick="updateCartDirect('${item.name}', 1)">+</button>
+              </div>`;
+          } else {
+            actionHtml = `
+              <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
+                <span>🛍️</span> BUY
+              </button>`;
+          }
         } else {
+          // Item is closed
           actionHtml = `
-            <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
-              <span>🛍️</span> BUY
+            <button class="buy-action-btn closed" onclick="alert('⏰ Yeh item abhi available nahi hai.\\n\\nAap ise ${formatTime12(item.from)} se ${formatTime12(item.to)} ke beech order kar sakte hain.')">
+              <span>⏰</span> CLOSED
             </button>`;
         }
 
