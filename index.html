@@ -17,7 +17,7 @@
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       color: #1e1e1e; 
-      padding-bottom: 100px; 
+      padding-bottom: 50px; 
       overflow-x: hidden; 
     }
     @keyframes gradientBG { 
@@ -97,12 +97,6 @@
     .card.closed .card-price { color: #888; }
     .card-price::before { content: "₹"; margin-right: 2px; }
 
-    /* ── QUANTITY CONTROLS (In Card) ── */
-    .qty-container { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 50px; padding: 5px; margin-top: auto; animation: popIn 0.3s ease; }
-    .qty-btn { background: #ffffff; color: #111; border: 1px solid #e0e0e0; width: 38px; height: 38px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .qty-btn:hover { background: #111; color: white; border-color: #111; transform: scale(1.1); }
-    .qty-num { font-weight: 800; font-size: 1.1rem; color: #111; animation: popIn 0.2s ease; }
-
     /* ── BUY BUTTON ── */
     .buy-action-btn { margin-top: auto; background: linear-gradient(145deg, #111 0%, #333 100%); color: white; border: none; padding: 14px 10px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.45); }
     .buy-action-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(0,0,0,0.6); }
@@ -111,15 +105,6 @@
     /* Closed Buy Button */
     .buy-action-btn.closed { background: #e0e0e0; color: #888; box-shadow: none; cursor: not-allowed; }
     .buy-action-btn.closed:hover { transform: none; box-shadow: none; }
-
-    /* ── FLOATING CART BUTTON ── */
-    .floating-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #D4AF37, #B8860B); color: white; padding: 16px 24px; border-radius: 50px; display: flex; align-items: center; justify-content: space-between; width: calc(100% - 40px); max-width: 450px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); cursor: pointer; z-index: 500; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; }
-    .floating-cart.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .floating-cart:hover { transform: translateX(-50%) translateY(-5px); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6); }
-    .cart-info { display: flex; flex-direction: column; }
-    .cart-items-count { font-size: 0.8rem; font-weight: 600; }
-    .cart-total-price { font-size: 1.2rem; font-weight: 800; }
-    .view-cart-text { font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 5px; }
 
     /* ── MODALS (Cart & Qty) ── */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 15, 10, 0.7); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -213,14 +198,6 @@
 
 <div class="menu-container" id="menuGrid"></div>
 
-<div class="floating-cart" id="floatingCart" onclick="openCheckout()">
-  <div class="cart-info">
-    <span class="cart-items-count" id="cartItemsCount">0 Items</span>
-    <span class="cart-total-price" id="cartTotalPrice">₹0</span>
-  </div>
-  <div class="view-cart-text">View Cart 🛒</div>
-</div>
-
 <!-- QUANTITY POPUP MODAL -->
 <div class="modal" id="qtyModal">
   <div class="modal-content qty-popup-content">
@@ -235,7 +212,7 @@
       <button class="qty-popup-btn" onclick="changePopupQty(1)">+</button>
     </div>
     
-    <button class="qty-popup-add-btn" onclick="addFromPopup()">BUY</button>
+    <button class="qty-popup-add-btn" onclick="directBuy()">BUY</button>
   </div>
 </div>
 
@@ -243,7 +220,7 @@
 <div class="modal" id="checkoutModal">
   <div class="modal-content checkout-modal-content">
     <div class="modal-header">
-      <h2>Your Cart</h2>
+      <h2>Checkout</h2>
       <button class="close-btn" onclick="closeModal()">×</button>
     </div>
 
@@ -327,7 +304,7 @@
   let menuCategories = [];
   let activeCategory = ""; 
   let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME };
-  let cart = {}; 
+  let cart = {}; // This will now only hold the direct buy item
   
   let popupItem = null;
   let popupQty = 1;
@@ -360,11 +337,18 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
+  // SORT HOTELS: Available ones first
   function renderHotelTabs() {
     const container = document.getElementById("hotelTabs");
     container.innerHTML = "";
 
-    menuCategories.forEach((cat) => {
+    let sortedCategories = [...menuCategories].sort((a, b) => {
+      const aHasAvail = (a.items || []).some(item => isItemAvailable(item)) ? 1 : 0;
+      const bHasAvail = (b.items || []).some(item => isItemAvailable(item)) ? 1 : 0;
+      return bHasAvail - aHasAvail; // Available hotel goes to top
+    });
+
+    sortedCategories.forEach((cat) => {
       if (!cat.items || cat.items.length === 0) return; 
 
       if (activeCategory === "") activeCategory = cat.name;
@@ -396,7 +380,6 @@
     }
 
     categoriesToRender.forEach(category => {
-      // 1. Get all matched items
       let matches = (category.items || []).filter(item => 
         String(item.name || "").toLowerCase().includes(query)
       );
@@ -408,7 +391,7 @@
         return;
       }
 
-      // 2. Sort items: Available items first, then Closed items
+      // SORT ITEMS: Available items first
       matches.sort((a, b) => {
         const aAvail = isItemAvailable(a) ? 1 : 0;
         const bAvail = isItemAvailable(b) ? 1 : 0;
@@ -418,7 +401,6 @@
       matches.forEach(item => {
         totalVisible++;
         const isAvail = isItemAvailable(item);
-        const itemQty = cart[item.name] ? cart[item.name].qty : 0;
         
         const div = document.createElement("div");
         div.className = `card ${isAvail ? '' : 'closed'}`;
@@ -430,21 +412,11 @@
 
         let actionHtml = "";
         if (isAvail) {
-          if (itemQty > 0) {
-            actionHtml = `
-              <div class="qty-container">
-                <button class="qty-btn" onclick="updateCartDirect('${item.name}', -1)">−</button>
-                <span class="qty-num">${itemQty}</span>
-                <button class="qty-btn" onclick="updateCartDirect('${item.name}', 1)">+</button>
-              </div>`;
-          } else {
-            actionHtml = `
-              <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
-                <span>🛍️</span> BUY
-              </button>`;
-          }
+          actionHtml = `
+            <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
+              <span>🛍️</span> BUY
+            </button>`;
         } else {
-          // Item is closed
           actionHtml = `
             <button class="buy-action-btn closed" onclick="alert('⏰ Yeh item abhi available nahi hai.\\n\\nAap ise ${formatTime12(item.from)} se ${formatTime12(item.to)} ke beech order kar sakte hain.')">
               <span>⏰</span> CLOSED
@@ -492,55 +464,38 @@
     }
   };
 
-  window.addFromPopup = function() {
+  // DIRECT BUY LOGIC (No Cart Button)
+  window.directBuy = function() {
     if (!popupItem) return;
     
-    if (!cart[popupItem.name]) {
-      cart[popupItem.name] = { price: popupItem.price, qty: 0 };
-    }
-    cart[popupItem.name].qty += popupQty;
-    
-    showToast(`✅ ${popupQty} ${popupItem.name} added!`);
+    // Save selected item to cart object for checkout calculation
+    cart = {};
+    cart[popupItem.name] = { price: popupItem.price, qty: popupQty };
     
     closeQtyModal();
-    renderMenu();
-    updateFloatingCart();
+    openCheckout();
   };
 
-  window.updateCartDirect = function(itemName, change) {
-    if (!cart[itemName]) return;
+  // OPEN CHECKOUT DIRECTLY
+  window.openCheckout = function() {
+    if (Object.keys(cart).length === 0) return;
     
-    cart[itemName].qty += change;
-    if (cart[itemName].qty <= 0) {
-      delete cart[itemName];
-    } else if (change > 0) {
-      showToast(`✅ Added`);
-    }
+    renderCheckoutBill();
+    document.getElementById("checkoutModal").classList.add("active");
+    detectLocation();
     
-    renderMenu();
-    updateFloatingCart();
+    document.querySelector('input[value="UPI"]').checked = true;
+    toggleQR(true);
   };
 
-  function updateFloatingCart() {
-    let totalItems = 0;
-    let itemTotal = 0;
-    
-    Object.keys(cart).forEach(key => {
-      totalItems += cart[key].qty;
-      itemTotal += (cart[key].price * cart[key].qty);
-    });
+  window.closeModal = function() {
+    document.getElementById("checkoutModal").classList.remove("active");
+    cart = {}; // Reset cart when closed
+  };
 
-    const floatingCart = document.getElementById("floatingCart");
-    
-    if (totalItems > 0) {
-      document.getElementById("cartItemsCount").textContent = `${totalItems} Items`;
-      document.getElementById("cartTotalPrice").textContent = `₹${itemTotal}`;
-      floatingCart.classList.add("show");
-    } else {
-      floatingCart.classList.remove("show");
-      closeModal(); 
-    }
-  }
+  window.toggleQR = function(show) {
+    document.getElementById("qrSection").style.display = show ? "block" : "none";
+  };
 
   function renderCheckoutBill() {
     const listContainer = document.getElementById("cartItemsList");
@@ -572,25 +527,6 @@
 
     generateQR(grandTotal);
   }
-
-  window.openCheckout = function() {
-    if (Object.keys(cart).length === 0) return;
-    
-    renderCheckoutBill();
-    document.getElementById("checkoutModal").classList.add("active");
-    detectLocation();
-    
-    document.querySelector('input[value="UPI"]').checked = true;
-    toggleQR(true);
-  };
-
-  window.closeModal = function() {
-    document.getElementById("checkoutModal").classList.remove("active");
-  };
-
-  window.toggleQR = function(show) {
-    document.getElementById("qrSection").style.display = show ? "block" : "none";
-  };
 
   function detectLocation() {
     const addressField = document.getElementById("custAddress");
