@@ -30,15 +30,14 @@
     @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-    /* ── PREMIUM HEADER ── */
+    /* ── PREMIUM HEADER (Golden Text with Black Shadow) ── */
     .header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); border-bottom: 1px solid rgba(139, 69, 19, 0.08); }
     
-    /* Black Text with Golden Shadow */
     .brand h1 { 
       font-size: 2.2rem; 
       font-weight: 800; 
-      color: #111111; /* Black */
-      text-shadow: 2px 2px 0px #D4AF37, 4px 4px 10px rgba(212, 175, 55, 0.4); /* Golden Shadow */
+      color: #D4AF37; /* Golden */
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8), 0px 0px 10px rgba(0, 0, 0, 0.4); /* Black Shadow */
       line-height: 1.1; 
     }
     
@@ -119,6 +118,7 @@
     .qty-popup-btn:hover { background: #e0e0e0; }
     .qty-popup-num { font-size: 1.8rem; font-weight: 800; color: #111; width: 40px; }
     
+    /* UPDATED BUTTON: BUY */
     .qty-popup-add-btn { width: 100%; background: linear-gradient(145deg, #111, #333); color: white; padding: 16px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: 0.3s; }
     .qty-popup-add-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0,0,0,0.4); }
 
@@ -188,7 +188,6 @@
 
 <div class="menu-container" id="menuGrid"></div>
 
-<!-- FLOATING CART BUTTON -->
 <div class="floating-cart" id="floatingCart" onclick="openCheckout()">
   <div class="cart-info">
     <span class="cart-items-count" id="cartItemsCount">0 Items</span>
@@ -211,7 +210,8 @@
       <button class="qty-popup-btn" onclick="changePopupQty(1)">+</button>
     </div>
     
-    <button class="qty-popup-add-btn" onclick="addFromPopup()">Add to Cart</button>
+    <!-- YAHAN BUY KAR DIYA HAI -->
+    <button class="qty-popup-add-btn" onclick="addFromPopup()">BUY</button>
   </div>
 </div>
 
@@ -305,7 +305,6 @@
   let globalUpi = { id: DEFAULT_UPI_ID, name: PAYEE_NAME };
   let cart = {}; 
   
-  // Current Item being selected in Popup
   let popupItem = null;
   let popupQty = 1;
 
@@ -396,7 +395,6 @@
 
         let actionHtml = "";
         if (itemQty > 0) {
-          // Agar cart mein pehle se hai, toh +/- dikhao
           actionHtml = `
             <div class="qty-container">
               <button class="qty-btn" onclick="updateCartDirect('${item.name}', -1)">−</button>
@@ -404,7 +402,6 @@
               <button class="qty-btn" onclick="updateCartDirect('${item.name}', 1)">+</button>
             </div>`;
         } else {
-          // Warna BUY button dikhao
           actionHtml = `
             <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
               <span>🛍️</span> BUY
@@ -428,7 +425,6 @@
     document.getElementById("productCount").textContent = totalVisible + " items";
   }
 
-  // ── POPUP QUANTITY LOGIC ──
   window.openQtyPopup = function(name, price, image) {
     popupItem = { name, price };
     popupQty = 1;
@@ -456,7 +452,6 @@
   window.addFromPopup = function() {
     if (!popupItem) return;
     
-    // Add to cart
     if (!cart[popupItem.name]) {
       cart[popupItem.name] = { price: popupItem.price, qty: 0 };
     }
@@ -469,7 +464,6 @@
     updateFloatingCart();
   };
 
-  // Direct Update from Card (+/-)
   window.updateCartDirect = function(itemName, change) {
     if (!cart[itemName]) return;
     
