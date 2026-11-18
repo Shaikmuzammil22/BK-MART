@@ -29,11 +29,11 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-    /* ── PREMIUM HEADER (Golden 3D) ── */
+    /* ── PREMIUM HEADER ── */
     .header { background: var(--black); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); border-bottom: 2px solid var(--gold); }
     
     .brand h1 { 
-      font-size: 2rem; 
+      font-size: 1.6rem;
       font-weight: 900; 
       font-family: 'Playfair Display', serif;
       letter-spacing: 1px;
@@ -43,6 +43,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      white-space: nowrap;
     }
     
     .brand .hotel-sub { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
@@ -51,28 +52,32 @@
     .call-btn { background: linear-gradient(145deg, var(--gold), var(--gold-dark)); color: var(--black); padding: 10px 18px; border-radius: 50px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); transition: 0.3s; }
     .call-btn:hover { transform: scale(1.05); }
 
-    /* ── HOTEL TABS ── */
-    .hotel-tabs-container { max-width: 1200px; margin: 15px auto 0; padding: 0 20px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-    .hotel-tabs-container::-webkit-scrollbar { display: none; }
-    .hotel-tabs { display: flex; gap: 10px; padding-bottom: 5px; }
-    .hotel-tab { background: #ffffff; color: var(--gold-dark); border: 1.5px solid var(--gold); padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .hotel-tab:hover { background: #fffaf0; transform: translateY(-2px); }
-    .hotel-tab.active { background: linear-gradient(145deg, var(--black), var(--dark-grey)); color: var(--gold); border-color: var(--gold); box-shadow: 0 6px 16px -4px rgba(0,0,0,0.4); transform: scale(1.05); }
-
     /* ── SEARCH ── */
     .search-container { max-width: 900px; margin: 15px auto 10px; padding: 0 20px; }
     .search-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid var(--gold); border-radius: 60px; padding: 12px 22px; box-shadow: 0 4px 16px rgba(212, 175, 55, 0.1); transition: all 0.3s; }
     .search-box:focus-within { box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3); }
     .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; margin-left: 12px; background: transparent; color: var(--black); }
 
+    /* ── SECTIONS (Available / Closed) ── */
+    .section-header { max-width: 1200px; margin: 25px auto 10px; padding: 0 20px; font-size: 1.2rem; font-weight: 900; color: var(--black); display: flex; align-items: center; gap: 10px; }
+    .section-header span { background: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: var(--black); font-weight: 800; }
+    .hotel-name-tag { max-width: 1200px; margin: 15px auto 5px; padding: 0 20px; font-size: 1.1rem; font-weight: 800; color: var(--gold-dark); border-bottom: 1px dashed #ccc; padding-bottom: 5px; }
+
     /* ── MENU GRID ── */
-    .menu-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px; }
+    .menu-container { max-width: 1200px; margin: 0 auto; padding: 10px 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px; }
+    
     .card { background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; border: 1px solid #eaeaea; transition: all 0.3s; }
     .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -10px rgba(212, 175, 55, 0.3); }
+    
+    /* CLOSED ITEM STYLE */
+    .card.closed { opacity: 0.7; filter: grayscale(0.8); }
+    .card.closed:hover { transform: none; box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.1); }
+    
     .card-img-container { position: relative; width: 100%; height: 180px; }
     .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
     
     .card-time-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: var(--gold); font-size: .7rem; font-weight: 700; padding: 5px 10px; border-radius: 20px; }
+    .card-time-badge.closed-badge { background: rgba(220, 38, 38, 0.9); color: white; }
     
     .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.1rem; font-weight: 800; color: var(--black); margin-bottom: 4px; }
@@ -82,6 +87,7 @@
     /* ── BUY BUTTON ── */
     .buy-action-btn { margin-top: auto; background: linear-gradient(145deg, var(--black), var(--dark-grey)); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; }
     .buy-action-btn:hover { background: var(--gold); color: var(--black); }
+    .buy-action-btn.closed { background: #e0e0e0; color: #888; border-color: #ccc; cursor: not-allowed; }
 
     /* ── MODALS ── */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -134,13 +140,9 @@
 <div class="header">
   <div class="brand">
     <h1 id="hotelName">BASVAKALYAN MART</h1>
-    <div class="hotel-sub"><span id="hotelSubtitle">Select Hotel</span></div>
+    <div class="hotel-sub"><span id="hotelSubtitle">Multi-Hotel Kitchen</span></div>
   </div>
   <a href="tel:+919353481235" class="call-btn">📞 Call</a>
-</div>
-
-<div class="hotel-tabs-container">
-  <div class="hotel-tabs" id="hotelTabs"></div>
 </div>
 
 <div class="search-container">
@@ -150,7 +152,8 @@
   </div>
 </div>
 
-<div class="menu-container" id="menuGrid"></div>
+<!-- Yahan JS se sections banenge -->
+<div id="menuRoot"></div>
 
 <!-- TRACK ORDER FLOATING BUTTON -->
 <button class="track-btn" onclick="openTrackModal()">
@@ -248,7 +251,6 @@
   const DELIVERY_CHARGE = 10;
 
   let menuCategories = [];
-  let activeCategory = ""; 
   let selectedItem = null;
   let selectedQty = 1;
 
@@ -269,9 +271,7 @@
       menuCategories = [{ name: "BASVAKALYAN MART", items: [] }];
     }
     
-    if (menuCategories.length > 0) activeCategory = menuCategories[0].name;
-    renderHotelTabs();
-    renderMenu();
+    renderAllItems();
   }
 
   // Time Check
@@ -293,79 +293,96 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
-  // Render Hotels (Only those with available items)
-  function renderHotelTabs() {
-    const container = document.getElementById("hotelTabs");
-    container.innerHTML = "";
+  // RENDER LOGIC (Available & Closed)
+  function renderAllItems() {
+    const root = document.getElementById("menuRoot");
+    root.innerHTML = "";
     
-    let availableHotels = menuCategories.filter(cat => 
-      (cat.items || []).some(item => isItemAvailable(item))
-    );
-
-    if (availableHotels.length === 0) {
-      container.innerHTML = `<p style="color:#888; font-weight:bold; padding:10px;">Koi dukan abhi khuli nahi hai.</p>`;
-      document.getElementById("hotelSubtitle").textContent = "All Closed";
-      return;
-    }
-
-    if (!availableHotels.find(c => c.name === activeCategory)) {
-      activeCategory = availableHotels[0].name;
-    }
-
-    availableHotels.forEach((cat) => {
-      const btn = document.createElement("button");
-      btn.className = `hotel-tab ${activeCategory === cat.name ? "active" : ""}`;
-      btn.innerHTML = `🏨 ${cat.name}`;
-      btn.onclick = () => { activeCategory = cat.name; renderHotelTabs(); renderMenu(); };
-      container.appendChild(btn);
-    });
-    document.getElementById("hotelSubtitle").textContent = activeCategory;
-  }
-
-  // Render Items (SIRF AVAILABLE ITEMS)
-  function renderMenu() {
-    const grid = document.getElementById("menuGrid");
-    grid.innerHTML = "";
     const query = searchInput.value.trim().toLowerCase();
 
-    let categories = menuCategories.filter(c => c.name === activeCategory);
-    let totalFound = 0;
-    
-    categories.forEach(category => {
-      let matches = (category.items || []).filter(item => 
-        isItemAvailable(item) && String(item.name || "").toLowerCase().includes(query)
-      );
+    // 1. Classify Items
+    let availableData = []; // { hotelName, item }
+    let closedData = [];    // { hotelName, item }
 
-      totalFound += matches.length;
-
-      matches.forEach(item => {
-        const div = document.createElement("div");
-        div.className = `card`;
-        
-        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
-
-        div.innerHTML = `
-          <div class="card-img-container">
-            <img src="${item.image || 'https://via.placeholder.com/280x180?text=No+Image'}" loading="lazy">
-            ${timeBadge}
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">${item.name}</h3>
-            <p class="card-price">${Number(item.price) || 0}</p>
-            <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
-              BUY NOW
-            </button>
-          </div>`;
-        grid.appendChild(div);
+    menuCategories.forEach(cat => {
+      (cat.items || []).forEach(item => {
+        if (String(item.name || "").toLowerCase().includes(query)) {
+          if (isItemAvailable(item)) {
+            availableData.push({ hotelName: cat.name, item });
+          } else {
+            closedData.push({ hotelName: cat.name, item });
+          }
+        }
       });
     });
 
-    if (totalFound === 0) {
-      grid.innerHTML = `<div class="empty-state">
-        <h2 style="font-size:1.3rem; margin-bottom:5px;">⏰ Abhi Koi Item Available Nahi Hai</h2>
-        <p style="font-size:0.9rem;">Kripya kuch der baad check karein.</p>
+    // 2. Render Available Section
+    if (availableData.length > 0) {
+      let html = `<div class="section-header">🟢 Available Now <span>${availableData.length} items</span></div>`;
+      
+      // Group by Hotel
+      let availHotels = [...new Set(availableData.map(d => d.hotelName))];
+      availHotels.forEach(hotel => {
+        html += `<div class="hotel-name-tag">🏨 ${hotel}</div>`;
+        html += `<div class="menu-container">`;
+        
+        availableData.filter(d => d.hotelName === hotel).forEach(data => {
+          html += createCardHtml(data.item, true);
+        });
+        
+        html += `</div>`;
+      });
+      root.innerHTML += html;
+    }
+
+    // 3. Render Closed Section
+    if (closedData.length > 0) {
+      let html = `<div class="section-header" style="color:#666;">🔴 Currently Closed <span style="background:#ccc;">${closedData.length} items</span></div>`;
+      
+      // Group by Hotel
+      let closedHotels = [...new Set(closedData.map(d => d.hotelName))];
+      closedHotels.forEach(hotel => {
+        html += `<div class="hotel-name-tag" style="color:#888;">🏨 ${hotel}</div>`;
+        html += `<div class="menu-container">`;
+        
+        closedData.filter(d => d.hotelName === hotel).forEach(data => {
+          html += createCardHtml(data.item, false);
+        });
+        
+        html += `</div>`;
+      });
+      root.innerHTML += html;
+    }
+
+    // 4. No Items Found
+    if (availableData.length === 0 && closedData.length === 0) {
+      root.innerHTML = `<div class="empty-state">
+        <h2 style="font-size:1.3rem; margin-bottom:5px;">😕 Koi Item Nahi Mila</h2>
+        <p style="font-size:0.9rem;">Kripya kuch aur search karein.</p>
       </div>`;
     }
+  }
+
+  // Helper: Card HTML banane ke liye
+  function createCardHtml(item, isAvail) {
+    let timeBadge = (item.from || item.to) ? `<span class="card-time-badge ${isAvail ? '' : 'closed-badge'}">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
+    
+    let btnHtml = isAvail 
+      ? `<button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">BUY NOW</button>`
+      : `<button class="buy-action-btn closed">CLOSED</button>`;
+
+    return `
+      <div class="card ${isAvail ? '' : 'closed'}">
+        <div class="card-img-container">
+          <img src="${item.image || 'https://via.placeholder.com/280x180?text=No+Image'}" loading="lazy">
+          ${timeBadge}
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">${item.name}</h3>
+          <p class="card-price">${Number(item.price) || 0}</p>
+          ${btnHtml}
+        </div>
+      </div>`;
   }
 
   // Popup Logic
@@ -434,7 +451,6 @@
     let orderData = { name, phone, address, status: "pending", item: selectedItem.name, qty: selectedQty };
     localStorage.setItem(`order_${phone}`, JSON.stringify(orderData));
 
-    // Naya Clean Message (Emojis ke bina taaki error na aaye)
     let msg = `*NEW ORDER - BASVAKALYAN MART*%0A%0A`;
     msg += `*Customer:* ${name}%0A`;
     msg += `*Phone:* ${phone}%0A`;
@@ -486,8 +502,10 @@
     setTimeout(() => t.classList.remove("show"), 3000);
   }
 
-  searchInput.addEventListener("input", renderMenu);
-  setInterval(() => { renderHotelTabs(); renderMenu(); }, 60000); 
+  searchInput.addEventListener("input", renderAllItems);
+  
+  // Auto refresh every 1 min
+  setInterval(renderAllItems, 60000); 
 
   loadMenu();
 </script>
