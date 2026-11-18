@@ -136,10 +136,7 @@
     <h1 id="hotelName">BASVAKALYAN MART</h1>
     <div class="hotel-sub"><span id="hotelSubtitle">Select Hotel</span></div>
   </div>
-  <!-- DIRECT CALL BUTTON -->
-  <a href="tel:+919353481235" class="call-btn">
-    📞 Call
-  </a>
+  <a href="tel:+919353481235" class="call-btn">📞 Call</a>
 </div>
 
 <div class="hotel-tabs-container">
@@ -301,7 +298,6 @@
     const container = document.getElementById("hotelTabs");
     container.innerHTML = "";
     
-    // Filter hotels that have at least 1 available item
     let availableHotels = menuCategories.filter(cat => 
       (cat.items || []).some(item => isItemAvailable(item))
     );
@@ -336,7 +332,6 @@
     let totalFound = 0;
     
     categories.forEach(category => {
-      // Filter: Only Available + Matches Search
       let matches = (category.items || []).filter(item => 
         isItemAvailable(item) && String(item.name || "").toLowerCase().includes(query)
       );
@@ -489,8 +484,6 @@
   }
 
   searchInput.addEventListener("input", renderMenu);
-  
-  // Har 1 minute mein check karega ki naya item available hua ya nahi
   setInterval(() => { renderHotelTabs(); renderMenu(); }, 60000); 
 
   loadMenu();
