@@ -1,61 +1,362 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Track Order Status</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BK MART Admin</title>
   <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h2 { text-align: center; color: #333; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
-    button { width: 100%; background: #111; color: #D4AF37; padding: 12px; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; margin-top: 20px; cursor: pointer; }
-    button:hover { background: #333; }
-    .msg { text-align: center; color: green; font-weight: bold; margin-top: 15px; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { margin: 0; background: #faf7f2; color: #222; padding-bottom: 30px; }
+
+    /* ── PREMIUM HEADER ── */
+    header { background: linear-gradient(135deg, #111 0%, #333 100%); color: white; text-align: center; padding: 22px 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-bottom: 2px solid #D4AF37; }
+    header h1 { margin: 0; font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; color: #D4AF37; }
+    header small { display: block; margin-top: 6px; opacity: .85; font-size: .8rem; letter-spacing: .5px; color: #fff; }
+
+    /* ── TABS ── */
+    .tabs { display: flex; gap: 10px; max-width: 850px; margin: 16px auto 0; padding: 0 12px; }
+    .tabs button { flex: 1; padding: 13px; border: 1px solid #ccc; background: #fff; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: .95rem; transition: all .2s; color: #333; }
+    .tabs button.active { background: #111; color: #D4AF37; border-color: #111; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+    main { max-width: 850px; margin: 18px auto; padding: 0 12px; }
+    .panel { background: white; padding: 22px; border-radius: 14px; margin: 14px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #eee; }
+    h3 { color: #111; margin-top: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #D4AF37; padding-bottom: 8px; }
+
+    /* ── INPUTS & BUTTONS ── */
+    input, button, select { padding: 11px; border-radius: 8px; border: 1px solid #ccc; margin: 5px 0; font-size: .95rem; }
+    input:not([type=file]):not([type=checkbox]):not([type=radio]) { width: 100%; }
+    input:focus { outline: none; border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }
+    button { cursor: pointer; font-weight: 700; transition: all .2s; }
+
+    .primary { background: linear-gradient(145deg, #111 0%, #333 100%); color: #D4AF37; width: 100%; border: none; padding: 14px; border-radius: 50px; font-size: 1rem; letter-spacing: .5px; box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+    .primary:hover { background: #D4AF37; color: #111; }
+    
+    .danger { color: #b22; background: #fff0f0; border: 1px solid #f5c2c2; padding: 9px 14px; border-radius: 8px; }
+    .danger:hover { background: #ffe0e0; }
+
+    .add-btn { background: linear-gradient(145deg, #D4AF37, #B8860B); color: #111; border: none; padding: 10px 18px; border-radius: 50px; font-size: .9rem; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 6px; }
+    .add-btn:hover { transform: translateY(-1px); }
+
+    /* ── ITEM BOXES ── */
+    .cat, .item { border: 1px solid #eee; background: #fcfaf7; border-radius: 12px; padding: 14px; margin: 12px 0; }
+    .cat { border-left: 5px solid #D4AF37; }
+    .row { display: flex; gap: 8px; align-items: center; }
+    .row > * { flex: 1; }
+    .row button { flex: 0 0 auto; }
+
+    .item img { width: 60px; height: 60px; object-fit: cover; float: right; border-radius: 8px; border: 1px solid #eee; }
+    .muted { font-size: 12px; color: #777; }
+    label { display: block; font-size: 12px; font-weight: 700; margin-top: 10px; color: #555; }
+
+    .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+    .time-grid input { padding: 9px; font-size: .9rem; }
+
+    .token-status { padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-top: 10px; font-weight: 600; }
+    .token-status.ok { background: #e8f5e9; color: #1e7b3c; border: 1px solid #a5d6a7; }
+    .token-status.bad { background: #fff0f0; color: #b22; border: 1px solid #f5c2c2; }
+
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #111; color: #D4AF37; border: 1px solid #D4AF37; padding: 14px 24px; border-radius: 30px; display: none; z-index: 999; font-weight: 600; font-size: .9rem; }
+
+    .tab { display: none; }
+    .tab.active { display: block; }
+
+    .token-wrap { position: relative; }
+    .token-wrap input { padding-right: 46px; }
+    .eye-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px 10px; margin: 0; }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>Update Order Status</h2>
-  
-  <label>Customer Phone Number (Order ID)</label>
-  <input type="text" id="phone" placeholder="e.g. 9876543210">
+<header>
+  <h1>🔐 BASVAKALYAN MART Admin</h1>
+  <small>MENU · HOTELS · TIMING · ORDER STATUS</small>
+</header>
 
-  <label>Set Status To:</label>
-  <select id="status">
-    <option value="pending">🕒 Pending</option>
-    <option value="arriving">🛵 Arriving (Out for delivery)</option>
-    <option value="delivered">✅ Delivered</option>
-  </select>
-
-  <button onclick="updateStatus()">Update Status</button>
-  <div id="msg" class="msg"></div>
+<div class="tabs">
+  <button onclick="switchTab('menu', this)" id="tab-menu-btn" class="active">🍛 Menu & Hotels</button>
+  <button onclick="switchTab('orders', this)" id="tab-orders-btn">🚚 Order Status</button>
 </div>
 
-<script>
-  function updateStatus() {
-    const phone = document.getElementById('phone').value;
-    const status = document.getElementById('status').value;
+<main>
+  <!-- ============ MENU TAB ============ -->
+  <section id="menu" class="tab active">
+    <div class="panel">
+      <h3>🏪 Shop Status</h3>
+      <label><input type="checkbox" id="open" checked> Shop open (customer app par items dikhenge)</label>
+    </div>
 
+    <div class="panel">
+      <h3>🏨 Hotels / Categories</h3>
+      <p class="muted">Naya hotel add karein. Uske baad us hotel mein items add karein.</p>
+      <div class="row">
+        <input id="catname" placeholder="Hotel Name (e.g., Shiv Malhar Dhaba)">
+        <button class="add-btn" onclick="addCat()">➕ Add Hotel</button>
+      </div>
+      <div id="cats"></div>
+      
+      <h3 style="margin-top:20px;">🔑 GitHub Connection</h3>
+      <label>GitHub Token (Save karne ke liye zaruri)</label>
+      <div class="token-wrap">
+        <input id="token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+        <button type="button" class="eye-btn" onclick="toggleToken()" id="eyeBtn">👁️</button>
+      </div>
+      <button class="primary" style="margin-top:10px;" onclick="connectAndSave()">🔗 Connect & Save All</button>
+      <div id="tokenStatus" class="token-status"></div>
+    </div>
+  </section>
+
+  <!-- ============ ORDER STATUS TAB ============ -->
+  <section id="orders" class="tab">
+    <div class="panel">
+      <h3>🚚 Update Order Status</h3>
+      <p class="muted">Customer ne jo phone number daala tha, wo yahan enter karein aur status update karein. App mein customer ko wahi status dikhega.</p>
+      
+      <label>Customer Phone Number (Order ID)</label>
+      <input type="text" id="track_phone" placeholder="e.g. 9876543210">
+      
+      <label>Set Status To:</label>
+      <select id="order_status">
+        <option value="pending">🕒 Pending (Preparing)</option>
+        <option value="arriving">🛵 Arriving (Out for delivery)</option>
+        <option value="delivered">✅ Delivered</option>
+      </select>
+
+      <button class="primary" style="margin-top:15px;" onclick="updateStatus()">Update Status</button>
+      <div id="orderMsg" class="token-status" style="display:none;"></div>
+    </div>
+  </section>
+</main>
+
+<div id="toast"></div>
+
+<script>
+  // ==========================================
+  // 🔐 GITHUB CONFIG
+  // ==========================================
+  const OWNER = 'Shaikmuzammil22';
+  const REPO = 'BK-MART';
+  const FILE = 'data.json';
+  const TOKEN_KEY = 'bk_mart_github_pat';
+
+  let d = { shopStatus: 'open', categories: [], upi: { id: '', name: 'BASVAKALYAN MART', enabled: true } };
+  let sha = null;
+  let isDataLoaded = false;
+
+  const $ = (x) => document.getElementById(x);
+  const getToken = () => localStorage.getItem(TOKEN_KEY) || $('token').value.trim();
+
+  // ---- TABS LOGIC ----
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    $(tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function showToast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 3000);
+  }
+
+  function toggleToken() {
+    const t = $('token');
+    t.type = t.type === 'password' ? 'text' : 'password';
+    $('eyeBtn').textContent = t.type === 'password' ? '👁️' : '🙈';
+  }
+
+  // ==========================================
+  // 📦 MENU & HOTEL RENDER LOGIC
+  // ==========================================
+  function renderMenu() {
+    $('open').checked = d.shopStatus !== 'closed';
+    const cats = $('cats');
+    cats.innerHTML = '';
+
+    if(!d.categories) d.categories = [];
+
+    d.categories.forEach((c, i) => {
+      const box = document.createElement('div');
+      box.className = 'cat';
+      box.innerHTML = `
+        <div class="row">
+          <input value="${esc(c.name)}" onchange="d.categories[${i}].name=this.value" placeholder="Hotel name">
+          <button class="danger" onclick="delCat(${i})">🗑 Delete</button>
+        </div>
+        <div id="items${i}"></div>
+        <button class="add-btn" style="margin-top:10px" onclick="addItem(${i})">➕ Add Item</button>
+      `;
+      cats.appendChild(box);
+
+      const itemsWrap = box.querySelector(`#items${i}`);
+      if(!c.items) c.items = [];
+      
+      c.items.forEach((it, j) => {
+        const el = document.createElement('div');
+        el.className = 'item';
+        el.innerHTML = `
+          ${it.image ? `<img src="${esc(it.image)}" alt="">` : ''}
+          <label>Item name</label>
+          <input value="${esc(it.name)}" onchange="d.categories[${i}].items[${j}].name=this.value" placeholder="Item name">
+          <label>Price ₹</label>
+          <input type="number" value="${Number(it.price) || 0}" onchange="d.categories[${i}].items[${j}].price=Number(this.value)||0">
+          <label>⏰ Available Time (from – to)</label>
+          <div class="time-grid">
+            <input type="time" value="${esc(it.from)}" onchange="d.categories[${i}].items[${j}].from=this.value" title="From">
+            <input type="time" value="${esc(it.to)}" onchange="d.categories[${i}].items[${j}].to=this.value" title="To">
+          </div>
+          <p class="muted" style="margin-top:4px">Khaali chhodo = hamesha available</p>
+          <label>Photo (gallery se choose karein)</label>
+          <input type="file" accept="image/*" onchange="photo(event,${i},${j})">
+          <label>Ya photo URL paste karein</label>
+          <input placeholder="https://..." value="${esc(it.image)}" onchange="d.categories[${i}].items[${j}].image=this.value">
+          <button class="danger" style="margin-top:10px" onclick="delItem(${i},${j})">🗑 Delete item</button>
+        `;
+        itemsWrap.appendChild(el);
+      });
+    });
+  }
+
+  function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+  function addCat() {
+    const n = $('catname').value.trim();
+    if (!n) return alert('Hotel name likhein');
+    d.categories.push({ id: 'c' + Date.now(), name: n, items: [] });
+    $('catname').value = '';
+    renderMenu();
+    showToast('Hotel added ✅');
+  }
+
+  function delCat(i) { if (confirm('Delete hotel and all its items?')) { d.categories.splice(i, 1); renderMenu(); } }
+  function addItem(i) { d.categories[i].items.push({ name: 'New item', price: 0, image: '', from: '', to: '' }); renderMenu(); }
+  function delItem(i, j) { d.categories[i].items.splice(i, 1); renderMenu(); }
+
+  // ==========================================
+  // 📷 PHOTO UPLOAD
+  // ==========================================
+  async function photo(e, i, j) {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (!f.type.startsWith('image/') || f.size > 5 * 1024 * 1024) return alert('Image select karein (max 5MB)');
+    if (!getToken()) return alert('Pehle niche GitHub token daalein');
+
+    try {
+      const b = await new Promise((ok, no) => {
+        const r = new FileReader();
+        r.onload = () => ok(r.result.split(',')[1]);
+        r.onerror = no;
+        r.readAsDataURL(f);
+      });
+
+      const path = 'assets/' + Date.now() + '-' + f.name.replace(/[^\w.-]/g, '_');
+      const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+        method: 'PUT',
+        headers: { Authorization: 'Bearer ' + getToken(), Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Admin uploaded menu photo', content: b })
+      });
+
+      if (!r.ok) throw Error((await r.json()).message);
+      d.categories[i].items[j].image = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${path}`;
+      renderMenu();
+      showToast('Photo GitHub pe upload ho gayi ✅');
+    } catch (x) { alert('Photo upload failed: ' + x.message); }
+  }
+
+  // ==========================================
+  // ☁️ GITHUB CONNECT & SAVE
+  // ==========================================
+  async function connectAndSave() {
+    const tok = $('token').value.trim();
+    if (!tok) return alert('GitHub Token daalein!');
+    localStorage.setItem(TOKEN_KEY, tok);
+
+    d.shopStatus = $('open').checked ? 'open' : 'closed';
+    $('tokenStatus').className = 'token-status';
+    $('tokenStatus').textContent = '⏳ Loading and Saving...';
+
+    try {
+      // 1. Get current SHA
+      let r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+        headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' }
+      });
+      if (r.ok) {
+        const f = await r.json();
+        sha = f.sha;
+      }
+
+      // 2. Save new data
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(d, null, 2))));
+      const body = { message: 'Admin updated menu and hotels', content: content };
+      if (sha) body.sha = sha;
+
+      let saveRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+        method: 'PUT',
+        headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!saveRes.ok) throw Error((await saveRes.json()).message);
+
+      sha = (await saveRes.json()).content.sha;
+      $('tokenStatus').className = 'token-status ok';
+      $('tokenStatus').textContent = '✅ Data Saved to GitHub Successfully!';
+      showToast('Menu Saved!');
+    } catch (e) {
+      $('tokenStatus').className = 'token-status bad';
+      $('tokenStatus').textContent = '❌ Error: ' + e.message;
+    }
+  }
+
+  // ==========================================
+  // 🚚 ORDER STATUS UPDATE
+  // ==========================================
+  function updateStatus() {
+    const phone = $('track_phone').value.trim();
+    const status = $('order_status').value;
+    
     if(!phone) return alert("Phone number daalein!");
 
-    const data = localStorage.getItem(`order_${phone}`);
+    // Status save in LocalStorage
+    const existingData = localStorage.getItem(`order_${phone}`);
+    let orderData = existingData ? JSON.parse(existingData) : {};
+    
+    orderData.status = status;
+    localStorage.setItem(`order_${phone}`, JSON.stringify(orderData));
 
-    if(!data) {
-      document.getElementById('msg').textContent = "❌ Order nahi mila is number par!";
-      document.getElementById('msg').style.color = "red";
-      return;
-    }
-
-    const order = JSON.parse(data);
-    order.status = status;
-    localStorage.setItem(`order_${phone}`, JSON.stringify(order));
-
-    document.getElementById('msg').textContent = `✅ Status updated to "${status}"!`;
-    document.getElementById('msg').style.color = "green";
+    const msgDiv = $('orderMsg');
+    msgDiv.style.display = 'block';
+    msgDiv.className = 'token-status ok';
+    msgDiv.textContent = `✅ Status updated to "${status}" for ${phone}`;
+    
+    showToast("Order Status Updated!");
+    $('track_phone').value = "";
   }
+
+  // ==========================================
+  // 🚀 INIT APP
+  // ==========================================
+  window.addEventListener('load', () => {
+    const t = localStorage.getItem(TOKEN_KEY);
+    if (t) {
+      $('token').value = t;
+      // Auto load data if token exists
+      fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+        headers: { Authorization: 'Bearer ' + t, Accept: 'application/vnd.github+json' }
+      }).then(r => r.json()).then(f => {
+        if(f.content) {
+          sha = f.sha;
+          d = JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g, '')))));
+          $('tokenStatus').className = 'token-status ok';
+          $('tokenStatus').textContent = '✅ Connected & Loaded';
+        }
+        renderMenu();
+      }).catch(() => renderMenu());
+    } else {
+      renderMenu();
+    }
+  });
 </script>
 </body>
 </html>
