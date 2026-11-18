@@ -204,8 +204,8 @@
       <div class="form-group">
         <label>Payment Method</label>
         <select id="paymentMethod" style="padding:12px; border-radius:10px; border:1.5px solid #ccc; font-weight:700;">
-          <option value="Cash on Delivery">💵 Cash on Delivery</option>
-          <option value="UPI / Online">📱 UPI / Online</option>
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="UPI / Online">UPI / Online</option>
         </select>
       </div>
 
@@ -425,7 +425,7 @@
     const payment = document.getElementById("paymentMethod").value;
 
     if(address.includes("Denied") || address.includes("Detecting")) {
-      return alert("⚠️ Please allow GPS location to place order.");
+      return alert("Please allow GPS location to place order.");
     }
 
     const itemTotal = selectedItem.price * selectedQty;
@@ -434,8 +434,11 @@
     let orderData = { name, phone, address, status: "pending", item: selectedItem.name, qty: selectedQty };
     localStorage.setItem(`order_${phone}`, JSON.stringify(orderData));
 
-    let msg = `*🔔 NEW ORDER - BASVAKALYAN MART*%0A%0A`;
-    msg += `*Customer:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Loc:* ${address}%0A%0A`;
+    // Naya Clean Message (Emojis ke bina taaki error na aaye)
+    let msg = `*NEW ORDER - BASVAKALYAN MART*%0A%0A`;
+    msg += `*Customer:* ${name}%0A`;
+    msg += `*Phone:* ${phone}%0A`;
+    msg += `*Loc:* ${address}%0A%0A`;
     msg += `*Item:* ${selectedItem.name} (x${selectedQty})%0A`;
     msg += `*Total:* ₹${grandTotal} (Incl. ₹10 Delivery)%0A`;
     msg += `*Payment:* ${payment}%0A%0A`;
@@ -444,7 +447,7 @@
     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
     
     closeModal();
-    showToast("✅ Order Placed! You can track it now.");
+    showToast("Order Placed Successfully!");
   };
 
   // Check Order Status
