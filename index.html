@@ -27,7 +27,6 @@
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
     /* ── PREMIUM HEADER (Golden 3D) ── */
@@ -70,12 +69,10 @@
     .menu-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px; }
     .card { background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; border: 1px solid #eaeaea; transition: all 0.3s; }
     .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -10px rgba(212, 175, 55, 0.3); }
-    .card.closed { opacity: 0.7; filter: grayscale(0.9); }
     .card-img-container { position: relative; width: 100%; height: 180px; }
     .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
     
     .card-time-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: var(--gold); font-size: .7rem; font-weight: 700; padding: 5px 10px; border-radius: 20px; }
-    .card-time-badge.closed-badge { background: rgba(220, 38, 38, 0.9); color: white; }
     
     .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.1rem; font-weight: 800; color: var(--black); margin-bottom: 4px; }
@@ -85,7 +82,6 @@
     /* ── BUY BUTTON ── */
     .buy-action-btn { margin-top: auto; background: linear-gradient(145deg, var(--black), var(--dark-grey)); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; }
     .buy-action-btn:hover { background: var(--gold); color: var(--black); }
-    .buy-action-btn.closed { background: #e0e0e0; color: #888; border-color: #ccc; cursor: not-allowed; }
 
     /* ── MODALS ── */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -126,6 +122,8 @@
 
     #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--black); color: var(--gold); border: 1px solid var(--gold); padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; z-index: 2000; transition: all 0.4s; opacity: 0; }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    
+    .empty-state { text-align: center; padding: 50px 20px; color: #888; grid-column: 1/-1; }
   </style>
 </head>
 <body>
@@ -140,7 +138,7 @@
   </div>
   <!-- DIRECT CALL BUTTON -->
   <a href="tel:+919353481235" class="call-btn">
-    📞 Call to Order
+    📞 Call
   </a>
 </div>
 
@@ -226,7 +224,7 @@
     <h2 style="font-size:1.3rem; font-weight:900; margin-bottom:15px; color:var(--black);">Track Your Order</h2>
 
     <div class="form-group">
-      <label>Enter Phone Number (Jo order karte waqt diya tha)</label>
+      <label>Enter Phone Number</label>
       <input type="tel" id="trackPhone" placeholder="10-digit mobile">
     </div>
     <button class="buy-action-btn" onclick="checkStatus()" style="background:var(--gold); color:var(--black); margin-bottom:20px; width:100%;">Check Status</button>
@@ -298,50 +296,58 @@
     return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
   }
 
-  // Render Hotels
+  // Render Hotels (Only those with available items)
   function renderHotelTabs() {
     const container = document.getElementById("hotelTabs");
     container.innerHTML = "";
     
-    // Sort: Available hotels first
-    let sorted = [...menuCategories].sort((a, b) => {
-      const aHasAvail = (a.items || []).some(item => isItemAvailable(item)) ? 1 : 0;
-      const bHasAvail = (b.items || []).some(item => isItemAvailable(item)) ? 1 : 0;
-      return bHasAvail - aHasAvail;
-    });
+    // Filter hotels that have at least 1 available item
+    let availableHotels = menuCategories.filter(cat => 
+      (cat.items || []).some(item => isItemAvailable(item))
+    );
 
-    sorted.forEach((cat) => {
-      if (!cat.items || cat.items.length === 0) return; 
-      if (activeCategory === "") activeCategory = cat.name;
+    if (availableHotels.length === 0) {
+      container.innerHTML = `<p style="color:#888; font-weight:bold; padding:10px;">Koi dukan abhi khuli nahi hai.</p>`;
+      document.getElementById("hotelSubtitle").textContent = "All Closed";
+      return;
+    }
+
+    if (!availableHotels.find(c => c.name === activeCategory)) {
+      activeCategory = availableHotels[0].name;
+    }
+
+    availableHotels.forEach((cat) => {
       const btn = document.createElement("button");
       btn.className = `hotel-tab ${activeCategory === cat.name ? "active" : ""}`;
       btn.innerHTML = `🏨 ${cat.name}`;
       btn.onclick = () => { activeCategory = cat.name; renderHotelTabs(); renderMenu(); };
       container.appendChild(btn);
     });
-    document.getElementById("hotelSubtitle").textContent = activeCategory || "Closed";
+    document.getElementById("hotelSubtitle").textContent = activeCategory;
   }
 
-  // Render Items
+  // Render Items (SIRF AVAILABLE ITEMS)
   function renderMenu() {
     const grid = document.getElementById("menuGrid");
     grid.innerHTML = "";
     const query = searchInput.value.trim().toLowerCase();
 
     let categories = menuCategories.filter(c => c.name === activeCategory);
+    let totalFound = 0;
     
     categories.forEach(category => {
-      let matches = (category.items || []).filter(item => String(item.name || "").toLowerCase().includes(query));
-      
-      // Sort: Available items first
-      matches.sort((a, b) => (isItemAvailable(b) ? 1 : 0) - (isItemAvailable(a) ? 1 : 0));
+      // Filter: Only Available + Matches Search
+      let matches = (category.items || []).filter(item => 
+        isItemAvailable(item) && String(item.name || "").toLowerCase().includes(query)
+      );
+
+      totalFound += matches.length;
 
       matches.forEach(item => {
-        const isAvail = isItemAvailable(item);
         const div = document.createElement("div");
-        div.className = `card ${isAvail ? '' : 'closed'}`;
+        div.className = `card`;
         
-        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge ${isAvail ? '' : 'closed-badge'}">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
+        let timeBadge = (item.from || item.to) ? `<span class="card-time-badge">🕒 ${formatTime12(item.from)} - ${formatTime12(item.to)}</span>` : "";
 
         div.innerHTML = `
           <div class="card-img-container">
@@ -351,13 +357,20 @@
           <div class="card-content">
             <h3 class="card-title">${item.name}</h3>
             <p class="card-price">${Number(item.price) || 0}</p>
-            <button class="buy-action-btn ${isAvail ? '' : 'closed'}" onclick="${isAvail ? `openQtyPopup('${item.name}', ${item.price}, '${item.image}')` : `alert('Yeh item abhi available nahi hai.')`}">
-              ${isAvail ? 'BUY NOW' : 'CLOSED'}
+            <button class="buy-action-btn" onclick="openQtyPopup('${item.name}', ${item.price}, '${item.image}')">
+              BUY NOW
             </button>
           </div>`;
         grid.appendChild(div);
       });
     });
+
+    if (totalFound === 0) {
+      grid.innerHTML = `<div class="empty-state">
+        <h2 style="font-size:1.3rem; margin-bottom:5px;">⏰ Abhi Koi Item Available Nahi Hai</h2>
+        <p style="font-size:0.9rem;">Kripya kuch der baad check karein.</p>
+      </div>`;
+    }
   }
 
   // Popup Logic
@@ -423,7 +436,6 @@
     const itemTotal = selectedItem.price * selectedQty;
     const grandTotal = itemTotal + DELIVERY_CHARGE;
 
-    // SAVE STATUS TO LOCALSTORAGE (For Tracking - Abhi customer side pe track hoga)
     let orderData = { name, phone, address, status: "pending", item: selectedItem.name, qty: selectedQty };
     localStorage.setItem(`order_${phone}`, JSON.stringify(orderData));
 
@@ -452,12 +464,10 @@
     const order = JSON.parse(data);
     document.getElementById("statusTracker").style.display = "flex";
     
-    // Default: All inactive
     document.getElementById("step-pending").classList.remove("active");
     document.getElementById("step-arriving").classList.remove("active");
     document.getElementById("step-delivered").classList.remove("active");
 
-    // Activate based on status
     if(order.status === "pending") {
       document.getElementById("step-pending").classList.add("active");
     } else if(order.status === "arriving") {
@@ -479,6 +489,10 @@
   }
 
   searchInput.addEventListener("input", renderMenu);
+  
+  // Har 1 minute mein check karega ki naya item available hua ya nahi
+  setInterval(() => { renderHotelTabs(); renderMenu(); }, 60000); 
+
   loadMenu();
 </script>
 </body>
